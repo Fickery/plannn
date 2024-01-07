@@ -2,10 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --border-radius-500: 8px;
-  --color-on-background: #ffffff;
-  --fonts-primary: Karla, sans-serif;
+@layer base {
+  :root {
+    --border-radius-500: 8px;
+    --fonts-primary: Karla, sans-serif;
+
+    --darkblue: 238 99% 93%;
+    --midblue: 238 100% 89%;
+    --lightblue: 253 69% 97%;
+  }
 }
 
 * {
@@ -15,7 +20,7 @@
 }
 
 body {
-  background-color: rgb(227, 229, 240);
+  /* background-color: rgb(227, 229, 240); */
   font-family: var(--fonts-primary);
   font-size: 14px;
   margin: 0;

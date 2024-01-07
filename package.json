@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "next": "14.0.4",
+    "randomcolor": "^0.6.2",
     "react": "^18",
     "react-dom": "^18",
     "react-draggable": "^4.4.6",
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/randomcolor": "^0.5.9",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
