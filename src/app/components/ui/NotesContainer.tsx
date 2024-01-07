@@ -3,6 +3,7 @@ import useDragger from "@/hooks/useDragger";
 import Draggable from "react-draggable";
 import { useSelector } from "react-redux";
 import AddBtn from "../AddBtn";
+import Menu from "./Menu";
 
 export default function NotesContainer() {
   const notes = useSelector((state) => state.notes.notes);
@@ -24,8 +25,19 @@ export default function NotesContainer() {
             className="shadow-boxshadow1 absolute h-[30%] w-[15%] cursor-pointer opacity-70"
             style={{ backgroundColor: note.color }}
           >
-            <div className="w-50 p-50 bg-slate-800">f</div>
+            <div>
+              <div className="flex w-full justify-end">
+                <Menu />
+              </div>
+              <input
+                placeholder="Title here"
+                className="flex- mx-auto mb-3 mt-1 flex flex-row-reverse justify-center bg-inherit text-center outline-none placeholder:text-gray-600"
+              />
+            </div>
             {note.content}
+            <button className="text-darkblue absolute bottom-0 flex w-full justify-center p-8 hover:opacity-50">
+              Add More Nodes +
+            </button>
           </div>
         </Draggable>
       ))}

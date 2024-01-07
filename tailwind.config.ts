@@ -14,7 +14,7 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       boxShadow: {
-        boxshadow1: "0px 4px 5px 0px hsl(var(--darkblue))",
+        boxshadow1: "0px 4px 5px 0px hsl(var(--midblue))",
       },
       colors: {
         darkblue: "hsl(var(--darkblue))",

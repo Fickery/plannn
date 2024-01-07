@@ -7,7 +7,7 @@
     --border-radius-500: 8px;
     --fonts-primary: Karla, sans-serif;
 
-    --darkblue: 238 99% 93%;
+    --darkblue: 238 99% 63%;
     --midblue: 238 100% 89%;
     --lightblue: 253 69% 97%;
   }
@@ -70,4 +70,42 @@ main {
 .addImg:hover {
   color: blue;
   cursor: pointer;
+}
+
+/*  menu  */
+
+.menu-icon {
+  cursor: pointer;
+  width: 40px; /* Adjust as needed */
+  height: 40px; /* Adjust as needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-icon svg {
+  transition: transform 0.3s ease;
+}
+
+.top-bar,
+.bottom-bar {
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.middle-bar {
+  transition: opacity 0.3s ease;
+}
+
+.menu-icon.opened .top-bar {
+  transform: translateY(-2.5px) translateX(7.5px) rotate(45deg);
+}
+
+.menu-icon.opened .middle-bar {
+  opacity: 0;
+}
+
+.menu-icon.opened .bottom-bar {
+  transform: translateY(6px) translateX(-10px) rotate(-45deg);
 }
