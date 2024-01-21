@@ -1,12 +1,12 @@
-function Menu() {
+function Menu({ onMenuClick }: { onMenuClick: () => void }) {
+  const handleMenuClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    onMenuClick();
+    e.currentTarget.classList.toggle("opened");
+  };
+
   return (
-    <div
-      className="menu-icon"
-      onClick={(e) => {
-        e.stopPropagation();
-        e.currentTarget.classList.toggle("opened");
-      }}
-    >
+    <div className="menu-icon" onClick={handleMenuClick}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="h-5 w-5"

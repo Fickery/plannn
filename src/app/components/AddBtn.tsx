@@ -1,10 +1,10 @@
 import useDragger from "@/hooks/useDragger";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addNote } from "../../redux/actions/notesAction";
+import { addNote, addImg } from "../../redux/actions/notesAction";
 import randomColor from "randomcolor";
 
-function AddBtn() {
+const AddBtn = ({ onImageUpload }) => {
   const dispatch = useDispatch();
   const notes = useSelector((state) => state.notes.notes);
 
@@ -26,10 +26,18 @@ function AddBtn() {
     console.log(note.id);
   };
 
-  const handleDeleteNote = (id: number) => {
-    console.log(id);
+  const handleAddImg = () => {
+    const image = {
+      id: notes.length + 1,
+      title: "New Image",
+      content: "",
+    };
+    onImageUpload();
+    console.log(image.id);
   };
+
   useDragger("addBtn");
+
   return (
     <div id="addBtn" className="absolute h-8 w-10 cursor-pointer bg-slate-600">
       <div className="add">
@@ -43,12 +51,13 @@ function AddBtn() {
             </button>
           </div>
         </div>
-        <button className="addImg" onClick={handleAddNote}>
+
+        <button className="addImg" onClick={handleAddImg}>
           + img
         </button>
       </div>
     </div>
   );
-}
+};
 
 export default AddBtn;
