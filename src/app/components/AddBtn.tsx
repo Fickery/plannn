@@ -1,14 +1,21 @@
 import useDragger from "@/hooks/useDragger";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addNote, addImg } from "../../redux/actions/notesAction";
 import randomColor from "randomcolor";
+import { useDispatch, useSelector } from "react-redux";
+import { addNote } from "../../redux/actions/notesAction";
 
-const AddBtn = ({ onImageUpload }) => {
+type AddBtnProps = {
+  onImageUpload: () => void;
+};
+
+type randomColorProps = {
+  luminosity: "light" | "bright" | "dark" | "random" | undefined;
+};
+
+const AddBtn = ({ onImageUpload }: AddBtnProps) => {
   const dispatch = useDispatch();
   const notes = useSelector((state) => state.notes.notes);
 
-  const param = {
+  const param: randomColorProps = {
     luminosity: "light",
   };
 

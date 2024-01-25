@@ -19,6 +19,13 @@ export const deleteNote = (id) => {
   };
 };
 
+export const duplicateNote = (id) => {
+  return {
+    type: "DUPLICATE_NOTE",
+    payload: id,
+  };
+};
+
 export const addSubNote = (id, subNote) => {
   return {
     type: "ADD_SUB_NOTE",

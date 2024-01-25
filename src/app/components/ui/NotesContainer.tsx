@@ -2,7 +2,7 @@
 import useDragger from "@/hooks/useDragger";
 import Draggable from "react-draggable";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteNote } from "../../../redux/actions/notesAction";
+import { deleteNote, duplicateNote } from "../../../redux/actions/notesAction";
 import AddBtn from "../AddBtn";
 import NoteDropdown from "./NoteDropdown";
 import { useState } from "react";
@@ -18,6 +18,10 @@ export default function NotesContainer() {
 
   const handleAddImg = (imageList, addUpdateIndex) => {
     setImages(imageList);
+  };
+
+  const handleDuplicate = (noteId) => {
+    dispatch(duplicateNote(noteId));
   };
 
   const handleDeleteNote = (id: number) => {
@@ -51,11 +55,12 @@ export default function NotesContainer() {
                     <div className="flex w-full justify-end">
                       <NoteDropdown
                         onDelete={() => handleDeleteNote(note.id)}
+                        onDuplicate={() => handleDuplicate(note.id)}
                       />
                     </div>
                     <input
                       placeholder="Title here"
-                      className="mx-auto mb-3 flex flex-row-reverse justify-center bg-inherit text-center text-lg outline-none placeholder:text-gray-600"
+                      className="mx-auto mb-3 flex flex-row-reverse justify-center bg-inherit text-center text-lg outline-none placeholder:text-gray-500"
                     />
                   </div>
                   {note.placeholder}
@@ -83,7 +88,7 @@ export default function NotesContainer() {
                       onClick={() => onImageUpdate(index)}
                       draggable={false}
                       src={image.data_url}
-                      width="300"
+                      width="200"
                     />
                   </div>
                 </div>

@@ -1,11 +1,22 @@
 import React, { useState } from "react";
 import Menu from "./Menu";
 
-function NoteDropdown({ onDelete }: { onDelete: () => void }) {
+type NoteDropdownProps = {
+  onDelete: () => void;
+  onDuplicate: () => void;
+};
+
+function NoteDropdown({ onDelete, onDuplicate }: NoteDropdownProps) {
   const [isActive, setIsActive] = useState<boolean>(false);
 
   const toggleDropdown = () => {
     setIsActive(!isActive);
+  };
+
+  const handleDuplicate = () => {
+    console.log("duplicate");
+    onDuplicate();
+    toggleDropdown();
   };
 
   const handleDelete = () => {
@@ -19,14 +30,14 @@ function NoteDropdown({ onDelete }: { onDelete: () => void }) {
         className="relative z-50 flex h-full w-full justify-end"
         onClick={toggleDropdown}
       >
-        <Menu onMenuClick={toggleDropdown} />
+        <Menu onMenuClick={toggleDropdown} showXIcon={isActive} />
       </div>
       <div
         className="absolute top-10 z-[999] w-fit overflow-auto border border-gray-300 bg-white shadow-lg"
         style={{ display: isActive ? "block" : "none" }}
       >
         <div
-          onClick={toggleDropdown}
+          onClick={handleDuplicate}
           className="cursor-pointer p-2 hover:bg-gray-200"
         >
           Duplicate

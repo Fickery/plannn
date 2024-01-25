@@ -1,5 +1,11 @@
+import { duplicateNote } from "../actions/notesAction";
+import { v4 as uuidv4 } from "uuid";
+
 const initialState = {
   notes: [],
+};
+const generateUniqueId = () => {
+  return uuidv4();
 };
 
 const notesReducer = (state = initialState, action) => {
@@ -28,6 +34,26 @@ const notesReducer = (state = initialState, action) => {
         ...state,
         notes: state.notes.filter((note) => note.id !== action.payload),
       };
+
+    case "DUPLICATE_NOTE":
+      const noteToDuplicate = state.notes.find(
+        (note) => note.id === action.payload,
+      );
+
+      if (!noteToDuplicate || typeof noteToDuplicate !== "object") {
+        return state;
+      }
+
+      const duplicatedNote = {
+        ...noteToDuplicate,
+        id: generateUniqueId(),
+      };
+
+      return {
+        ...state,
+        notes: [...state.notes, duplicatedNote],
+      };
+
     case "ADD_SUB_NOTE":
       return {
         ...state,

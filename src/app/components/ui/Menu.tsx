@@ -1,12 +1,19 @@
-function Menu({ onMenuClick }: { onMenuClick: () => void }) {
+interface MenuProps {
+  onMenuClick: () => void;
+  showXIcon: boolean;
+}
+
+function Menu({ onMenuClick, showXIcon }: MenuProps) {
   const handleMenuClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     onMenuClick();
-    e.currentTarget.classList.toggle("opened");
   };
 
   return (
-    <div className="menu-icon" onClick={handleMenuClick}>
+    <div
+      className={`menu-icon ${showXIcon ? "opened" : ""}`}
+      onClick={handleMenuClick}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="h-5 w-5"
@@ -16,23 +23,23 @@ function Menu({ onMenuClick }: { onMenuClick: () => void }) {
       >
         <path
           className="top-bar"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
           d="M4 6h16"
         />
         <path
           className="middle-bar"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
           d="M4 12h16"
         />
         <path
           className="bottom-bar"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
           d="M4 18h16"
         />
       </svg>

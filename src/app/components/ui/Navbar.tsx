@@ -1,7 +1,15 @@
+import Image from "next/image";
+
 function Navbar() {
   return (
     <div className="flex h-[5vh] w-full justify-between bg-white p-2">
-      <p>plannn</p>
+      <Image
+        src="/Plannn Logo.svg"
+        alt="Plannn Logo"
+        width={100}
+        height={24}
+        priority
+      />
       <p>Singapore</p>
       <p>FICKERY</p>
     </div>
