@@ -5,13 +5,6 @@ export const addNote = (note) => {
   };
 };
 
-export const addImg = (id, img) => {
-  return {
-    type: "ADD_IMG",
-    payload: { id, img },
-  };
-};
-
 export const deleteNote = (id) => {
   return {
     type: "DELETE_NOTE",

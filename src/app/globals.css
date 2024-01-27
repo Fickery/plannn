@@ -49,6 +49,7 @@ main {
 }
 
 .addBtn {
+  user-select: none;
   position: relative;
   display: flex;
   width: 100%;
@@ -60,6 +61,7 @@ main {
 }
 
 .addImg {
+  user-select: none;
   padding: 1.5rem;
   background: white;
   color: rgb(204, 204, 204);

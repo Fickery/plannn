@@ -1,9 +1,10 @@
-import { createStore, combineReducers } from "redux";
+import { combineReducers, createStore } from "redux";
+import imagesReducer from "../reducers/imagesReducer";
 import notesReducer from "../reducers/notesReducer";
 
 const rootReducer = combineReducers({
   notes: notesReducer,
-  // ... you can add other reducers here later on
+  images: imagesReducer,
 });
 
 const store = createStore(rootReducer);

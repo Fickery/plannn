@@ -1,14 +1,19 @@
 import useDragger from "@/hooks/useDragger";
 import randomColor from "randomcolor";
 import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 import { addNote } from "../../redux/actions/notesAction";
 
 type AddBtnProps = {
-  onImageUpload: () => void;
+  onImageUpload: (id: string) => void;
 };
 
 type randomColorProps = {
   luminosity: "light" | "bright" | "dark" | "random" | undefined;
+};
+
+const generateUniqueId = () => {
+  return uuidv4();
 };
 
 const AddBtn = ({ onImageUpload }: AddBtnProps) => {
@@ -35,12 +40,9 @@ const AddBtn = ({ onImageUpload }: AddBtnProps) => {
 
   const handleAddImg = () => {
     const image = {
-      id: notes.length + 1,
-      title: "New Image",
-      content: "",
+      id: generateUniqueId(),
     };
-    onImageUpload();
-    console.log(image.id);
+    onImageUpload(image.id);
   };
 
   useDragger("addBtn");
@@ -58,10 +60,14 @@ const AddBtn = ({ onImageUpload }: AddBtnProps) => {
             </button>
           </div>
         </div>
-
-        <button className="addImg" onClick={handleAddImg}>
-          + img
-        </button>
+        <div className="shadow-boxshadow flex h-[48px] w-full items-center justify-center text-blue-700">
+          <button
+            className="mx-auto flex justify-center text-sm opacity-30 hover:opacity-100"
+            onClick={handleAddImg}
+          >
+            + img
+          </button>
+        </div>
       </div>
     </div>
   );

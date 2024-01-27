@@ -1,12 +1,12 @@
 "use client";
 import useDragger from "@/hooks/useDragger";
+import { useState } from "react";
 import Draggable from "react-draggable";
+import ImageUploading from "react-images-uploading";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteNote, duplicateNote } from "../../../redux/actions/notesAction";
 import AddBtn from "../AddBtn";
 import NoteDropdown from "./NoteDropdown";
-import { useState } from "react";
-import ImageUploading from "react-images-uploading";
 
 export default function NotesContainer() {
   const [images, setImages] = useState([]);
@@ -40,7 +40,7 @@ export default function NotesContainer() {
         onChange={handleAddImg}
         dataURLKey="data_url"
       >
-        {({ imageList, onImageUpload, onImageUpdate }) => (
+        {({ imageList, onImageUpload, onImageUpdate, onImageRemove }) => (
           <div>
             <AddBtn onImageUpload={onImageUpload} />
 
@@ -48,7 +48,7 @@ export default function NotesContainer() {
               <Draggable defaultPosition={{ x: 750, y: 250 }} key={note.id}>
                 <div
                   id={`note-${note.id}`}
-                  className="absolute h-[30%] w-[15%] cursor-pointer opacity-70 shadow-boxshadow1"
+                  className="absolute h-[20%] w-[15%] cursor-pointer opacity-70 shadow-boxshadow1"
                   style={{ backgroundColor: note.color }}
                 >
                   <div>
@@ -60,11 +60,22 @@ export default function NotesContainer() {
                     </div>
                     <input
                       placeholder="Title here"
-                      className="mx-auto mb-3 flex flex-row-reverse justify-center bg-inherit text-center text-lg outline-none placeholder:text-gray-500"
+                      className="mx-auto mb-3 flex flex-row-reverse justify-center bg-inherit text-center text-sm outline-none placeholder:text-gray-500"
                     />
                   </div>
-                  {note.placeholder}
-                  <button className="absolute bottom-0 flex w-full justify-center p-8 text-darkblue hover:opacity-50">
+                  <div className="h-full w-full bg-blue-300">
+                    {/* 
+                    {subNotes.map((subNote) => (
+                      <div className="flex flex-col justify-center">
+                        <input
+                          placeholder="SubNote here"
+                          className="mx-auto mb-3 flex flex-row-reverse justify-center bg-inherit text-center text-sm outline-none placeholder:text-gray-500"
+                        />
+                      </div>
+                    ))} */}
+                    {note.placeholder}
+                  </div>
+                  <button className="bottom-0 flex w-full justify-center bg-inherit p-5 text-xs text-darkblue opacity-70 hover:opacity-100">
                     Add More Nodes +
                   </button>
                 </div>
@@ -74,22 +85,26 @@ export default function NotesContainer() {
             {imageList.map((image, index) => (
               <Draggable key={image.id} defaultPosition={{ x: 350, y: 550 }}>
                 <div
-                  className="absolute cursor-pointer shadow-boxshadow1"
+                  className="shadow-boxshadow absolute cursor-pointer bg-white"
                   id={`image-${image.id}`}
-                  key={index}
                 >
                   <div>
-                    <div className="absolute flex w-full justify-end">
-                      <NoteDropdown
-                        onDelete={() => handleDeleteNote(image.id)}
-                      />
+                    <div className="absolute flex w-full justify-end"></div>
+                    <img draggable={false} src={image.data_url} width="200" />
+                    <div className="bottom-0 flex w-full justify-around bg-inherit p-2 text-xs text-darkblue">
+                      <button
+                        className="opacity-50 hover:opacity-100"
+                        onClick={() => onImageUpdate(index)}
+                      >
+                        Change
+                      </button>
+                      <button
+                        className="opacity-50 hover:opacity-100"
+                        onClick={() => onImageRemove(index)}
+                      >
+                        Remove
+                      </button>
                     </div>
-                    <img
-                      onClick={() => onImageUpdate(index)}
-                      draggable={false}
-                      src={image.data_url}
-                      width="200"
-                    />
                   </div>
                 </div>
               </Draggable>
