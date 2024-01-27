@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteNote, duplicateNote } from "../../../redux/actions/notesAction";
 import AddBtn from "../AddBtn";
 import NoteDropdown from "./NoteDropdown";
+import ImageDropdownArrow from "../ImageDropdownArrow";
 
 export default function NotesContainer() {
   const [images, setImages] = useState([]);
@@ -85,26 +86,17 @@ export default function NotesContainer() {
             {imageList.map((image, index) => (
               <Draggable key={image.id} defaultPosition={{ x: 350, y: 550 }}>
                 <div
-                  className="shadow-boxshadow absolute cursor-pointer bg-white"
+                  className="absolute cursor-pointer bg-white"
                   id={`image-${image.id}`}
                 >
                   <div>
                     <div className="absolute flex w-full justify-end"></div>
                     <img draggable={false} src={image.data_url} width="200" />
-                    <div className="bottom-0 flex w-full justify-around bg-inherit p-2 text-xs text-darkblue">
-                      <button
-                        className="opacity-50 hover:opacity-100"
-                        onClick={() => onImageUpdate(index)}
-                      >
-                        Change
-                      </button>
-                      <button
-                        className="opacity-50 hover:opacity-100"
-                        onClick={() => onImageRemove(index)}
-                      >
-                        Remove
-                      </button>
-                    </div>
+                    <ImageDropdownArrow
+                      onImageRemove={onImageRemove}
+                      onImageUpdate={onImageUpdate}
+                      index={index}
+                    />
                   </div>
                 </div>
               </Draggable>

@@ -38,7 +38,7 @@ function NoteDropdown({ onDelete, onDuplicate }: NoteDropdownProps) {
       >
         <div
           onClick={handleDuplicate}
-          className="cursor-pointer p-2 hover:bg-gray-200"
+          className="cursor-pointer p-2 text-midblue opacity-100 hover:bg-darkblue hover:text-white"
         >
           Duplicate
         </div>
