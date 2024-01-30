@@ -1,10 +1,13 @@
-import { combineReducers, createStore } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
 import notesReducer from "../reducers/notesReducer";
 
-const rootReducer = combineReducers({
-  notes: notesReducer,
+const store = configureStore({
+  reducer: {
+    notes: notesReducer,
+  },
 });
 
-const store = createStore(rootReducer);
-
 export default store;
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

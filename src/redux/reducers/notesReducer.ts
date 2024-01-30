@@ -1,62 +1,69 @@
-import { duplicateNote } from "../actions/notesAction";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { UniqueIdentifier } from "@dnd-kit/core";
 
-const initialState = {
+export interface SubNoteProps {
+  id: UniqueIdentifier;
+  title: string;
+  subNotes: SubNoteProps[];
+}
+
+export interface Note {
+  id: UniqueIdentifier;
+  title: string;
+  // subNotes: SubNoteProps[];
+}
+
+interface State {
+  notes: Note[];
+}
+
+const initialState: State = {
   notes: [],
 };
 
-const generateUniqueId = () => {
+const generateUniqueId = (): string => {
   return uuidv4();
 };
 
-const notesReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "ADD_NOTE":
-      return {
-        ...state,
-        notes: [...state.notes, action.payload],
-      };
-    case "DELETE_NOTE":
-      return {
-        ...state,
-        notes: state.notes.filter((note) => note.id !== action.payload),
-      };
-    case "DUPLICATE_NOTE":
+const notesSlice = createSlice({
+  name: "notes",
+  initialState,
+  reducers: {
+    addNote: (state, action: PayloadAction<Note>) => {
+      state.notes.push(action.payload);
+    },
+    deleteNote: (state, action: PayloadAction<UniqueIdentifier>) => {
+      state.notes = state.notes.filter((note) => note.id !== action.payload);
+    },
+    duplicateNote: (state, action: PayloadAction<UniqueIdentifier>) => {
       const noteToDuplicate = state.notes.find(
         (note) => note.id === action.payload,
       );
 
-      if (!noteToDuplicate || typeof noteToDuplicate !== "object") {
-        return state;
+      if (noteToDuplicate) {
+        const duplicatedNote: Note = {
+          ...noteToDuplicate,
+          id: generateUniqueId(),
+        };
+
+        state.notes.push(duplicatedNote);
       }
+    },
+    // addSubNote: (
+    //   state,
+    //   action: PayloadAction<{ id: UniqueIdentifier; subNote: SubNoteProps }>,
+    // ) => {
+    //   const { id, subNote } = action.payload;
+    //   const note = state.notes.find((note) => note.id === id);
 
-      const duplicatedNote = {
-        ...noteToDuplicate,
-        id: generateUniqueId(),
-      };
+    //   if (note) {
+    //     note.subNotes.push(subNote);
+    //   }
+    // },
+    // ... other reducers ...
+  },
+});
 
-      return {
-        ...state,
-        notes: [...state.notes, duplicatedNote],
-      };
-
-    case "ADD_SUB_NOTE":
-      return {
-        ...state,
-        notes: state.notes.map((note) => {
-          if (note.id === action.payload.id) {
-            return {
-              ...note,
-              subNotes: [...note.subNotes, action.payload.subNote],
-            };
-          } else {
-            return note;
-          }
-        }),
-      };
-    default:
-      return state;
-  }
-};
-
-export default notesReducer;
+export const { addNote, deleteNote, duplicateNote } = notesSlice.actions;
+export default notesSlice.reducer;

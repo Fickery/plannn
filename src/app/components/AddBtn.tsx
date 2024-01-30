@@ -3,6 +3,7 @@ import randomColor from "randomcolor";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { addNote } from "../../redux/actions/notesAction";
+import { UniqueIdentifier } from "@dnd-kit/core";
 
 type AddBtnProps = {
   onImageUpload: (id: string) => void;
@@ -12,13 +13,22 @@ type randomColorProps = {
   luminosity: "light" | "bright" | "dark" | "random" | undefined;
 };
 
+type NotesContainerProps = {
+  id: UniqueIdentifier;
+  color: string;
+  title: string;
+  subNotes: {
+    id: UniqueIdentifier;
+    title: string;
+  }[];
+};
+
 const generateUniqueId = () => {
   return uuidv4();
 };
 
 const AddBtn = ({ onImageUpload }: AddBtnProps) => {
   const dispatch = useDispatch();
-  const notes = useSelector((state) => state.notes.notes);
 
   const param: randomColorProps = {
     luminosity: "light",
@@ -27,10 +37,9 @@ const AddBtn = ({ onImageUpload }: AddBtnProps) => {
   const handleColor = randomColor(param);
 
   const handleAddNote = () => {
-    const note = {
-      id: notes.length + 1,
+    const note: NotesContainerProps = {
+      id: generateUniqueId(),
       title: "New Note",
-      content: "",
       subNotes: [],
       color: handleColor,
     };

@@ -15,8 +15,6 @@ export default function NotesContainer() {
   const dispatch = useDispatch();
   const notes = useSelector((state) => state.notes.notes);
 
-  // const maxImages = 10;
-
   const handleAddImg = (imageList, addUpdateIndex) => {
     setImages(imageList);
   };
@@ -60,7 +58,7 @@ export default function NotesContainer() {
                       />
                     </div>
                     <input
-                      placeholder="Title here"
+                      placeholder={note.title}
                       className="mx-auto mb-3 flex flex-row-reverse justify-center bg-inherit text-center text-sm outline-none placeholder:text-gray-500"
                     />
                   </div>
