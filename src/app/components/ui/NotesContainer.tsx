@@ -1,32 +1,73 @@
 "use client";
 import useDragger from "@/hooks/useDragger";
+import { UniqueIdentifier } from "@dnd-kit/core";
+import randomColor from "randomcolor";
 import { useState } from "react";
 import Draggable from "react-draggable";
 import ImageUploading from "react-images-uploading";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteNote, duplicateNote } from "../../../redux/actions/notesAction";
+import { v4 as uuidv4 } from "uuid";
+import {
+  addNote,
+  deleteNote,
+  duplicateNote,
+} from "../../../redux/reducers/notesSlice";
 import AddBtn from "../AddBtn";
-import NoteDropdown from "./NoteDropdown";
 import ImageDropdownArrow from "../ImageDropdownArrow";
+import NoteDropdown from "./NoteDropdown";
+
+type randomColorProps = {
+  luminosity: "light" | "bright" | "dark" | "random" | undefined;
+};
+
+type NoteProp = {
+  id: UniqueIdentifier;
+  title: string;
+  color: string;
+  placeholder: string;
+};
+
+const generateUniqueId = () => {
+  return uuidv4();
+};
 
 export default function NotesContainer() {
   const [images, setImages] = useState([]);
-
-  const dispatch = useDispatch();
+  const [lastAddedNoteName, setLastAddedNoteName] = useState("");
   const notes = useSelector((state) => state.notes.notes);
+  const dispatch = useDispatch();
 
-  const handleAddImg = (imageList, addUpdateIndex) => {
-    setImages(imageList);
+  const param: randomColorProps = {
+    luminosity: "light",
+  };
+
+  const handleAddNote = () => {
+    const newNote = {
+      id: generateUniqueId(),
+      name: notes.length + 1,
+      title: "New Note",
+      color: randomColor(param),
+      placeholder: "Your placeholder text here",
+    };
+
+    dispatch(addNote(newNote));
+    setLastAddedNoteName(newNote.name); // Update the last added note name in the state
+    console.log(`successfully added note ${newNote.name}`);
   };
 
   const handleDuplicate = (noteId) => {
     dispatch(duplicateNote(noteId));
   };
 
-  const handleDeleteNote = (id: number) => {
-    if (!confirm(`Are you sure you want to delete note ${id}?`)) return;
+  const handleDeleteNote = (id) => {
+    if (!confirm(`Are you sure you want to delete note ${lastAddedNoteName}?`))
+      return;
     dispatch(deleteNote(id));
     console.log(`successfully deleted note ${id}`);
+  };
+
+  const handleAddImg = (imageList, addUpdateIndex) => {
+    setImages(imageList);
   };
 
   useDragger("addBtn");
@@ -41,13 +82,16 @@ export default function NotesContainer() {
       >
         {({ imageList, onImageUpload, onImageUpdate, onImageRemove }) => (
           <div>
-            <AddBtn onImageUpload={onImageUpload} />
+            <AddBtn
+              onImageUpload={onImageUpload}
+              handleAddNote={handleAddNote}
+            />
 
-            {notes.map((note) => (
-              <Draggable defaultPosition={{ x: 750, y: 250 }} key={note.id}>
+            {notes.map((note: NoteProp) => (
+              <Draggable key={note.id} defaultPosition={{ x: 750, y: 250 }}>
                 <div
                   id={`note-${note.id}`}
-                  className="absolute h-[20%] w-[15%] cursor-pointer opacity-70 shadow-boxshadow1"
+                  className="absolute h-[20%] w-[15%] cursor-pointer opacity-70"
                   style={{ backgroundColor: note.color }}
                 >
                   <div>
@@ -58,20 +102,11 @@ export default function NotesContainer() {
                       />
                     </div>
                     <input
-                      placeholder={note.title}
+                      placeholder="Title here"
                       className="mx-auto mb-3 flex flex-row-reverse justify-center bg-inherit text-center text-sm outline-none placeholder:text-gray-500"
                     />
                   </div>
                   <div className="h-full w-full bg-blue-300">
-                    {/* 
-                    {subNotes.map((subNote) => (
-                      <div className="flex flex-col justify-center">
-                        <input
-                          placeholder="SubNote here"
-                          className="mx-auto mb-3 flex flex-row-reverse justify-center bg-inherit text-center text-sm outline-none placeholder:text-gray-500"
-                        />
-                      </div>
-                    ))} */}
                     {note.placeholder}
                   </div>
                   <button className="bottom-0 flex w-full justify-center bg-inherit p-5 text-xs text-darkblue opacity-70 hover:opacity-100">

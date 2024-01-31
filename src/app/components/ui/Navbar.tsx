@@ -6,8 +6,9 @@ function Navbar() {
       <Image
         src="/PlannnLogo.svg"
         alt="Plannn Logo"
-        width={100}
-        height={24}
+        width="0"
+        height="0"
+        className="h-auto w-fit"
         priority
       />
       <p>Singapore</p>

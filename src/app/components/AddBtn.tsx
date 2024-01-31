@@ -1,52 +1,16 @@
 import useDragger from "@/hooks/useDragger";
-import randomColor from "randomcolor";
-import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { addNote } from "../../redux/actions/notesAction";
-import { UniqueIdentifier } from "@dnd-kit/core";
 
 type AddBtnProps = {
   onImageUpload: (id: string) => void;
-};
-
-type randomColorProps = {
-  luminosity: "light" | "bright" | "dark" | "random" | undefined;
-};
-
-type NotesContainerProps = {
-  id: UniqueIdentifier;
-  color: string;
-  title: string;
-  subNotes: {
-    id: UniqueIdentifier;
-    title: string;
-  }[];
+  handleAddNote: () => void;
 };
 
 const generateUniqueId = () => {
   return uuidv4();
 };
 
-const AddBtn = ({ onImageUpload }: AddBtnProps) => {
-  const dispatch = useDispatch();
-
-  const param: randomColorProps = {
-    luminosity: "light",
-  };
-
-  const handleColor = randomColor(param);
-
-  const handleAddNote = () => {
-    const note: NotesContainerProps = {
-      id: generateUniqueId(),
-      title: "New Note",
-      subNotes: [],
-      color: handleColor,
-    };
-    dispatch(addNote(note));
-    console.log(note.id);
-  };
-
+const AddBtn = ({ onImageUpload, handleAddNote }: AddBtnProps) => {
   const handleAddImg = () => {
     const image = {
       id: generateUniqueId(),
@@ -69,7 +33,7 @@ const AddBtn = ({ onImageUpload }: AddBtnProps) => {
             </button>
           </div>
         </div>
-        <div className="shadow-boxshadow flex h-[48px] w-full items-center justify-center text-blue-700">
+        <div className="shadow-boxshadowfilter flex h-[48px] w-full items-center justify-center bg-white text-blue-700">
           <button
             className="mx-auto flex justify-center text-sm opacity-30 hover:opacity-100"
             onClick={handleAddImg}
