@@ -19,6 +19,13 @@ export const duplicateNote = (id) => {
   };
 };
 
+export const updateNote = (id, note) => {
+  return {
+    type: "UPDATE_NOTE",
+    payload: { id, note },
+  };
+};
+
 export const addSubNote = (id, subNote) => {
   return {
     type: "ADD_SUB_NOTE",

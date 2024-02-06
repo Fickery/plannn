@@ -11,6 +11,7 @@ import {
   addNote,
   deleteNote,
   duplicateNote,
+  updateNote,
 } from "../../../redux/reducers/notesSlice";
 import AddBtn from "../AddBtn";
 import ImageDropdownArrow from "../ImageDropdownArrow";
@@ -33,7 +34,7 @@ const generateUniqueId = () => {
 
 export default function NotesContainer() {
   const [images, setImages] = useState([]);
-  const [lastAddedNoteName, setLastAddedNoteName] = useState("");
+  const [title, setTitle] = useState("");
   const notes = useSelector((state) => state.notes.notes);
   const dispatch = useDispatch();
 
@@ -41,17 +42,21 @@ export default function NotesContainer() {
     luminosity: "light",
   };
 
+  const handleTitleChange = (e, noteId) => {
+    const updatedTitle = e.target.value;
+    dispatch(updateNote({ id: noteId, title: updatedTitle }));
+  };
+
   const handleAddNote = () => {
     const newNote = {
       id: generateUniqueId(),
       name: notes.length + 1,
-      title: "New Note",
+      title: "",
       color: randomColor(param),
-      placeholder: "Your placeholder text here",
     };
 
     dispatch(addNote(newNote));
-    setLastAddedNoteName(newNote.name); // Update the last added note name in the state
+
     console.log(`successfully added note ${newNote.name}`);
   };
 
@@ -60,8 +65,7 @@ export default function NotesContainer() {
   };
 
   const handleDeleteNote = (id) => {
-    if (!confirm(`Are you sure you want to delete note ${lastAddedNoteName}?`))
-      return;
+    if (!confirm(`Are you sure you want to delete note ?`)) return;
     dispatch(deleteNote(id));
     console.log(`successfully deleted note ${id}`);
   };
@@ -70,10 +74,20 @@ export default function NotesContainer() {
     setImages(imageList);
   };
 
+  const handleLogAllNotes = () => {
+    console.log("All notes:", notes);
+  };
+
   useDragger("addBtn");
 
   return (
     <div className="main-container">
+      <button
+        onClick={handleLogAllNotes}
+        className="mt-4 rounded-md bg-gray-200 p-2"
+      >
+        Log All Notes
+      </button>
       <ImageUploading
         multiple
         value={images}
@@ -102,8 +116,11 @@ export default function NotesContainer() {
                       />
                     </div>
                     <input
-                      placeholder="Title here"
+                      placeholder="New Note"
+                      name="cardTitle"
+                      value={note.title}
                       className="mx-auto mb-3 flex flex-row-reverse justify-center bg-inherit text-center text-sm outline-none placeholder:text-gray-500"
+                      onChange={(e) => handleTitleChange(e, note.id)}
                     />
                   </div>
                   <div className="h-full w-full bg-blue-300">
