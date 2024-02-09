@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Menu from "./Menu";
+import Menu from "./ui/Menu";
 
 type NoteDropdownProps = {
   onDelete: () => void;
