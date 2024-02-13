@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import Navbar from "./components/ui/Navbar";
 import "./globals.css";
-import localFont from "next/font/local";
+import { NextUIProvider } from "@nextui-org/react";
 
 const ppNeue = localFont({
   src: [
@@ -11,21 +11,6 @@ const ppNeue = localFont({
       weight: "400",
       style: "normal",
     },
-    // {
-    //   path: './Roboto-Italic.woff2',
-    //   weight: '400',
-    //   style: 'italic',
-    // },
-    // {
-    //   path: './Roboto-Bold.woff2',
-    //   weight: '700',
-    //   style: 'normal',
-    // },
-    // {
-    //   path: './Roboto-BoldItalic.woff2',
-    //   weight: '700',
-    //   style: 'italic',
-    // },
   ],
 });
 

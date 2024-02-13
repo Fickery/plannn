@@ -33,6 +33,7 @@ const generateUniqueId = () => {
 
 export default function NotesIndex() {
   const [images, setImages] = useState([]);
+  const [SubNote, setSubNote] = useState([]);
   const notes = useSelector((state) => state.notes.notes);
   const dispatch = useDispatch();
 
