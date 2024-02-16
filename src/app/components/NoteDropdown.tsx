@@ -25,20 +25,17 @@ function NoteDropdown({ onDelete, onDuplicate }: NoteDropdownProps) {
   };
 
   return (
-    <div className="w-fit">
-      <div
-        className="relative z-50 flex h-full w-full justify-end"
-        onClick={toggleDropdown}
-      >
+    <div className="z-50 w-fit ">
+      <div className="flex h-full w-full justify-end" onClick={toggleDropdown}>
         <Menu onMenuClick={toggleDropdown} showXIcon={isActive} />
       </div>
       <div
-        className="absolute top-10 z-[999] w-fit overflow-auto border border-gray-300 bg-white shadow-lg"
+        className="absolute top-10 w-fit overflow-auto border border-gray-300 bg-white shadow-lg"
         style={{ display: isActive ? "block" : "none" }}
       >
         <div
           onClick={handleDuplicate}
-          className="cursor-pointer p-2 text-midblue opacity-100 hover:bg-darkblue hover:text-white"
+          className="cursor-pointer p-2 text-midblue hover:bg-darkblue hover:text-white"
         >
           Duplicate
         </div>

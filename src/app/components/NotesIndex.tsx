@@ -12,9 +12,9 @@ import {
   duplicateNote,
   updateNote,
 } from "../../redux/reducers/notesSlice";
-import AddBtn from "./ui/AddBtn";
 import ImageCont from "./ImageCont";
 import NoteCont from "./NoteCont";
+import AddBtn from "./ui/AddBtn";
 
 type randomColorProps = {
   luminosity: "light" | "bright" | "dark" | "random" | undefined;
