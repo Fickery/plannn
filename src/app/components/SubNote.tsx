@@ -10,7 +10,7 @@ function SubNote() {
         <IconDropDown />
       </div>
       <Textarea
-        className="mx-auto flex w-5/6 justify-center text-xs focus:outline-none"
+        className="bg mx-auto flex w-5/6 resize-none justify-center text-xs !outline-none"
         placeholder="notes..."
         minRows={2}
         maxRows={3}

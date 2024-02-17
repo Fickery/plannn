@@ -53,7 +53,7 @@ function IconDropDown() {
   }, [isActive]);
 
   return (
-    <div className="relative h-fit items-center bg-white">
+    <div className="relative h-fit items-center">
       <div ref={menu} className="flex h-auto w-full rounded text-white">
         <button onClick={toggleOpen}>
           <p

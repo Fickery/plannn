@@ -29,7 +29,7 @@ function NoteCont({
           <Draggable key={note.id} defaultPosition={{ x: 750, y: 250 }}>
             <div
               id={`note-${note.id}`}
-              className="absolute h-[20%] w-[15%] cursor-pointer"
+              className="absolute flex w-[15%] cursor-pointer flex-col gap-5"
               style={{
                 backgroundColor,
               }}
@@ -45,22 +45,24 @@ function NoteCont({
                   placeholder="New Note"
                   name="cardTitle"
                   value={note.title}
-                  className="mx-auto mb-3 flex flex-row-reverse justify-center bg-inherit text-center text-xs font-bold outline-none placeholder:font-thin placeholder:text-gray-300"
+                  className="mx-auto flex flex-row-reverse justify-center bg-inherit text-center text-xs font-bold outline-none placeholder:font-thin placeholder:opacity-60 placeholder:drop-shadow-sm"
                   onChange={(e) => handleTitleChange(e, note.id)}
                 />
               </div>
-              <div className="relative z-40 mb-10 px-3">
+              <div className="relative z-40 flex flex-col gap-2 px-3">
                 <SubNote />
               </div>
-              <button className="relative mt-1 flex w-full justify-center bg-inherit text-xs text-gray-600 hover:text-darkblue">
-                <div className="p-5">
-                  <div
-                    style={{ opacity: adjustedOpacity }}
-                    className="relative z-0 w-full"
-                  ></div>
-                  <span className="w-full text-center">Add More Nodes +</span>
-                </div>
-              </button>
+              <div>
+                <button className="relative flex w-full justify-center bg-inherit text-xs text-gray-600 hover:text-darkblue">
+                  <div className="p-5">
+                    <div
+                      style={{ opacity: adjustedOpacity }}
+                      className="relative z-0 w-full"
+                    ></div>
+                    <span className="w-full text-center">Add More Nodes +</span>
+                  </div>
+                </button>
+              </div>
             </div>
           </Draggable>
         );
