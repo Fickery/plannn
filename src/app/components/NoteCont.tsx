@@ -3,6 +3,8 @@ import Draggable from "react-draggable";
 import NoteDropdown from "./NoteDropdown";
 import SubNote from "./SubNote";
 
+// Import SubNote at the top of your file
+
 function NoteCont({
   notes,
   handleDeleteNote,
@@ -26,7 +28,11 @@ function NoteCont({
         const backgroundColor = hexToRgba(note.color, adjustedOpacity);
 
         return (
-          <Draggable key={note.id} defaultPosition={{ x: 750, y: 250 }}>
+          <Draggable
+            key={note.id}
+            defaultPosition={{ x: 750, y: 250 }}
+            cancel=".no-drag"
+          >
             <div
               id={`note-${note.id}`}
               className="absolute flex w-[15%] cursor-pointer flex-col gap-5"
@@ -49,7 +55,7 @@ function NoteCont({
                   onChange={(e) => handleTitleChange(e, note.id)}
                 />
               </div>
-              <div className="relative z-40 flex flex-col gap-2 px-3">
+              <div className="no-drag relative z-40 flex flex-col gap-2 px-3">
                 <SubNote />
               </div>
               <div>

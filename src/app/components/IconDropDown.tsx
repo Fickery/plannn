@@ -64,7 +64,11 @@ function IconDropDown() {
             {selectedImage ? (
               <Image src={selectedImage} alt="icon" className={iconClass} />
             ) : (
-              <Image src={addIcon} alt="icon" className={iconClass} />
+              <Image
+                src={addIcon}
+                alt="icon"
+                className={`{iconClass} ${isActive ? "opacity-35" : ""}`}
+              />
             )}
           </p>
         </button>
