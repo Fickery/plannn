@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Navbar from "./components/ui/Navbar";
 import "./globals.css";
-import { NextUIProvider } from "@nextui-org/react";
 
 const ppNeue = localFont({
   src: [
