@@ -53,14 +53,10 @@ function IconDropDown() {
   }, [isActive]);
 
   return (
-    <div className="relative h-fit items-center">
+    <div className="relative flex items-center">
       <div ref={menu} className="flex h-auto w-full rounded text-white">
         <button onClick={toggleOpen}>
-          <p
-            className={`p-2 pt-3 text-lg font-bold ${
-              selectedImage ? "shadow-none" : ""
-            } ${iconClass}`}
-          >
+          <p className={`${selectedImage ? "shadow-none" : ""} ${iconClass}`}>
             {selectedImage ? (
               <Image src={selectedImage} alt="icon" className={iconClass} />
             ) : (
