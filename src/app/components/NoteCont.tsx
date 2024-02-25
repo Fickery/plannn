@@ -5,9 +5,11 @@ import SubNote from "./SubNote";
 
 function NoteCont({
   notes,
+  subNotes,
   handleDeleteNote,
   handleDuplicate,
   handleTitleChange,
+  handleAddSubNote,
 }) {
   return (
     <div>
@@ -48,13 +50,15 @@ function NoteCont({
                 <input
                   placeholder="New Note"
                   name="cardTitle"
+                  autoComplete="off"
                   value={note.title}
                   className="no-drag mx-auto flex flex-row-reverse justify-center bg-inherit text-center text-xs font-bold outline-none placeholder:font-thin placeholder:drop-shadow-sm"
                   onChange={(e) => handleTitleChange(e, note.id)}
                 />
               </div>
               <div className="no-drag relative z-40 flex flex-col gap-2 px-3">
-                <SubNote />
+                {note.subNotes &&
+                  note.subNotes.map((subNote) => <SubNote key={subNote.id} />)}
               </div>
               <div>
                 <button className="relative flex w-full justify-center bg-inherit text-xs text-gray-600 hover:text-darkblue">
@@ -63,7 +67,12 @@ function NoteCont({
                       style={{ opacity: adjustedOpacity }}
                       className="relative z-0 w-full"
                     ></div>
-                    <span className="w-full text-center">Add More Nodes +</span>
+                    <span
+                      className="w-full text-center"
+                      onClick={() => handleAddSubNote(note.id)}
+                    >
+                      Add More Nodes +
+                    </span>
                   </div>
                 </button>
               </div>

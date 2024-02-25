@@ -6,6 +6,12 @@ type NoteProps = {
   name: string;
   title: string;
   color: string;
+  subNotes?: SubNoteProps[];
+};
+
+type SubNoteProps = {
+  id: string;
+  content: string;
 };
 
 type NotesState = {
@@ -63,10 +69,26 @@ const noteSlice = createSlice({
       );
       state.notes = updatedNotes;
     },
+    addSubNote: (state, action: PayloadAction<{ id: string }>) => {
+      const { id } = action.payload;
+
+      const noteToUpdate = state.notes.find((note) => note.id === id);
+
+      if (noteToUpdate) {
+        const newSubNote: SubNoteProps = {
+          id: generateUniqueId(),
+          content: "",
+        };
+        if (!noteToUpdate.subNotes) {
+          noteToUpdate.subNotes = [];
+        }
+        noteToUpdate.subNotes.push(newSubNote);
+      }
+    },
   },
 });
 
-export const { addNote, deleteNote, duplicateNote, updateNote } =
+export const { addNote, deleteNote, duplicateNote, updateNote, addSubNote } =
   noteSlice.actions;
 
 export default noteSlice.reducer;
