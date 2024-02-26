@@ -33,4 +33,11 @@ export const addSubNote = (id, subNote) => {
   };
 };
 
+export const updateSubNote = (id, subNote) => {
+  return {
+    type: "UPDATE_SUB_NOTE",
+    payload: { id, subNote },
+  };
+};
+
 // Add more actions as necessary, like deleteNote, addSubNote, etc.

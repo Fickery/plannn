@@ -12,6 +12,7 @@ import {
   duplicateNote,
   updateNote,
   addSubNote,
+  updateSubNoteText,
 } from "../../redux/reducers/notesSlice";
 import ImageCont from "./ImageCont";
 import NoteCont from "./NoteCont";
@@ -35,7 +36,6 @@ const generateUniqueId = () => {
 export default function NotesIndex() {
   const [images, setImages] = useState([]);
   const notes = useSelector((state) => state.notes.notes);
-  const subNotes = useSelector((state) => state.notes.subNotes);
   const dispatch = useDispatch();
 
   const param: randomColorProps = {
@@ -45,6 +45,11 @@ export default function NotesIndex() {
   const handleTitleChange = (e, noteId) => {
     const updatedTitle = e.target.value;
     dispatch(updateNote({ id: noteId, title: updatedTitle }));
+  };
+
+  const handleSubNoteUpdate = (e, subNoteId) => {
+    const updatedSubNote = e.target.value;
+    dispatch(updateSubNoteText({ id: subNoteId, text: updatedSubNote }));
   };
 
   const handleAddNote = () => {
@@ -108,11 +113,11 @@ export default function NotesIndex() {
 
             <NoteCont
               notes={notes}
-              subNotes={subNotes}
               handleDeleteNote={handleDeleteNote}
               handleDuplicate={handleDuplicate}
               handleTitleChange={handleTitleChange}
               handleAddSubNote={handleAddSubNote}
+              handleSubNoteUpdate={handleSubNoteUpdate}
             />
             <ImageCont
               imageList={imageList}

@@ -1,6 +1,14 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
 
 function Navbar() {
+  const [title, setTitle] = useState("");
+
+  const handleTitleChange = () => {
+    setTitle("");
+  };
+
   return (
     <div className="flex h-[5vh] w-full justify-between bg-white p-2 text-darkblue">
       <Image
@@ -11,7 +19,12 @@ function Navbar() {
         className="h-auto w-fit"
         priority
       />
-      <p>Singapore</p>
+      <input
+        className="flex justify-center"
+        placeholder="Title"
+        onChange={handleTitleChange}
+        value={title}
+      />
       <p>FICKERY</p>
     </div>
   );
