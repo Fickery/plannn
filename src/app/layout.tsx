@@ -6,9 +6,19 @@ import "./globals.css";
 const ppNeue = localFont({
   src: [
     {
+      path: "../../public/font/PPNeueMachina-PlainLight.otf",
+      weight: "200",
+      style: "inkLight",
+    },
+    {
       path: "../../public/font/PPNeueMachina-InktrapRegular.otf",
       weight: "400",
       style: "normal",
+    },
+    {
+      path: "../../public/font/PPNeueMachina-InktrapUltrabold.otf",
+      weight: "900",
+      style: "ultraBold",
     },
   ],
 });
@@ -26,9 +36,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={ppNeue.className}>
-        <header>
+        {/* <header>
           <Navbar />
-        </header>
+        </header> */}
         {children}
       </body>
     </html>

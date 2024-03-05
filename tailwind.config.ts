@@ -20,6 +20,7 @@ const config: Config = {
         boxshadowfilter: "0px 4px 2px #e2e2f1",
       },
       colors: {
+        mainbuttons: "hsl(var(--mainbuttons))",
         darkblue: "hsl(var(--darkblue))",
         midblue: "hsl(var(--midblue))",
         lightblue: "hsl(var(--lightblue))",

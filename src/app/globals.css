@@ -7,6 +7,8 @@
     --border-radius-500: 8px;
     --fonts-primary: Karla, sans-serif;
 
+    --mainbuttons: 225 100% 65%;
+
     --darkblue: 238 99% 63%;
     --midblue: 238 100% 89%;
     --lightblue: 253 69% 97%;
@@ -191,4 +193,17 @@ main {
   content: attr(data-placeholder);
   color: #888;
   font-style: italic;
+}
+
+/* dropdown */
+.dropdown-arrow {
+  height: 0;
+  width: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 7px solid #4e26e0;
+}
+
+.testBG {
+  background-image: url("../../public/testBG.png");
 }

@@ -5,12 +5,12 @@ import { useState } from "react";
 function Navbar() {
   const [title, setTitle] = useState("");
 
-  const handleTitleChange = () => {
-    setTitle("");
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
   };
 
   return (
-    <div className="flex h-[5vh] w-full justify-between bg-white p-2 text-darkblue">
+    <div className="relative flex h-[5vh] w-full justify-between bg-white p-2 text-darkblue">
       <Image
         src="/PlannnLogo.svg"
         alt="Plannn Logo"
@@ -19,12 +19,20 @@ function Navbar() {
         className="h-auto w-fit"
         priority
       />
-      <input
-        className="flex justify-center"
-        placeholder="Title"
-        onChange={handleTitleChange}
-        value={title}
-      />
+
+      <span className="flex items-center justify-center">
+        <input
+          className="relative flex flex-col items-center justify-center text-center text-sm font-semibold placeholder:font-normal focus:outline-none"
+          type="text"
+          placeholder="Title"
+          onChange={handleTitleChange}
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck="false"
+          value={title}
+        />
+        {/* <div className="dropdown-arrow"></div> */}
+      </span>
       <p>FICKERY</p>
     </div>
   );
