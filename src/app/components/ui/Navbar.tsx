@@ -31,7 +31,6 @@ function Navbar() {
           spellCheck="false"
           value={title}
         />
-        {/* <div className="dropdown-arrow"></div> */}
       </span>
       <p>FICKERY</p>
     </div>

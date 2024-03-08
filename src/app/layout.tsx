@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Navbar from "./components/ui/Navbar";
 import "./globals.css";
+import QueryProvider from "./query-provider";
 
 const ppNeue = localFont({
   src: [
@@ -36,10 +37,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={ppNeue.className}>
-        {/* <header>
-          <Navbar />
-        </header> */}
-        {children}
+        <QueryProvider>
+          <header>
+            <Navbar />
+          </header>
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );
