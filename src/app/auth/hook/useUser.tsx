@@ -1,5 +1,5 @@
 "use client";
-import supabaseBrowser from "@/app/lib/supabase/browser";
+import supabaseBrowser from "../../../../lib/supabase/browser";
 import { useQuery } from "@tanstack/react-query";
 
 const initUser = {
@@ -16,10 +16,11 @@ export default function useUser() {
       const { data } = await supabase.auth.getSession();
       if (data.session?.user) {
         const { data: user } = await supabase
-          .from("users")
+          .from("profiles")
           .select("*")
           .eq("id", data.session.user.id)
           .single();
+        console.log(user, data);
         return user;
       }
       return initUser;
