@@ -43,6 +43,7 @@ function signInPage() {
               width="350"
               height="350"
               alt="Plannn Logo"
+              priority
             />
             <div className="flex w-fit flex-col gap-3 pl-[5.5rem] pt-10">
               <p className="cursor-default text-left text-[0.8rem] font-light uppercase text-darkblue">
@@ -69,7 +70,7 @@ function signInPage() {
                     />
                   </div>
                   <button
-                    className="hover:bg-mainbuttons mt-3 bg-darkblue p-2 text-xs text-white outline outline-1 hover:text-lightblue"
+                    className="mt-3 bg-darkblue p-2 text-xs text-white outline outline-1 hover:bg-mainbuttons hover:text-lightblue"
                     onClick={() => handleLoginWithOauth}
                   >
                     Login
@@ -93,6 +94,7 @@ function signInPage() {
           </div>
         </div>
       </div>
+      console.log(user, data);
     </Form>
   );
 }

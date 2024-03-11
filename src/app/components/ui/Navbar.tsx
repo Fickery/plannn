@@ -1,5 +1,7 @@
 "use client";
+import useUser from "@/app/auth/hook/useUser";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 function Navbar() {
@@ -8,6 +10,12 @@ function Navbar() {
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
+
+  const { isFetching, data } = useUser();
+
+  if (isFetching) {
+    return <></>;
+  }
 
   return (
     <div className="relative flex h-[5vh] w-full justify-between bg-white p-2 text-darkblue">
@@ -32,7 +40,12 @@ function Navbar() {
           value={title}
         />
       </span>
-      <p>FICKERY</p>
+      <p>{data?.name}</p>
+      <Link href="/auth">
+        <button className="bg-darkblue p-2 text-white outline outline-1 hover:bg-mainbuttons hover:text-lightblue">
+          Sign In
+        </button>
+      </Link>
     </div>
   );
 }
