@@ -2,50 +2,53 @@
 import React from "react";
 import Image from "next/image";
 import * as z from "zod";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import { useForm } from "react-hook-form";
-// import { Form } from "@radix-ui/react-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Form } from "@radix-ui/react-form";
 import supabaseBrowser from "../../../lib/supabase/browser";
+import { useRouter } from "next/navigation";
 
-// const formSchema = z.object({
-//   email: z.string().email(),
-//   password: z.string().min(8, {
-//     message: "Password must be at least 8 characters long",
-//   }),
-// });
+const formSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8, {
+    message: "Password must be at least 8 characters long",
+  }),
+});
 
 export default function page() {
-  // const form = useForm<z.infer<typeof formSchema>>({
-  //   resolver: zodResolver(formSchema),
-  //   defaultValues: {
-  //     email: "",
-  //     password: "",
-  //   },d
-  // });
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const router = useRouter();
 
   function handleLoginWithOauth() {
     const supabase = supabaseBrowser();
     supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: location.origin + "/auth/callback",
+        redirectTo: "/hi",
       },
     });
   }
 
   return (
-    // <Form {...form}>
-    <div className="testBG">
-      <div className="flex h-full w-2/3 items-center justify-center pl-5">
-        <div className="flex h-screen flex-col justify-center">
-          <Image
-            src="/PlannnLogo.svg"
-            width="350"
-            height="350"
-            alt="Plannn Logo"
-            priority
-          />
-          {/* <div className="flex w-fit flex-col gap-3 pl-[5.5rem] pt-10">
+    <Form {...form}>
+      <div className="testBG">
+        <div className="flex h-full w-2/3 items-center justify-center pl-5">
+          <div className="flex h-screen flex-col justify-center">
+            <Image
+              src="/PlannnLogo.svg"
+              width="350"
+              height="350"
+              alt="Plannn Logo"
+              priority
+            />
+            <div className="flex w-fit flex-col gap-3 pl-[5.5rem] pt-10">
               <p className="cursor-default text-left text-[0.8rem] font-light uppercase text-darkblue">
                 Login
               </p>
@@ -70,31 +73,31 @@ export default function page() {
                     />
                   </div>
                   <button
-                    className="mt-3 bg-darkblue p-2 text-xs text-white outline outline-1 hover:bg-mainbuttons hover:text-lightblue"
+                    className="hover:bg-mainbuttons mt-3 bg-darkblue p-2 text-xs text-white outline outline-1 hover:text-lightblue"
                     onClick={() => handleLoginWithOauth}
                   >
                     Login
-                  </button> */}
+                  </button>
 
-          <button
-            className="flex items-center justify-center gap-2 bg-none p-2 text-xs text-black outline outline-1 hover:bg-midblue"
-            onClick={() => handleLoginWithOauth()}
-          >
-            <Image
-              src="/Google_icon.png"
-              width="15"
-              height="15"
-              alt="Login with Google"
-            />
-            Login with Google
-          </button>
+                  <button
+                    className="flex items-center justify-center gap-2 bg-none p-2 text-xs text-black outline outline-1 hover:bg-midblue"
+                    onClick={() => handleLoginWithOauth()}
+                  >
+                    <Image
+                      src="/Google_icon.png"
+                      width="15"
+                      height="15"
+                      alt="Login with Google"
+                    />
+                    Login with Google
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    //     </div>
-    //   </div>
-    // </div>
-    //   console.log(user, data);
-    // </Form>
+      console.log(user, data);
+    </Form>
   );
 }

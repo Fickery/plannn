@@ -2,6 +2,7 @@ import React from "react";
 import Draggable from "react-draggable";
 import NoteDropdown from "./NoteDropdown";
 import SubNote from "./SubNote";
+import useUser from "../auth/hook/useUser";
 
 function NoteCont({
   notes,
