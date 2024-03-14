@@ -2,18 +2,21 @@
 import useUser from "@/app/auth/hook/useUser";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { ChangeEvent, useState } from "react";
 import supabaseBrowser from "../../../../lib/supabase/browser";
-import { useRouter } from "next/navigation";
 
 function Navbar() {
   const [title, setTitle] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   const queryClient = useQueryClient();
   const router = useRouter();
+  const pathname = usePathname();
 
-  const handleTitleChange = (e) => {
+  const { isFetching, data } = useUser();
+
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
@@ -24,13 +27,13 @@ function Navbar() {
     router.refresh();
   };
 
-  const { isFetching, data } = useUser();
+  const dropDownOption = [{ label: "Sign Out", action: handleSignOut }];
 
   if (isFetching) {
     return <></>;
   }
 
-  if (!data?.id) {
+  if (!data?.id && pathname === "/") {
     router.push("/auth");
     return null;
   }
@@ -60,26 +63,36 @@ function Navbar() {
               value={title}
             />
           </span>
-          <div className="flex items-center justify-center gap-2">
-            {data?.id ? <p>{data?.name}</p> : <p>log in bro</p>}
-            <div>
-              {data?.id ? (
-                <></>
-              ) : (
-                <Link href="/auth">
-                  <button className="hover:bg-mainbuttons bg-darkblue px-3 py-2 text-xs text-white outline outline-1 hover:text-lightblue">
-                    Sign In
-                  </button>
-                </Link>
-              )}
 
-              <button
-                className="hover:bg-mainbuttons bg-darkblue px-3 py-2 text-xs text-white outline outline-1 hover:text-lightblue"
-                onClick={handleSignOut}
-              >
-                Sign Out
-              </button>
-            </div>
+          <div
+            className="relative flex items-center justify-center gap-2"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {data?.id ? (
+              <p className="w-full cursor-pointer p-3 hover:underline">
+                {data?.name}
+              </p>
+            ) : (
+              <p onClick={() => router.push("/auth")}>log in</p>
+            )}
+            {isOpen ? (
+              <div className="absolute top-full z-10 mt-1 flex items-center justify-center border border-gray-300 bg-white p-2 text-[0.7rem]">
+                {dropDownOption.map((option, index) => (
+                  <div
+                    key={index}
+                    className="cursor-pointer hover:text-midblue"
+                    onClick={() => {
+                      option.action();
+                      setIsOpen(false);
+                    }}
+                  >
+                    {option.label}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       ) : (

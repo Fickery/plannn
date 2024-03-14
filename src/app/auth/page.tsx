@@ -16,6 +16,7 @@ const formSchema = z.object({
 });
 
 export default function page() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -24,15 +25,17 @@ export default function page() {
     },
   });
 
-  const router = useRouter();
+  function handleGoToSignUp() {
+    router.push("/signup");
+  }
 
   function handleLoginWithOauth() {
     const supabase = supabaseBrowser();
     supabase.auth.signInWithOAuth({
       provider: "google",
-      options: {
-        redirectTo: "/hi",
-      },
+      // options: {
+      //   redirectTo: "/hi",
+      // },
     });
   }
 
@@ -48,7 +51,7 @@ export default function page() {
               alt="Plannn Logo"
               priority
             />
-            <div className="flex w-fit flex-col gap-3 pl-[5.5rem] pt-10">
+            <div className="flex flex-col gap-3 pl-[5.5rem] pt-10">
               <p className="cursor-default text-left text-[0.8rem] font-light uppercase text-darkblue">
                 Login
               </p>
@@ -73,14 +76,22 @@ export default function page() {
                     />
                   </div>
                   <button
-                    className="hover:bg-mainbuttons mt-3 bg-darkblue p-2 text-xs text-white outline outline-1 hover:text-lightblue"
+                    className="hover:bg-mainbuttons mt-3 bg-darkblue p-3 text-xs text-white outline outline-1 hover:text-lightblue"
                     onClick={() => handleLoginWithOauth}
                   >
                     Login
                   </button>
-
+                  <div className="flex justify-center gap-1 text-xs">
+                    <p>Don't have an account? </p>
+                    <span
+                      className="cursor-pointer text-darkblue underline"
+                      onClick={() => handleGoToSignUp()}
+                    >
+                      Sign up
+                    </span>
+                  </div>
                   <button
-                    className="flex items-center justify-center gap-2 bg-none p-2 text-xs text-black outline outline-1 hover:bg-midblue"
+                    className="flex items-center justify-center gap-2 bg-none p-3 text-xs text-black outline outline-1 hover:bg-midblue"
                     onClick={() => handleLoginWithOauth()}
                   >
                     <Image
@@ -97,7 +108,6 @@ export default function page() {
           </div>
         </div>
       </div>
-      console.log(user, data);
     </Form>
   );
 }
