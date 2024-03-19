@@ -19,6 +19,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  outline: none;
 }
 
 body {
@@ -34,6 +35,12 @@ main {
   display: grid;
   place-items: center;
   width: 100vw;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .main-container {
@@ -199,9 +206,17 @@ main {
 .dropdown-arrow {
   height: 0;
   width: 0;
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  border-top: 7px solid #4e26e0;
+  border-left: 6.5px solid transparent;
+  border-right: 6.5px solid transparent;
+  border-top: 6.5px solid #4e26e0;
+}
+
+.dropdown-arrow-down {
+  transform: rotate(-180deg);
+}
+
+.onClick {
+  cursor: pointer;
 }
 
 .testBG {

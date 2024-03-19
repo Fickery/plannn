@@ -8,10 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import {
   addNote,
+  addSubNote,
   deleteNote,
   duplicateNote,
   updateNote,
-  addSubNote,
   updateSubNoteText,
 } from "../../redux/reducers/notesSlice";
 import ImageCont from "./ImageCont";
@@ -34,6 +34,7 @@ const generateUniqueId = () => {
 };
 
 export default function NotesIndex() {
+  const [title, setTitle] = useState("title");
   const [images, setImages] = useState([]);
   const notes = useSelector((state) => state.notes.notes);
   const dispatch = useDispatch();
@@ -88,16 +89,20 @@ export default function NotesIndex() {
     console.log("All notes:", notes);
   };
 
+  const handleTitleChangeInput = (e) => {
+    setTitle(e.target.innerText);
+  };
+
   useDragger("addBtn");
 
   return (
     <div className="main-container">
-      <button
+      {/* <button
         onClick={handleLogAllNotes}
         className="mt-4 rounded-md bg-gray-200 p-2"
       >
         Log All Notes
-      </button>
+      </button> */}
       <ImageUploading
         multiple
         value={images}

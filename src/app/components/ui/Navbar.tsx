@@ -3,11 +3,11 @@ import useUser from "@/app/auth/hook/useUser";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import supabaseBrowser from "../../../../lib/supabase/browser";
+import Titles from "./Titles";
 
 function Navbar() {
-  const [title, setTitle] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
   const queryClient = useQueryClient();
@@ -15,10 +15,6 @@ function Navbar() {
   const pathname = usePathname();
 
   const { isFetching, data } = useUser();
-
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
 
   const handleSignOut = async () => {
     const supabase = supabaseBrowser();
@@ -50,20 +46,7 @@ function Navbar() {
             className="h-auto w-fit"
             priority
           />
-
-          <span className="flex items-center justify-center">
-            <input
-              className="relative flex flex-col items-center justify-center text-center text-sm font-semibold placeholder:font-normal focus:outline-none"
-              type="text"
-              placeholder="Title"
-              onChange={handleTitleChange}
-              autoComplete="off"
-              autoCorrect="off"
-              spellCheck="false"
-              value={title}
-            />
-          </span>
-
+          <Titles />
           <div
             className="relative flex items-center justify-center gap-2"
             onClick={() => setIsOpen(!isOpen)}

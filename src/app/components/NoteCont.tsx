@@ -1,8 +1,6 @@
-import React from "react";
 import Draggable from "react-draggable";
 import NoteDropdown from "./NoteDropdown";
 import SubNote from "./SubNote";
-import useUser from "../auth/hook/useUser";
 
 function NoteCont({
   notes,
@@ -57,6 +55,7 @@ function NoteCont({
                   onChange={(e) => handleTitleChange(e, note.id)}
                 />
               </div>
+
               <div className="no-drag relative z-40 flex flex-col gap-2 px-3">
                 {note.subNotes &&
                   note.subNotes.map((subNote) => (
