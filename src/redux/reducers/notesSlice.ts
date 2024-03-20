@@ -1,14 +1,5 @@
-import SubNote from "@/app/components/SubNote";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-
-type NoteProps = {
-  id: string;
-  name: string;
-  title: string;
-  color: string;
-  subNotes?: SubNoteProps[];
-};
 
 type SubNoteProps = {
   id: string;
@@ -16,8 +7,22 @@ type SubNoteProps = {
   text: string;
 };
 
-type NotesState = {
+export type NoteProps = {
+  id: string;
+  name: string;
+  title: string;
+  color: string;
+  subNotes?: SubNoteProps[];
+};
+
+type SessionProps = {
+  id: string;
+  title: string;
   notes: NoteProps[];
+};
+
+type NotesState = {
+  sessions: SessionProps[];
 };
 
 const generateUniqueId = () => {
@@ -25,76 +30,121 @@ const generateUniqueId = () => {
 };
 
 const initialState: NotesState = {
-  notes: [],
+  sessions: [],
 };
 
 const noteSlice = createSlice({
   name: "notes",
   initialState,
   reducers: {
-    addNote: (state, action: PayloadAction<NoteProps>) => {
+    addSession: (state, action: PayloadAction<SessionProps>) => {
       const payload = action.payload;
-      const newNote: NoteProps = {
+      const newSession: SessionProps = {
         id: generateUniqueId(),
-        name: payload.name,
-        title: payload.title,
-        color: payload.color,
+        title: `Session ${state.sessions.length + 1}`,
+        notes: [],
       };
-      state.notes.push(newNote);
+      state.sessions.push(newSession);
     },
-
+    addNote: (
+      state,
+      action: PayloadAction<{ sessionId: string; note: NoteProps }>,
+    ) => {
+      const { sessionId, note } = action.payload;
+      const session = state.sessions.find((s) => s.id === sessionId);
+      if (session) {
+        session.notes.push(note);
+      }
+    },
     duplicateNote: (state, action: PayloadAction<string>) => {
-      const noteToDuplicate = state.notes.find(
-        (note) => note.id === action.payload,
+      const noteIdToDuplicate = action.payload;
+      const session = state.sessions.find(
+        (session) => session.id === noteIdToDuplicate,
       );
 
-      if (!noteToDuplicate || typeof noteToDuplicate !== "object") {
+      if (!session) {
+        return state;
+      }
+
+      const noteToDupe = session.notes?.find(
+        (note) => note.id === noteIdToDuplicate,
+      );
+
+      if (!noteToDupe) {
         return state;
       }
 
       const duplicatedNote: NoteProps = {
-        ...noteToDuplicate,
+        ...noteToDupe,
         id: generateUniqueId(),
-        subNotes: noteToDuplicate.subNotes
-          ? noteToDuplicate.subNotes.map((subNote) => ({
+        subNotes: noteToDupe.subNotes
+          ? noteToDupe.subNotes.map((subNote) => ({
               ...subNote,
               id: generateUniqueId(),
             }))
           : [],
       };
-
-      state.notes.push(duplicatedNote);
+      session.notes?.push(duplicatedNote);
     },
-
     deleteNote: (state, action: PayloadAction<string>) => {
-      state.notes = state.notes.filter((note) => note.id !== action.payload);
+      state.sessions = state.sessions.filter(
+        (note) => note.id !== action.payload,
+      );
     },
     updateNote: (
       state,
       action: PayloadAction<{ id: string; title: string }>,
     ) => {
       const { id, title } = action.payload;
-      const updatedNotes = state.notes.map((note) =>
+      const updatedNotes = state.sessions.map((note) =>
         note.id === id ? { ...note, title } : note,
       );
-      state.notes = updatedNotes;
+      state.sessions = updatedNotes;
     },
-    addSubNote: (state, action: PayloadAction<SubNoteProps>) => {
-      const { id } = action.payload;
+    addSubNote: (
+      state,
+      action: PayloadAction<{
+        sessionId: string;
+        noteId: string;
+        subNote: SubNoteProps;
+      }>,
+    ) => {
+      const { sessionId, noteId, subNote } = action.payload;
 
-      const noteToUpdate = state.notes.find((note) => note.id === id);
+      const session = state.sessions.find(
+        (session) => session.id === sessionId,
+      );
 
-      if (noteToUpdate) {
-        const payload = action.payload;
-        const newSubNote: SubNoteProps = {
-          id: generateUniqueId(),
-          icon: payload.icon,
-          text: payload.text,
-        };
-        if (!noteToUpdate.subNotes) {
-          noteToUpdate.subNotes = [];
+      if (session) {
+        const noteToUpdate = session.notes?.find((note) => note.id === noteId);
+
+        if (noteToUpdate) {
+          const newSubNote: SubNoteProps = {
+            id: generateUniqueId(),
+            icon: subNote.icon,
+            text: subNote.text,
+          };
+
+          const updatedNote = {
+            ...noteToUpdate,
+            subNotes: [...(noteToUpdate.subNotes || []), newSubNote],
+          };
+
+          const updatedSession = {
+            ...session,
+            notes: session.notes?.map((note) =>
+              note.id === noteId ? updatedNote : note,
+            ),
+          };
+          state.sessions = state.sessions.map((s) =>
+            s.id === sessionId ? updatedSession : s,
+          );
+
+          // if (!noteToUpdate.subNotes) {
+          //   noteToUpdate.subNotes = [];
+          // }
+          // noteToUpdate.subNotes.push(newSubNote);
         }
-        noteToUpdate.subNotes.push(newSubNote);
       }
     },
     updateSubNoteText: (
@@ -102,15 +152,23 @@ const noteSlice = createSlice({
       action: PayloadAction<{ id: string; text: string }>,
     ) => {
       const { id, text } = action.payload;
-      const updatedSubNotes = state.notes.map((note) =>
-        note.id === id ? { ...note, text } : note,
-      );
-      state.notes = updatedSubNotes;
+      for (const session of state.sessions) {
+        for (const note of session.notes || []) {
+          const subNoteToUpdate = note.subNotes?.find(
+            (subNote) => subNote.id === id,
+          );
+          if (subNoteToUpdate) {
+            subNoteToUpdate.text = text;
+            break; // Exit loop once sub-note is found and updated
+          }
+        }
+      }
     },
   },
 });
 
 export const {
+  addSession,
   addNote,
   deleteNote,
   duplicateNote,

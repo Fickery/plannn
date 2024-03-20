@@ -37,12 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={ppNeue.className}>
-        <QueryProvider>
-          <header>
-            <Navbar />
-          </header>
-          {children}
-        </QueryProvider>
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );

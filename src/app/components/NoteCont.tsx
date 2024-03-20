@@ -13,18 +13,18 @@ function NoteCont({
   return (
     <div>
       {notes.map((note) => {
-        const hexToRgba = (hex, opacity) => {
-          hex = hex.replace(/^#/, "");
-          const bigint = parseInt(hex, 16);
-          const r = (bigint >> 16) & 255;
-          const g = (bigint >> 8) & 255;
-          const b = bigint & 255;
-          return `rgba(${r}, ${g}, ${b}, ${opacity})`;
-        };
+        // const hexToRgba = (hex, opacity) => {
+        //   hex = hex.replace(/^#/, "");
+        //   const bigint = parseInt(hex, 16);
+        //   const r = (bigint >> 16) & 255;
+        //   const g = (bigint >> 8) & 255;
+        //   const b = bigint & 255;
+        //   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+        // };
 
-        const adjustedOpacity = 0.35;
+        // const adjustedOpacity = 0.35;
 
-        const backgroundColor = hexToRgba(note.color, adjustedOpacity);
+        // const backgroundColor = hexToRgba(note.color, adjustedOpacity);
 
         return (
           <Draggable
@@ -35,9 +35,9 @@ function NoteCont({
             <div
               id={`note-${note.id}`}
               className="absolute flex w-[15%] cursor-pointer flex-col gap-5 shadow-boxshadow"
-              style={{
-                backgroundColor,
-              }}
+              // style={{
+              //   backgroundColor,
+              // }}
             >
               <div>
                 <div className="flex w-full justify-end">
@@ -70,7 +70,7 @@ function NoteCont({
                 <button className="relative flex w-full justify-center bg-inherit text-xs text-gray-600 hover:text-darkblue">
                   <div className="p-5">
                     <div
-                      style={{ opacity: adjustedOpacity }}
+                      // style={{ opacity: adjustedOpacity }}
                       className="relative z-0 w-full"
                     ></div>
                     <span

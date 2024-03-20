@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import {
   addNote,
+  addSession,
   addSubNote,
   deleteNote,
   duplicateNote,
@@ -17,6 +18,7 @@ import {
 import ImageCont from "./ImageCont";
 import NoteCont from "./NoteCont";
 import AddBtn from "./ui/AddBtn";
+import Titles from "./ui/Titles";
 
 type randomColorProps = {
   luminosity: "light" | "bright" | "dark" | "random" | undefined;
@@ -34,9 +36,8 @@ const generateUniqueId = () => {
 };
 
 export default function NotesIndex() {
-  const [title, setTitle] = useState("title");
   const [images, setImages] = useState([]);
-  const notes = useSelector((state) => state.notes.notes);
+  const notes = useSelector((state) => state.notes.sessions);
   const dispatch = useDispatch();
 
   const param: randomColorProps = {
@@ -53,6 +54,15 @@ export default function NotesIndex() {
     dispatch(updateSubNoteText({ id: subNoteId, text: updatedSubNote }));
   };
 
+  const handleAddSession = () => {
+    const newSession = {
+      id: generateUniqueId(),
+      title: "",
+      notes: [],
+    };
+    dispatch(addSession(newSession));
+  };
+
   const handleAddNote = () => {
     const newNote = {
       id: generateUniqueId(),
@@ -67,8 +77,13 @@ export default function NotesIndex() {
     console.log(`successfully added note ${newNote.name}`);
   };
 
-  const handleAddSubNote = (noteId) => {
-    dispatch(addSubNote({ id: noteId }));
+  const handleAddSubNote = (sessionId: string, noteId: string) => {
+    const subNote = {
+      id: generateUniqueId(),
+      icon: "",
+      text: "",
+    };
+    dispatch(addSubNote({ sessionId: sessionId, noteId: noteId, subNote }));
   };
 
   const handleDuplicate = (noteId) => {
@@ -85,24 +100,10 @@ export default function NotesIndex() {
     setImages(imageList);
   };
 
-  const handleLogAllNotes = () => {
-    console.log("All notes:", notes);
-  };
-
-  const handleTitleChangeInput = (e) => {
-    setTitle(e.target.innerText);
-  };
-
   useDragger("addBtn");
 
   return (
     <div className="main-container">
-      {/* <button
-        onClick={handleLogAllNotes}
-        className="mt-4 rounded-md bg-gray-200 p-2"
-      >
-        Log All Notes
-      </button> */}
       <ImageUploading
         multiple
         value={images}
@@ -111,6 +112,12 @@ export default function NotesIndex() {
       >
         {({ imageList, onImageUpload, onImageUpdate, onImageRemove }) => (
           <div>
+            <Titles
+              notes={notes}
+              handleAddSession={handleAddSession}
+              title="title"
+              setTitle={() => {}}
+            />
             <AddBtn
               onImageUpload={onImageUpload}
               handleAddNote={handleAddNote}

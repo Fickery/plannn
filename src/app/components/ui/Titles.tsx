@@ -2,8 +2,7 @@
 import React, { ChangeEvent, useState } from "react";
 import AutosizeInput from "react-input-autosize";
 
-export default function Titles() {
-  const [title, setTitle] = useState("");
+export default function Titles({ notes, title, setTitle, handleAddSession }) {
   const [isActive, setIsActive] = useState(false);
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -16,10 +15,16 @@ export default function Titles() {
 
   return (
     <>
+      <button className="bg-midblue p-3" onClick={handleAddSession}>
+        add session
+      </button>
+      {notes.map((note) => (
+        <div className="flex w-full justify-center">
+          <p></p>
+        </div>
+      ))}
+
       <div className="center relative gap-1">
-        {/* {topicNames.map((topic, index) => (
-          <p key={index}>{topic}</p>
-        ))} */}
         <AutosizeInput
           className="flex flex-col items-center justify-center text-center text-sm font-semibold placeholder:font-normal focus:outline-none"
           name="title"

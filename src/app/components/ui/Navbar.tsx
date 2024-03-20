@@ -4,10 +4,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 import supabaseBrowser from "../../../../lib/supabase/browser";
+import { addSession } from "../../../redux/reducers/notesSlice";
 import Titles from "./Titles";
 
 function Navbar() {
+  // const [title, setTitle] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
   const queryClient = useQueryClient();
@@ -15,6 +19,11 @@ function Navbar() {
   const pathname = usePathname();
 
   const { isFetching, data } = useUser();
+
+  // const dispatch = useDispatch();
+  // const generateUniqueId = () => {
+  //   return uuidv4();
+  // };
 
   const handleSignOut = async () => {
     const supabase = supabaseBrowser();
@@ -34,6 +43,15 @@ function Navbar() {
     return null;
   }
 
+  // const handleAddSession = () => {
+  //   const newSession = {
+  //     id: generateUniqueId(),
+  //     title: "",
+  //     notes: [],
+  //   };
+  //   dispatch(addSession(newSession));
+  // };
+
   return (
     <>
       {data?.id ? (
@@ -46,7 +64,8 @@ function Navbar() {
             className="h-auto w-fit"
             priority
           />
-          <Titles />
+
+          {/* <Titles title={title} setTitle={setTitle} /> */}
           <div
             className="relative flex items-center justify-center gap-2"
             onClick={() => setIsOpen(!isOpen)}
