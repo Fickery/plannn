@@ -1,6 +1,7 @@
 "use client";
 import React, { ChangeEvent, useState } from "react";
 import AutosizeInput from "react-input-autosize";
+import AddSession from "./AddSession";
 
 export default function Titles() {
   const [title, setTitle] = useState("");
@@ -16,10 +17,8 @@ export default function Titles() {
 
   return (
     <>
+      <AddSession />
       <div className="center relative gap-1">
-        {/* {topicNames.map((topic, index) => (
-          <p key={index}>{topic}</p>
-        ))} */}
         <AutosizeInput
           className="flex flex-col items-center justify-center text-center text-sm font-semibold placeholder:font-normal focus:outline-none"
           name="title"
@@ -37,9 +36,9 @@ export default function Titles() {
         ></span>
         <div>
           {isActive ? (
-            <div className="shadow-xs absolute left-0 top-10 w-fit overflow-auto border bg-white">
+            <div className="shadow-xs absolute left-0 top-10 w-full overflow-auto border bg-white">
               <div className="p-2 text-midblue hover:bg-darkblue hover:text-white">
-                Topic 1
+                + Add new session
               </div>
               <div className="p-2 text-midblue hover:bg-darkblue hover:text-white">
                 Topic 2

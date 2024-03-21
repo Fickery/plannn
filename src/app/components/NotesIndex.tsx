@@ -17,6 +17,9 @@ import {
 import ImageCont from "./ImageCont";
 import NoteCont from "./NoteCont";
 import AddBtn from "./ui/AddBtn";
+import { RootState } from "@/redux/store/store";
+import AddSession from "./ui/AddSession";
+import SessionDropdown from "./ui/SessionDropdown";
 
 type randomColorProps = {
   luminosity: "light" | "bright" | "dark" | "random" | undefined;
@@ -36,9 +39,9 @@ const generateUniqueId = () => {
 export default function NotesIndex() {
   const [title, setTitle] = useState("title");
   const [images, setImages] = useState([]);
-  const notes = useSelector((state) => state.notes.notes);
-  const dispatch = useDispatch();
 
+  const notes = useSelector((state: RootState) => state.notes.notes);
+  const dispatch = useDispatch();
   const param: randomColorProps = {
     luminosity: "light",
   };
@@ -61,9 +64,7 @@ export default function NotesIndex() {
       color: randomColor(param),
       subNotes: [],
     };
-
     dispatch(addNote(newNote));
-
     console.log(`successfully added note ${newNote.name}`);
   };
 
@@ -85,24 +86,18 @@ export default function NotesIndex() {
     setImages(imageList);
   };
 
-  const handleLogAllNotes = () => {
-    console.log("All notes:", notes);
-  };
-
   const handleTitleChangeInput = (e) => {
     setTitle(e.target.innerText);
   };
+
+  // const handleLogAllNotes = () => {
+  //   console.log("All notes:", notes);
+  // };
 
   useDragger("addBtn");
 
   return (
     <div className="main-container">
-      {/* <button
-        onClick={handleLogAllNotes}
-        className="mt-4 rounded-md bg-gray-200 p-2"
-      >
-        Log All Notes
-      </button> */}
       <ImageUploading
         multiple
         value={images}
@@ -134,4 +129,13 @@ export default function NotesIndex() {
       </ImageUploading>
     </div>
   );
+}
+
+{
+  /* <button
+        onClick={handleLogAllNotes}
+        className="mt-4 rounded-md bg-gray-200 p-2"
+      >
+        Log All Notes
+      </button> */
 }
