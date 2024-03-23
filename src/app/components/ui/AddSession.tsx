@@ -3,6 +3,7 @@ import { RootState } from "@/redux/store/store";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import SessionDropdown from "./SessionDropdown";
 
 export default function AddSession() {
   const [sessionName, setSessionName] = useState("");
@@ -30,20 +31,21 @@ export default function AddSession() {
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex items-center gap-2">
       <button
-        className="w-fit bg-darkblue p-3 text-xs text-white hover:bg-midblue"
+        className="text-md flex w-fit items-center bg-darkblue px-[0.40rem] py-[0.2rem] text-white hover:bg-midblue hover:text-darkblue"
         onClick={handleAddSession}
       >
-        add session
+        +
       </button>
       <input
-        className="text-sm"
+        className="text-xs"
         type="text"
         value={sessionName}
         onChange={(e) => setSessionName(e.target.value)}
-        placeholder="Enter session name"
+        placeholder="new session..."
       />
+      <SessionDropdown />
     </div>
   );
 }

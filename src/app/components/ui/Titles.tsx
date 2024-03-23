@@ -18,7 +18,7 @@ export default function Titles() {
   return (
     <>
       <AddSession />
-      <div className="center relative gap-1">
+      {/* <div className="center relative gap-1">
         <AutosizeInput
           className="flex flex-col items-center justify-center text-center text-sm font-semibold placeholder:font-normal focus:outline-none"
           name="title"
@@ -51,7 +51,7 @@ export default function Titles() {
             <></>
           )}
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

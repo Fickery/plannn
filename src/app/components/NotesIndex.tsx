@@ -1,5 +1,6 @@
 "use client";
 import useDragger from "@/hooks/useDragger";
+import { RootState } from "@/redux/store/store";
 import { UniqueIdentifier } from "@dnd-kit/core";
 import randomColor from "randomcolor";
 import { useState } from "react";
@@ -17,9 +18,6 @@ import {
 import ImageCont from "./ImageCont";
 import NoteCont from "./NoteCont";
 import AddBtn from "./ui/AddBtn";
-import { RootState } from "@/redux/store/store";
-import AddSession from "./ui/AddSession";
-import SessionDropdown from "./ui/SessionDropdown";
 
 type randomColorProps = {
   luminosity: "light" | "bright" | "dark" | "random" | undefined;
@@ -45,6 +43,20 @@ export default function NotesIndex() {
   const param: randomColorProps = {
     luminosity: "light",
   };
+
+  //session
+
+  const sessions = useSelector((state: RootState) => state.sessions.sessions);
+
+  const currentSessionId = useSelector(
+    (state: RootState) => state.sessions.currentSessionId,
+  );
+
+  const sessionNotes = notes.filter(
+    (note) => note.sessionId === currentSessionId,
+  );
+
+  //session
 
   const handleTitleChange = (e, noteId) => {
     const updatedTitle = e.target.value;
@@ -90,14 +102,20 @@ export default function NotesIndex() {
     setTitle(e.target.innerText);
   };
 
-  // const handleLogAllNotes = () => {
-  //   console.log("All notes:", notes);
-  // };
-
   useDragger("addBtn");
+
+  const handleLogAllSession = () => {
+    console.log("All Session:", sessions);
+  };
 
   return (
     <div className="main-container">
+      <button
+        onClick={handleLogAllSession}
+        className="mt-4 w-full rounded-md bg-gray-200 p-2"
+      >
+        Log All Session
+      </button>
       <ImageUploading
         multiple
         value={images}
@@ -130,6 +148,10 @@ export default function NotesIndex() {
     </div>
   );
 }
+
+// const handleLogAllNotes = () => {
+//   console.log("All notes:", notes);
+// };
 
 {
   /* <button

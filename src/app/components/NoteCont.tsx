@@ -1,6 +1,19 @@
 import Draggable from "react-draggable";
 import NoteDropdown from "./NoteDropdown";
 import SubNote from "./SubNote";
+import { NoteProps } from "@/redux/reducers/notesSlice";
+
+interface NoteContProps {
+  notes: NoteProps[];
+  handleDeleteNote: (id: string) => void;
+  handleDuplicate: (id: string) => void;
+  handleTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleAddSubNote: (id: string) => void;
+  handleSubNoteUpdate: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    subNoteId: string,
+  ) => void;
+}
 
 function NoteCont({
   notes,
@@ -9,7 +22,7 @@ function NoteCont({
   handleTitleChange,
   handleAddSubNote,
   handleSubNoteUpdate,
-}) {
+}: NoteContProps) {
   return (
     <div>
       {notes.map((note) => {

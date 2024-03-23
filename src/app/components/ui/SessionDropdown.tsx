@@ -13,7 +13,10 @@ const SessionDropdown = () => {
 
   return (
     <div>
-      <select onChange={(e) => handleChangeSession(e.target.value)}>
+      <select
+        className="w-fit"
+        onChange={(e) => handleChangeSession(e.target.value)}
+      >
         <option value="">Select a session</option>
         {sessions.map((session: Session) => (
           <option key={session.id} value={session.id}>

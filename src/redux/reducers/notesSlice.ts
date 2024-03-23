@@ -1,7 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
-type NoteProps = {
+type SessionProps = {
+  id: string;
+  name: string;
+  notes: NoteProps[];
+};
+
+export type NoteProps = {
   id: string;
   name: string;
   title: string;
