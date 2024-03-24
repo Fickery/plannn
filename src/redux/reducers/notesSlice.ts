@@ -1,15 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
-type SessionProps = {
-  id: string;
-  name: string;
-  notes: NoteProps[];
-};
-
 export type NoteProps = {
   id: string;
-  name: string;
+  name: number;
   title: string;
   color: string;
   subNotes?: SubNoteProps[];
@@ -40,7 +34,7 @@ const noteSlice = createSlice({
     addNote: (state, action: PayloadAction<NoteProps>) => {
       const payload = action.payload;
       const newNote: NoteProps = {
-        id: generateUniqueId(),
+        id: payload.id,
         name: payload.name,
         title: payload.title,
         color: payload.color,

@@ -78,6 +78,9 @@ export default function NotesIndex() {
     };
     dispatch(addNote(newNote));
     console.log(`successfully added note ${newNote.name}`);
+    dispatch(
+      addNoteToSession({ sessionId: currentSessionId, noteId: newNote.id }),
+    );
   };
 
   const handleAddSubNote = (noteId) => {

@@ -8,7 +8,7 @@ export interface Session {
 
 interface SessionState {
   sessions: Session[];
-  currentSessionId: string | null;
+  currentSessionId: string;
 }
 
 const initialState: SessionState = {
@@ -31,10 +31,25 @@ const sessionSlice = createSlice({
     setCurrentSession(state, action: PayloadAction<string>) {
       state.currentSessionId = action.payload;
     },
+    addNoteToSession(
+      state,
+      action: PayloadAction<{ sessionId: string; noteId: string }>,
+    ) {
+      const session = state.sessions.find(
+        (session) => session.id === action.payload.sessionId,
+      );
+      if (session) {
+        session.noteIds.push(action.payload.noteId);
+      }
+    },
   },
 });
 
-export const { addSession, deleteSession, setCurrentSession } =
-  sessionSlice.actions;
+export const {
+  addSession,
+  deleteSession,
+  setCurrentSession,
+  addNoteToSession,
+} = sessionSlice.actions;
 
 export default sessionSlice.reducer;
