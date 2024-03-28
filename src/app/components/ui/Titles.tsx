@@ -7,13 +7,13 @@ export default function Titles() {
   const [title, setTitle] = useState("");
   const [isActive, setIsActive] = useState(false);
 
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
+  // const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setTitle(e.target.value);
+  // };
 
-  const toggleDropdown = () => {
-    setIsActive(!isActive);
-  };
+  // const toggleDropdown = () => {
+  //   setIsActive(!isActive);
+  // };
 
   return (
     <>

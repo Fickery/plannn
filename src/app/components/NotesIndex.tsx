@@ -1,5 +1,5 @@
-"use client";
 import useDragger from "@/hooks/useDragger";
+import { addNoteToSession } from "@/redux/reducers/sessionSlice";
 import { RootState } from "@/redux/store/store";
 import { UniqueIdentifier } from "@dnd-kit/core";
 import randomColor from "randomcolor";
@@ -35,35 +35,35 @@ const generateUniqueId = () => {
 };
 
 export default function NotesIndex() {
-  const [title, setTitle] = useState("title");
   const [images, setImages] = useState([]);
 
+  const currentSessionId = useSelector(
+    (state: RootState) => state.sessions.currentSessionId,
+  );
   const notes = useSelector((state: RootState) => state.notes.notes);
+  const sessions = useSelector((state: RootState) => state.sessions.sessions);
+
   const dispatch = useDispatch();
   const param: randomColorProps = {
     luminosity: "light",
   };
 
-  //session
-
-  const sessions = useSelector((state: RootState) => state.sessions.sessions);
-
-  const currentSessionId = useSelector(
-    (state: RootState) => state.sessions.currentSessionId,
-  );
-
   const sessionNotes = notes.filter(
     (note) => note.sessionId === currentSessionId,
   );
 
-  //session
-
-  const handleTitleChange = (e, noteId) => {
+  const handleTitleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    noteId: string,
+  ) => {
     const updatedTitle = e.target.value;
     dispatch(updateNote({ id: noteId, title: updatedTitle }));
   };
 
-  const handleSubNoteUpdate = (e, subNoteId) => {
+  const handleSubNoteUpdate = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    subNoteId: string,
+  ) => {
     const updatedSubNote = e.target.value;
     dispatch(updateSubNoteText({ id: subNoteId, text: updatedSubNote }));
   };
@@ -74,6 +74,7 @@ export default function NotesIndex() {
       name: notes.length + 1,
       title: "",
       color: randomColor(param),
+      sessionId: currentSessionId,
       subNotes: [],
     };
     dispatch(addNote(newNote));
@@ -83,84 +84,77 @@ export default function NotesIndex() {
     );
   };
 
-  const handleAddSubNote = (noteId) => {
-    dispatch(addSubNote({ id: noteId }));
+  const handleAddSubNote = (noteId: string) => {
+    dispatch(
+      addSubNote({
+        id: noteId,
+        icon: "",
+        text: "",
+      }),
+    );
   };
 
-  const handleDuplicate = (noteId) => {
+  const handleDuplicate = (noteId: string) => {
     dispatch(duplicateNote(noteId));
   };
 
-  const handleDeleteNote = (id) => {
-    if (!confirm(`Are you sure you want to delete note ?`)) return;
-    dispatch(deleteNote(id));
-    console.log(`successfully deleted note ${id}`);
-  };
-
-  const handleAddImg = (imageList, addUpdateIndex) => {
+  const handleAddImg = (imageList: any, addUpdateIndex: any) => {
     setImages(imageList);
-  };
-
-  const handleTitleChangeInput = (e) => {
-    setTitle(e.target.innerText);
   };
 
   useDragger("addBtn");
 
-  const handleLogAllSession = () => {
-    console.log("All Session:", sessions);
-  };
+  // const handleLogAllSession = () => {
+  //   console.log("All Session:", sessions);
+  // };
 
   return (
     <div className="main-container">
-      <button
-        onClick={handleLogAllSession}
-        className="mt-4 w-full rounded-md bg-gray-200 p-2"
-      >
-        Log All Session
-      </button>
-      <ImageUploading
-        multiple
-        value={images}
-        onChange={handleAddImg}
-        dataURLKey="data_url"
-      >
-        {({ imageList, onImageUpload, onImageUpdate, onImageRemove }) => (
+      {currentSessionId ? (
+        <>
+          {/* <button
+            onClick={handleLogAllSession}
+            className="mt-4 w-full rounded-md bg-gray-200 p-2"
+          >
+            Log All Session
+          </button> */}
+          <ImageUploading
+            multiple
+            value={images}
+            onChange={handleAddImg}
+            dataURLKey="data_url"
+          >
+            {({ imageList, onImageUpload, onImageUpdate, onImageRemove }) => (
+              <div>
+                <AddBtn
+                  onImageUpload={onImageUpload}
+                  handleAddNote={handleAddNote}
+                />
+                <NoteCont
+                  notes={sessionNotes}
+                  handleDuplicate={handleDuplicate}
+                  handleTitleChange={handleTitleChange}
+                  handleAddSubNote={handleAddSubNote}
+                  handleSubNoteUpdate={handleSubNoteUpdate}
+                />
+                <ImageCont
+                  imageList={imageList}
+                  onImageRemove={onImageRemove}
+                  onImageUpdate={onImageUpdate}
+                />
+              </div>
+            )}
+          </ImageUploading>
+        </>
+      ) : (
+        <div className="flex h-full w-full items-center justify-center">
           <div>
-            <AddBtn
-              onImageUpload={onImageUpload}
-              handleAddNote={handleAddNote}
-            />
-
-            <NoteCont
-              notes={notes}
-              handleDeleteNote={handleDeleteNote}
-              handleDuplicate={handleDuplicate}
-              handleTitleChange={handleTitleChange}
-              handleAddSubNote={handleAddSubNote}
-              handleSubNoteUpdate={handleSubNoteUpdate}
-            />
-            <ImageCont
-              imageList={imageList}
-              onImageRemove={onImageRemove}
-              onImageUpdate={onImageUpdate}
-            />
+            <div className="w-fit cursor-default bg-slate-50 px-20 py-10 text-darkblue outline outline-1 outline-darkblue">
+              Please create a session
+            </div>
           </div>
-        )}
-      </ImageUploading>
+        </div>
+      )}
     </div>
   );
-}
-
-// const handleLogAllNotes = () => {
-//   console.log("All notes:", notes);
-// };
-
-{
-  /* <button
-        onClick={handleLogAllNotes}
-        className="mt-4 rounded-md bg-gray-200 p-2"
-      >
-        Log All Notes
-      </button> */
 }

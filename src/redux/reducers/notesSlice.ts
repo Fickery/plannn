@@ -6,6 +6,7 @@ export type NoteProps = {
   name: number;
   title: string;
   color: string;
+  sessionId: string;
   subNotes?: SubNoteProps[];
 };
 
@@ -38,6 +39,7 @@ const noteSlice = createSlice({
         name: payload.name,
         title: payload.title,
         color: payload.color,
+        sessionId: payload.sessionId,
       };
       state.notes.push(newNote);
     },

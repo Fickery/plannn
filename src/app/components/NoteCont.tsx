@@ -7,7 +7,7 @@ interface NoteContProps {
   notes: NoteProps[];
   handleDeleteNote: (id: string) => void;
   handleDuplicate: (id: string) => void;
-  handleTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleTitleChange: any;
   handleAddSubNote: (id: string) => void;
   handleSubNoteUpdate: (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -26,7 +26,7 @@ function NoteCont({
   return (
     <div>
       {notes.map((note) => {
-        const hexToRgba = (hex, opacity) => {
+        const hexToRgba = (hex: string, opacity: number) => {
           hex = hex.replace(/^#/, "");
           const bigint = parseInt(hex, 16);
           const r = (bigint >> 16) & 255;

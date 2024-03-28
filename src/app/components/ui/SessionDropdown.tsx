@@ -12,12 +12,16 @@ const SessionDropdown = () => {
   };
 
   return (
-    <div>
+    <div className="w-auto">
       <select
         className="w-fit"
         onChange={(e) => handleChangeSession(e.target.value)}
       >
-        <option value="">Select a session</option>
+        {sessions.length === 0 && (
+          <option value="" disabled>
+            No session created
+          </option>
+        )}
         {sessions.map((session: Session) => (
           <option key={session.id} value={session.id}>
             {session.name}
