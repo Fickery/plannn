@@ -222,3 +222,16 @@ main {
 .testBG {
   background-image: url("../../public/testBG.png");
 }
+
+.delete-icon:hover {
+  fill: red !important;
+}
+
+select {
+  /* Add your existing styles here */
+  color: blue; /* Set the color of the text */
+}
+
+select option[disabled] {
+  color: #999; /* Set the color of the disabled option */
+}

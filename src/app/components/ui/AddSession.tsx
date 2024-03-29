@@ -1,7 +1,4 @@
-import sessionSlice, {
-  addSession,
-  deleteSession,
-} from "@/redux/reducers/sessionSlice";
+import { addSession, deleteSession } from "@/redux/reducers/sessionSlice";
 import { RootState } from "@/redux/store/store";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,15 +35,15 @@ export default function AddSession() {
 
   return (
     <div className="flex items-center gap-2 outline outline-1">
-      <div className="flex gap-2 outline outline-1">
+      <div className="flex h-full gap-2">
         <button
-          className="text-md flex w-fit items-center border-0 border-r border-solid border-darkblue bg-white px-[0.35rem] text-darkblue hover:bg-midblue hover:text-darkblue"
+          className="text-md flex w-fit items-center border-0 border-r border-solid border-darkblue bg-darkblue px-[0.35rem] text-darkblue text-white hover:bg-midblue hover:text-darkblue"
           onClick={handleAddSession}
         >
           +
         </button>
         <input
-          className="mb-[0.15rem] pt-1 text-xs"
+          className="mb-[0.15rem] border-0 border-r border-solid border-darkblue pt-1 text-xs"
           type="text"
           autoCorrect="off"
           value={sessionName}
@@ -54,13 +51,7 @@ export default function AddSession() {
           placeholder="add session..."
         />
       </div>
-      <SessionDropdown />
-      <p
-        className="cursor-pointer text-red-500 outline outline-1 hover:text-midblue"
-        onClick={handleDeleteSession}
-      >
-        D
-      </p>
+      <SessionDropdown handleDeleteSession={handleDeleteSession} />
     </div>
   );
 }
