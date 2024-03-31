@@ -36,12 +36,12 @@ export default function AddSession() {
   //   localStorage.setItem("sessions", sessionsJSON);
   // };
 
-  const handleAddSession = (noteId: string) => {
+  const handleAddSession = (sessionId: string) => {
     if (sessionName.trim() !== "") {
       dispatch(
         addSession({ id: generateUniqueId(), name: sessionName, noteIds: [] }),
       );
-      router.push(`/notes/${encodeURIComponent(noteId)}`);
+      router.push(`/notes/${sessionId}`);
       setSessionName("");
       setIsTitleInput(false);
     } else {
