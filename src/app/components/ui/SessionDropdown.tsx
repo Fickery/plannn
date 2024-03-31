@@ -1,15 +1,18 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/redux/store/store";
 import { Session, setCurrentSession } from "@/redux/reducers/sessionSlice";
+import { RootState } from "@/redux/store/store";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "../DeleteIcon";
 
 const SessionDropdown = ({ handleDeleteSession }) => {
   const sessions = useSelector((state: RootState) => state.sessions.sessions);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleChangeSession = (sessionId: string) => {
     dispatch(setCurrentSession(sessionId));
+    router.push(`/notes/${sessionId}`); // Update the URL when session changes
+    console.log(`current session id: ${sessionId}`);
   };
 
   return (

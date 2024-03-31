@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import Menu from "./ui/Menu";
 
 type NoteDropdownProps = {
-  onDelete: () => void;
   onDuplicate: () => void;
 };
 
-function NoteDropdown({ onDelete, onDuplicate }: NoteDropdownProps) {
+function NoteDropdown({ onDuplicate }: NoteDropdownProps) {
   const [isActive, setIsActive] = useState<boolean>(false);
 
   const toggleDropdown = () => {
@@ -20,7 +19,6 @@ function NoteDropdown({ onDelete, onDuplicate }: NoteDropdownProps) {
   };
 
   const handleDelete = () => {
-    onDelete();
     toggleDropdown();
   };
 

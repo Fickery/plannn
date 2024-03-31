@@ -33,7 +33,7 @@ const AddBtn = ({ onImageUpload, handleAddNote }: AddBtnProps) => {
             </button>
           </div>
         </div>
-        <div className="shadow-boxshadowfilter flex h-[48px] w-full items-center justify-center bg-white text-blue-700">
+        <div className="flex h-[48px] w-full items-center justify-center bg-white text-blue-700 shadow-boxshadowfilter">
           <button
             className="mx-auto flex justify-center text-sm opacity-30 hover:opacity-100"
             onClick={handleAddImg}

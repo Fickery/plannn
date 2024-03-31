@@ -10,7 +10,6 @@ import { v4 as uuidv4 } from "uuid";
 import {
   addNote,
   addSubNote,
-  deleteNote,
   duplicateNote,
   updateNote,
   updateSubNoteText,
@@ -18,6 +17,7 @@ import {
 import ImageCont from "./ImageCont";
 import NoteCont from "./NoteCont";
 import AddBtn from "./ui/AddBtn";
+import AddSession from "./ui/AddSession";
 
 type randomColorProps = {
   luminosity: "light" | "bright" | "dark" | "random" | undefined;
@@ -104,20 +104,21 @@ export default function NotesIndex() {
 
   useDragger("addBtn");
 
-  // const handleLogAllSession = () => {
-  //   console.log("All Session:", sessions);
-  // };
+  const handleLogAllSession = () => {
+    console.log("All Session:", sessions);
+  };
 
   return (
     <div className="main-container">
+      {/* <AddSession /> */}
       {currentSessionId ? (
         <>
-          {/* <button
+          <button
             onClick={handleLogAllSession}
             className="mt-4 w-full rounded-md bg-gray-200 p-2"
           >
             Log All Session
-          </button> */}
+          </button>
           <ImageUploading
             multiple
             value={images}
@@ -136,6 +137,7 @@ export default function NotesIndex() {
                   handleTitleChange={handleTitleChange}
                   handleAddSubNote={handleAddSubNote}
                   handleSubNoteUpdate={handleSubNoteUpdate}
+                  // handleRedirect={handleRedirect} // Pass handleRedirect function as a prop to NoteCont
                 />
                 <ImageCont
                   imageList={imageList}

@@ -46,8 +46,9 @@ function Navbar() {
               alt="Plannn Logo"
               width="0"
               height="0"
-              className="h-auto w-fit"
+              className="h-auto w-fit cursor-pointer"
               priority
+              onClick={() => router.push("/")}
             />
             <Titles />
             <div

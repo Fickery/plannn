@@ -5,7 +5,6 @@ import { NoteProps } from "@/redux/reducers/notesSlice";
 
 interface NoteContProps {
   notes: NoteProps[];
-  handleDeleteNote: (id: string) => void;
   handleDuplicate: (id: string) => void;
   handleTitleChange: any;
   handleAddSubNote: (id: string) => void;
@@ -13,30 +12,30 @@ interface NoteContProps {
     e: React.ChangeEvent<HTMLInputElement>,
     subNoteId: string,
   ) => void;
+  // handleRedirect: (noteId: string) => void; // Add handleRedirect to props
 }
 
 function NoteCont({
   notes,
-  handleDeleteNote,
   handleDuplicate,
   handleTitleChange,
   handleAddSubNote,
   handleSubNoteUpdate,
+  // handleRedirect, // Destructure handleRedirect from props
 }: NoteContProps) {
+  const hexToRgba = (hex: string, opacity: number) => {
+    hex = hex.replace(/^#/, "");
+    const bigint = parseInt(hex, 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+  };
+  const adjustedOpacity = 0.35;
+
   return (
     <div>
       {notes.map((note) => {
-        const hexToRgba = (hex: string, opacity: number) => {
-          hex = hex.replace(/^#/, "");
-          const bigint = parseInt(hex, 16);
-          const r = (bigint >> 16) & 255;
-          const g = (bigint >> 8) & 255;
-          const b = bigint & 255;
-          return `rgba(${r}, ${g}, ${b}, ${opacity})`;
-        };
-
-        const adjustedOpacity = 0.35;
-
         const backgroundColor = hexToRgba(note.color, adjustedOpacity);
 
         return (
@@ -51,13 +50,11 @@ function NoteCont({
               style={{
                 backgroundColor,
               }}
+              // onClick={() => handleRedirect(note.id)} // Add onClick event to handleRedirect
             >
               <div>
                 <div className="flex w-full justify-end">
-                  <NoteDropdown
-                    onDelete={() => handleDeleteNote(note.id)}
-                    onDuplicate={() => handleDuplicate(note.id)}
-                  />
+                  <NoteDropdown onDuplicate={() => handleDuplicate(note.id)} />
                 </div>
                 <input
                   placeholder="New Note"
