@@ -12,7 +12,6 @@ interface NoteContProps {
     e: React.ChangeEvent<HTMLInputElement>,
     subNoteId: string,
   ) => void;
-  // handleRedirect: (noteId: string) => void; // Add handleRedirect to props
 }
 
 function NoteCont({
@@ -21,7 +20,6 @@ function NoteCont({
   handleTitleChange,
   handleAddSubNote,
   handleSubNoteUpdate,
-  // handleRedirect, // Destructure handleRedirect from props
 }: NoteContProps) {
   const hexToRgba = (hex: string, opacity: number) => {
     hex = hex.replace(/^#/, "");
@@ -33,15 +31,22 @@ function NoteCont({
   };
   const adjustedOpacity = 0.35;
 
+  const randPos = () => {
+    const randX = Math.random() * window.innerWidth - 150;
+    const randY = Math.random() * window.innerHeight - 100;
+    return { x: randX, y: randY };
+  };
+
   return (
     <div>
       {notes.map((note) => {
         const backgroundColor = hexToRgba(note.color, adjustedOpacity);
+        const initialPosition = randPos();
 
         return (
           <Draggable
             key={note.id}
-            defaultPosition={{ x: 750, y: 250 }}
+            defaultPosition={initialPosition}
             cancel=".no-drag"
           >
             <div
@@ -50,7 +55,6 @@ function NoteCont({
               style={{
                 backgroundColor,
               }}
-              // onClick={() => handleRedirect(note.id)} // Add onClick event to handleRedirect
             >
               <div>
                 <div className="flex w-full justify-end">

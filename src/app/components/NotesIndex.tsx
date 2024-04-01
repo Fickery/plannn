@@ -17,7 +17,6 @@ import {
 import ImageCont from "./ImageCont";
 import NoteCont from "./NoteCont";
 import AddBtn from "./ui/AddBtn";
-import AddSession from "./ui/AddSession";
 
 type randomColorProps = {
   luminosity: "light" | "bright" | "dark" | "random" | undefined;
