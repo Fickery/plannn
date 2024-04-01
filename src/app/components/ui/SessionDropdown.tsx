@@ -4,14 +4,25 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "../DeleteIcon";
 
-const SessionDropdown = ({ handleDeleteSession }) => {
+interface SessionDropdownProps {
+  currSessionId: string;
+  handleDeleteSession: () => void;
+  handleSessionChange: (sessionId: string) => void;
+}
+
+const SessionDropdown = ({
+  currSessionId,
+  handleDeleteSession,
+  handleSessionChange,
+}: SessionDropdownProps) => {
   const sessions = useSelector((state: RootState) => state.sessions.sessions);
   const dispatch = useDispatch();
   const router = useRouter();
 
   const handleChangeSession = (sessionId: string) => {
     dispatch(setCurrentSession(sessionId));
-    router.push(`/notes/${sessionId}`); // Update the URL when session changes
+    handleSessionChange(sessionId);
+    router.push(`/notes/${sessionId}`);
     console.log(`current session id: ${sessionId}`);
   };
 
@@ -25,6 +36,7 @@ const SessionDropdown = ({ handleDeleteSession }) => {
         <select
           className="w-fit cursor-pointer hover:text-midblue"
           onChange={(e) => handleChangeSession(e.target.value)}
+          value={currSessionId}
         >
           {sessions.map((session: Session) => (
             <option key={session.id} value={session.id}>

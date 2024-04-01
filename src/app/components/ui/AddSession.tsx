@@ -1,24 +1,29 @@
-import { addSession, deleteSession } from "@/redux/reducers/sessionSlice";
+import {
+  addSession,
+  deleteSession,
+  setCurrentSession,
+} from "@/redux/reducers/sessionSlice";
 import { RootState } from "@/redux/store/store";
-import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
 import SessionDropdown from "./SessionDropdown";
-import { useRouter } from "next/navigation"; // Import useRouter hook from Next.js
 
 export default function AddSession() {
+  const [sessionName, setSessionName] = useState("");
+  const [isTitleInput, setIsTitleInput] = useState(false);
+  const [currSessionId, setCurrSessionId] = useState("");
   const dispatch = useDispatch();
   const sessions = useSelector((state: RootState) => state.sessions.sessions);
   const currentSessionId = useSelector(
     (state: RootState) => state.sessions.currentSessionId,
   );
-  const [sessionName, setSessionName] = useState("");
-  const [isTitleInput, setIsTitleInput] = useState(false);
+
   const router = useRouter();
 
-  const generateUniqueId = () => {
-    return uuidv4();
-  };
+  useEffect(() => {
+    setCurrSessionId(currentSessionId);
+  }, [currSessionId]);
 
   useEffect(() => {
     const savedSessions = localStorage.getItem("sessions");
@@ -27,21 +32,12 @@ export default function AddSession() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   saveSessionsToLocalStorage();
-  // }, [sessions]); // Only run when sessions change
-
-  // const saveSessionsToLocalStorage = () => {
-  //   const sessionsJSON = JSON.stringify(sessions);
-  //   localStorage.setItem("sessions", sessionsJSON);
-  // };
-
   const handleAddSession = (sessionId: string) => {
     if (sessionName.trim() !== "") {
-      dispatch(
-        addSession({ id: generateUniqueId(), name: sessionName, noteIds: [] }),
-      );
+      dispatch(addSession({ id: sessionId, name: sessionName, noteIds: [] }));
+      dispatch(setCurrentSession(sessionId));
       router.push(`/notes/${sessionId}`);
+      setCurrSessionId(sessionId);
       setSessionName("");
       setIsTitleInput(false);
     } else {
@@ -53,6 +49,10 @@ export default function AddSession() {
     if (window.confirm(`Are you sure you want to delete this session?`))
       dispatch(deleteSession(currentSessionId));
     console.log(`successfully deleted note ${currentSessionId}`);
+  };
+
+  const handleSessionChange = (sessionId: string) => {
+    setCurrSessionId(sessionId);
   };
 
   const test = () => {
@@ -89,7 +89,20 @@ export default function AddSession() {
           placeholder="add session..."
         />
       </div>
-      <SessionDropdown handleDeleteSession={handleDeleteSession} />
+      <SessionDropdown
+        currSessionId={currSessionId}
+        handleSessionChange={handleSessionChange}
+        handleDeleteSession={handleDeleteSession}
+      />
     </div>
   );
 }
+
+// useEffect(() => {
+//   saveSessionsToLocalStorage();
+// }, [sessions]); // Only run when sessions change
+
+// const saveSessionsToLocalStorage = () => {
+//   const sessionsJSON = JSON.stringify(sessions);
+//   localStorage.setItem("sessions", sessionsJSON);
+// };
