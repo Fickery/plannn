@@ -104,21 +104,11 @@ export default function NotesIndex() {
 
   useDragger("addBtn");
 
-  const handleLogAllSession = () => {
-    console.log("All Session:", sessions);
-  };
-
   return (
     <div className="main-container">
       {/* <AddSession /> */}
       {currentSessionId ? (
         <>
-          <button
-            onClick={handleLogAllSession}
-            className="mt-4 w-full rounded-md bg-gray-200 p-2"
-          >
-            Log All Session
-          </button>
           <ImageUploading
             multiple
             value={images}

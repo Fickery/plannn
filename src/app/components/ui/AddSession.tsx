@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SessionDropdown from "./SessionDropdown";
+import { v4 as uuidv4 } from "uuid";
 
 export default function AddSession() {
   const [sessionName, setSessionName] = useState("");
@@ -19,6 +20,9 @@ export default function AddSession() {
     (state: RootState) => state.sessions.currentSessionId,
   );
 
+  const UniqueId = () => {
+    return uuidv4();
+  };
   const router = useRouter();
 
   useEffect(() => {
@@ -32,12 +36,15 @@ export default function AddSession() {
     }
   }, []);
 
-  const handleAddSession = (sessionId: string) => {
+  const handleAddSession = () => {
     if (sessionName.trim() !== "") {
-      dispatch(addSession({ id: sessionId, name: sessionName, noteIds: [] }));
-      dispatch(setCurrentSession(sessionId));
-      router.push(`/notes/${sessionId}`);
-      setCurrSessionId(sessionId);
+      const newSessionId = UniqueId();
+      dispatch(
+        addSession({ id: newSessionId, name: sessionName, noteIds: [] }),
+      );
+      dispatch(setCurrentSession(newSessionId));
+      router.push(`/notes/${newSessionId}`);
+      setCurrSessionId(newSessionId);
       setSessionName("");
       setIsTitleInput(false);
     } else {
@@ -55,7 +62,7 @@ export default function AddSession() {
     setCurrSessionId(sessionId);
   };
 
-  const test = () => {
+  const getSession = () => {
     localStorage.getItem("sessions");
     console.log("all saved sessions", sessions);
   };
@@ -67,8 +74,8 @@ export default function AddSession() {
 
   return (
     <div className="flex items-center gap-2 outline outline-1">
-      <button className="p-3 text-xs" onClick={test}>
-        test
+      <button className="p-3 text-xs" onClick={getSession}>
+        getSession
       </button>
       <button className="p-3 text-xs" onClick={handleClearAllSession}>
         clear local saved
