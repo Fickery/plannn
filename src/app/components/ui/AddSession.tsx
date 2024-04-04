@@ -74,16 +74,16 @@ export default function AddSession() {
 
   return (
     <div className="flex items-center gap-2 outline outline-1">
-      <button className="p-3 text-xs" onClick={getSession}>
+      {/* <button className="p-3 text-xs" onClick={getSession}>
         getSession
       </button>
       <button className="p-3 text-xs" onClick={handleClearAllSession}>
         clear local saved
-      </button>
+      </button> */}
       <div className="flex h-full gap-2">
         <button
           className="text-md flex w-fit items-center border-0 border-r border-solid border-darkblue bg-darkblue px-[0.35rem] text-darkblue text-white hover:bg-midblue hover:text-darkblue"
-          onClick={() => handleAddSession(sessionName)}
+          onClick={() => handleAddSession()}
         >
           +
         </button>

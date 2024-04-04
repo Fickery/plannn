@@ -108,6 +108,17 @@ const noteSlice = createSlice({
       );
       state.notes = updatedSubNotes;
     },
+    // updateNotePosition: (
+    //   state,
+    //   action: PayloadAction<{ id: string; x: number; y: number }>,
+    // ) => {
+    //   const { id, x, y } = action.payload;
+    //   const note = state.notes.find((note) => note.id === id);
+    //   if (note) {
+    //     note.x = x;
+    //     note.y = y;
+    //   }
+    // },
   },
 });
 
@@ -118,6 +129,7 @@ export const {
   updateNote,
   addSubNote,
   updateSubNoteText,
+  // updateNotePosition,
 } = noteSlice.actions;
 
 export default noteSlice.reducer;

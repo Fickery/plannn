@@ -101,11 +101,23 @@ export default function NotesIndex() {
     setImages(imageList);
   };
 
+  const seePositionOfNotes = () => {
+    notes.forEach((note) => {
+      const noteElement = document.getElementById(`note-${note.id}`);
+      if (noteElement) {
+        const rect = noteElement.getBoundingClientRect();
+        console.log(`Note: ${note.title} x: ${rect.x} y: ${rect.y}`);
+      }
+    });
+  };
+
   useDragger("addBtn");
 
   return (
     <div className="main-container">
-      {/* <AddSession /> */}
+      <button className="bg-slate-200 p-3" onClick={seePositionOfNotes}>
+        see all note position
+      </button>
       {currentSessionId ? (
         <>
           <ImageUploading
@@ -126,7 +138,6 @@ export default function NotesIndex() {
                   handleTitleChange={handleTitleChange}
                   handleAddSubNote={handleAddSubNote}
                   handleSubNoteUpdate={handleSubNoteUpdate}
-                  // handleRedirect={handleRedirect} // Pass handleRedirect function as a prop to NoteCont
                 />
                 <ImageCont
                   imageList={imageList}
@@ -141,7 +152,7 @@ export default function NotesIndex() {
         <div className="flex h-full w-full items-center justify-center">
           <div>
             <div className="w-fit cursor-default bg-slate-50 px-20 py-10 text-darkblue outline outline-1 outline-darkblue">
-              Please create a session
+              <p className="animate-bounce">Please create a session</p>
             </div>
           </div>
         </div>

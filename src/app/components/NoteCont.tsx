@@ -2,6 +2,8 @@ import Draggable from "react-draggable";
 import NoteDropdown from "./NoteDropdown";
 import SubNote from "./SubNote";
 import { NoteProps } from "@/redux/reducers/notesSlice";
+import { useEffect, useState } from "react";
+import useDragger from "@/hooks/useDragger";
 
 interface NoteContProps {
   notes: NoteProps[];
@@ -21,6 +23,9 @@ function NoteCont({
   handleAddSubNote,
   handleSubNoteUpdate,
 }: NoteContProps) {
+  const [positions, setPositions] = useState<{
+    [key: string]: { x: number; y: number };
+  }>({});
   const hexToRgba = (hex: string, opacity: number) => {
     hex = hex.replace(/^#/, "");
     const bigint = parseInt(hex, 16);
@@ -37,16 +42,42 @@ function NoteCont({
     return { x: randX, y: randY };
   };
 
+  const handleDrag = (e, position: { x: number; y: number }) => {
+    const noteId = e.target.id;
+    const newPosition = { x: position.x, y: position.y };
+    setPositions((prevPositions) => ({
+      ...prevPositions,
+      [noteId]: newPosition,
+    }));
+    localStorage.setItem(
+      "notePositions",
+      JSON.stringify({
+        ...positions,
+        [noteId]: newPosition,
+      }),
+    );
+  };
+
+  useEffect(() => {
+    const savedPositions = JSON.parse(
+      localStorage.getItem("notePositions") || "{}",
+    );
+    setPositions(savedPositions);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("notePositions", JSON.stringify(positions));
+  }, [positions]);
+
   return (
     <div>
       {notes.map((note) => {
         const backgroundColor = hexToRgba(note.color, adjustedOpacity);
-        const initialPosition = randPos();
 
         return (
           <Draggable
             key={note.id}
-            defaultPosition={initialPosition}
+            onStop={(e, data) => handleDrag(e, { x: data.x, y: data.y })}
             cancel=".no-drag"
           >
             <div
@@ -56,6 +87,12 @@ function NoteCont({
                 backgroundColor,
               }}
             >
+              {/* <button
+                onClick={seePositionOfNotes}
+                className="bg-slate-500 text-sm"
+              >
+                see position
+              </button> */}
               <div>
                 <div className="flex w-full justify-end">
                   <NoteDropdown onDuplicate={() => handleDuplicate(note.id)} />

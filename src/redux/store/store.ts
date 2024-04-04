@@ -10,7 +10,6 @@ const store = configureStore({
 });
 
 export default store;
-export type RootState = ReturnType<typeof store.getState>;
 
 // import { combineReducers, createStore } from "redux";
 // import notesReducer from "../reducers/notesSlice";

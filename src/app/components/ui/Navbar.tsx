@@ -1,13 +1,13 @@
 "use client";
 import useUser from "@/app/auth/hook/useUser";
+import store from "@/redux/store/store";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import supabaseBrowser from "../../../../lib/supabase/browser";
-import Titles from "./Titles";
 import { Provider } from "react-redux";
-import store from "@/redux/store/store";
+import supabaseBrowser from "../../../../lib/supabase/browser";
+import AddSession from "./AddSession";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +40,7 @@ function Navbar() {
     <>
       <Provider store={store}>
         {data?.id ? (
-          <div className="relative flex h-[5vh] w-full justify-between bg-white p-2 text-darkblue">
+          <div className="relative flex h-[5vh] w-full justify-between p-2 text-darkblue">
             <Image
               src="/PlannnLogo.svg"
               alt="Plannn Logo"
@@ -50,7 +50,7 @@ function Navbar() {
               priority
               onClick={() => router.push("/")}
             />
-            <Titles />
+            <AddSession />
             <div
               className="relative flex items-center justify-center gap-2"
               onClick={() => setIsOpen(!isOpen)}
