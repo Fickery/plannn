@@ -1,23 +1,31 @@
 import { Session, setCurrentSession } from "@/redux/reducers/sessionSlice";
 import { RootState } from "@/redux/store/store";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "../DeleteIcon";
 
 interface SessionDropdownProps {
-  currSessionId: string;
+  currentSessionId: string;
   handleDeleteSession: () => void;
   handleSessionChange: (sessionId: string) => void;
 }
 
 const SessionDropdown = ({
-  currSessionId,
+  currentSessionId,
   handleDeleteSession,
   handleSessionChange,
 }: SessionDropdownProps) => {
+  const [currSessionId, setCurrSessionId] = useState<string | null>(null);
+
   const sessions = useSelector((state: RootState) => state.sessions.sessions);
+
   const dispatch = useDispatch();
   const router = useRouter();
+
+  useEffect(() => {
+    setCurrSessionId(currentSessionId);
+  }, [currentSessionId]);
 
   const handleChangeSession = (sessionId: string) => {
     dispatch(setCurrentSession(sessionId));
@@ -36,7 +44,7 @@ const SessionDropdown = ({
         <select
           className="w-fit cursor-pointer hover:text-midblue"
           onChange={(e) => handleChangeSession(e.target.value)}
-          value={currSessionId}
+          value={currSessionId || ""}
         >
           {sessions.map((session: Session) => (
             <option key={session.id} value={session.id}>

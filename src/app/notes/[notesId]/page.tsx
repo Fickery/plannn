@@ -1,10 +1,13 @@
 "use client";
 import { Provider, useSelector } from "react-redux"; // Importing Provider and useSelector from react-redux
-import { RootState } from "@/redux/store/store";
 import { useParams } from "next/navigation";
 import React from "react";
 import store from "@/redux/store/store"; // Importing your Redux store
 import NotesIndex from "@/app/components/NotesIndex";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+
+let persistor = persistStore(store);
 
 const NotePage = () => {
   const { noteId } = useParams();
@@ -28,7 +31,9 @@ const NotePage = () => {
 
 const NotePageWithProvider = () => (
   <Provider store={store}>
-    <NotePage />
+    <PersistGate persistor={persistor}>
+      <NotePage />
+    </PersistGate>
   </Provider>
 );
 
