@@ -1,10 +1,6 @@
 import useDragger from "@/hooks/useDragger";
+import { AddBtnProps } from "@/utils/types";
 import { v4 as uuidv4 } from "uuid";
-
-type AddBtnProps = {
-  onImageUpload: (id: string) => void;
-  handleAddNote: () => void;
-};
 
 const generateUniqueId = () => {
   return uuidv4();

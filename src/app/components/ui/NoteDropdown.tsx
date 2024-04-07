@@ -1,9 +1,6 @@
-import React, { useState } from "react";
-import Menu from "./ui/Menu";
-
-type NoteDropdownProps = {
-  onDuplicate: () => void;
-};
+import { NoteDropdownProps } from "@/utils/types";
+import { useState } from "react";
+import Menu from "./Menu";
 
 function NoteDropdown({ onDuplicate }: NoteDropdownProps) {
   const [isActive, setIsActive] = useState<boolean>(false);

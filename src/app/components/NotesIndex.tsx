@@ -1,7 +1,7 @@
 import useDragger from "@/hooks/useDragger";
 import { addNoteToSession } from "@/redux/reducers/sessionSlice";
 import { RootState } from "@/redux/store/store";
-import { UniqueIdentifier } from "@dnd-kit/core";
+import { randomColorProps } from "@/utils/types";
 import randomColor from "randomcolor";
 import { useState } from "react";
 import ImageUploading from "react-images-uploading";
@@ -18,17 +18,6 @@ import ImageCont from "./ImageCont";
 import NoteCont from "./NoteCont";
 import AddBtn from "./ui/AddBtn";
 
-type randomColorProps = {
-  luminosity: "light" | "bright" | "dark" | "random" | undefined;
-};
-
-export type NoteProp = {
-  id: UniqueIdentifier;
-  title: string;
-  color: string;
-  placeholder: string;
-};
-
 const generateUniqueId = () => {
   return uuidv4();
 };
@@ -36,20 +25,18 @@ const generateUniqueId = () => {
 export default function NotesIndex() {
   const [images, setImages] = useState([]);
 
+  const notes = useSelector((state: RootState) => state.notes.notes);
   const currentSessionId = useSelector(
     (state: RootState) => state.sessions.currentSessionId,
   );
-  const notes = useSelector((state: RootState) => state.notes.notes);
-  const sessions = useSelector((state: RootState) => state.sessions.sessions);
+  const sessionNotes = notes.filter(
+    (note) => note.sessionId === currentSessionId,
+  );
 
   const dispatch = useDispatch();
   const param: randomColorProps = {
     luminosity: "light",
   };
-
-  const sessionNotes = notes.filter(
-    (note) => note.sessionId === currentSessionId,
-  );
 
   const handleTitleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -97,7 +84,7 @@ export default function NotesIndex() {
     dispatch(duplicateNote(noteId));
   };
 
-  const handleAddImg = (imageList: any, addUpdateIndex: any) => {
+  const handleAddImg = (imageList: any) => {
     setImages(imageList);
   };
 

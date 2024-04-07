@@ -1,4 +1,4 @@
-import IconDropDown from "./IconDropDown";
+import IconDropDown from "./ui/IconDropDown";
 
 function SubNote({ notes, handleSubNoteUpdate }) {
   return (

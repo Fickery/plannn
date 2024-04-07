@@ -1,11 +1,6 @@
-import React, { useState } from "react";
-import MenuArrowDown from "./ui/MenuArrowDown";
-
-type ImageDropdownArrowProps = {
-  onImageUpdate: (index: number) => void;
-  onImageRemove: (index: number) => void;
-  index: number;
-};
+import { ImageDropdownArrowProps } from "@/utils/types";
+import { useState } from "react";
+import MenuArrowDown from "./MenuArrowDown";
 
 function ImageDropdownArrow({
   onImageUpdate,
@@ -29,7 +24,7 @@ function ImageDropdownArrow({
   };
 
   return (
-    <div className="shadow-boxshadow opacity-70">
+    <div className="opacity-70 shadow-boxshadow">
       <div
         style={{ display: isActive ? "flex" : "none" }}
         className="bottom-0 flex w-full justify-around bg-inherit text-xs text-darkblue"

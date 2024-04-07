@@ -1,6 +1,6 @@
 import React from "react";
 import Draggable from "react-draggable";
-import ImageDropdownArrow from "./ImageDropdownArrow";
+import ImageDropdownArrow from "./ui/ImageDropdownArrow";
 
 function ImageCont({ imageList, onImageRemove, onImageUpdate }) {
   return (

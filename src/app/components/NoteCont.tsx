@@ -1,20 +1,8 @@
-import Draggable from "react-draggable";
-import NoteDropdown from "./NoteDropdown";
-import SubNote from "./SubNote";
-import { NoteProps } from "@/redux/reducers/notesSlice";
+import { NoteContProps } from "@/utils/types";
 import { useEffect, useState } from "react";
-import useDragger from "@/hooks/useDragger";
-
-interface NoteContProps {
-  notes: NoteProps[];
-  handleDuplicate: (id: string) => void;
-  handleTitleChange: any;
-  handleAddSubNote: (id: string) => void;
-  handleSubNoteUpdate: (
-    e: React.ChangeEvent<HTMLInputElement>,
-    subNoteId: string,
-  ) => void;
-}
+import Draggable from "react-draggable";
+import NoteDropdown from "./ui/NoteDropdown";
+import SubNote from "./SubNote";
 
 function NoteCont({
   notes,
@@ -36,11 +24,11 @@ function NoteCont({
   };
   const adjustedOpacity = 0.35;
 
-  const randPos = () => {
-    const randX = Math.random() * window.innerWidth - 150;
-    const randY = Math.random() * window.innerHeight - 100;
-    return { x: randX, y: randY };
-  };
+  // const randPos = () => {
+  //   const randX = Math.random() * window.innerWidth - 150;
+  //   const randY = Math.random() * window.innerHeight - 100;
+  //   return { x: randX, y: randY };
+  // };
 
   const handleDrag = (e, position: { x: number; y: number }) => {
     const noteId = e.target.id;

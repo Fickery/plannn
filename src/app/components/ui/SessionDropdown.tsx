@@ -3,13 +3,8 @@ import { RootState } from "@/redux/store/store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import DeleteIcon from "../DeleteIcon";
-
-interface SessionDropdownProps {
-  currentSessionId: string;
-  handleDeleteSession: () => void;
-  handleSessionChange: (sessionId: string) => void;
-}
+import DeleteIcon from "./DeleteIcon";
+import { SessionDropdownProps } from "@/utils/types";
 
 const SessionDropdown = ({
   currentSessionId,
