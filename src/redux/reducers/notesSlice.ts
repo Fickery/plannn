@@ -1,24 +1,6 @@
+import { NotesState, NoteProps, SubNoteProps } from "@/utils/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-
-export type NoteProps = {
-  id: string;
-  name: number;
-  title: string;
-  color: string;
-  sessionId: string;
-  subNotes?: SubNoteProps[];
-};
-
-type SubNoteProps = {
-  id: string;
-  icon: string;
-  text: string;
-};
-
-type NotesState = {
-  notes: NoteProps[];
-};
 
 const generateUniqueId = () => {
   return uuidv4();
@@ -43,7 +25,6 @@ const noteSlice = createSlice({
       };
       state.notes.push(newNote);
     },
-
     duplicateNote: (state, action: PayloadAction<string>) => {
       const noteToDuplicate = state.notes.find(
         (note) => note.id === action.payload,

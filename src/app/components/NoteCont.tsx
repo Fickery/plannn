@@ -6,6 +6,7 @@ import SubNote from "./SubNote";
 
 function NoteCont({
   notes,
+  handleDelete,
   handleDuplicate,
   handleTitleChange,
   handleAddSubNote,
@@ -75,15 +76,12 @@ function NoteCont({
                 backgroundColor,
               }}
             >
-              {/* <button
-                onClick={seePositionOfNotes}
-                className="bg-slate-500 text-sm"
-              >
-                see position
-              </button> */}
               <div>
                 <div className="flex w-full justify-end">
-                  <NoteDropdown onDuplicate={() => handleDuplicate(note.id)} />
+                  <NoteDropdown
+                    onDelete={() => handleDelete(note.id)}
+                    onDuplicate={() => handleDuplicate(note.id)}
+                  />
                 </div>
                 <input
                   placeholder="New Note"

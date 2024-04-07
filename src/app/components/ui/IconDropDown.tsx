@@ -1,21 +1,21 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import addIcon from "../../../public/icons/addIcon.svg";
-import buildingIco from "../../../public/icons/buildings.svg";
-import cableCar from "../../../public/icons/cableCar.svg";
-import car from "../../../public/icons/car.svg";
-import card from "../../../public/icons/card.svg";
-import cycle from "../../../public/icons/cycle.svg";
-import drink from "../../../public/icons/drink.svg";
-import flight from "../../../public/icons/flight.svg";
-import food from "../../../public/icons/food.svg";
-import location from "../../../public/icons/location.svg";
-import luggage from "../../../public/icons/luggage.svg";
-import mountain from "../../../public/icons/mountain.svg";
-import noIcon from "../../../public/icons/noIcon.svg";
-import passport from "../../../public/icons/passport.svg";
-import ship from "../../../public/icons/ship.svg";
-import train from "../../../public/icons/train.svg";
+import addIcon from "../../../../public/icons/addIcon.svg";
+import buildingIco from "../../../../public/icons/buildings.svg";
+import cableCar from "../../../../public/icons/cableCar.svg";
+import car from "../../../../public/icons/car.svg";
+import card from "../../../../public/icons/card.svg";
+import cycle from "../../../../public/icons/cycle.svg";
+import drink from "../../../../public/icons/drink.svg";
+import flight from "../../../../public/icons/flight.svg";
+import food from "../../../../public/icons/food.svg";
+import location from "../../../../public/icons/location.svg";
+import luggage from "../../../../public/icons/luggage.svg";
+import mountain from "../../../../public/icons/mountain.svg";
+import noIcon from "../../../../public/icons/noIcon.svg";
+import passport from "../../../../public/icons/passport.svg";
+import ship from "../../../../public/icons/ship.svg";
+import train from "../../../../public/icons/train.svg";
 
 function IconDropDown() {
   const iconClass = "min-w-8 h-fit p-1 hover:opacity-70 cursor-pointer";

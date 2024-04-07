@@ -28,11 +28,13 @@ export type AddBtnProps = {
 };
 
 export type NoteDropdownProps = {
+  onDelete: () => void;
   onDuplicate: () => void;
 };
 
 export interface NoteContProps {
   notes: NoteProps[];
+  handleDelete: (id: string) => void;
   handleDuplicate: (id: string) => void;
   handleTitleChange: any;
   handleAddSubNote: (id: string) => void;
@@ -46,4 +48,32 @@ export type ImageDropdownArrowProps = {
   onImageUpdate: (index: number) => void;
   onImageRemove: (index: number) => void;
   index: number;
+};
+
+//noteslice
+
+export type NoteProps = {
+  id: string;
+  name: number;
+  title: string;
+  color: string;
+  sessionId: string;
+  subNotes?: SubNoteProps[];
+};
+
+export type SubNoteProps = {
+  id: string;
+  icon: string;
+  text: string;
+};
+
+export type NotesState = {
+  notes: NoteProps[];
+};
+
+//imageslice
+
+export type ImageProps = {
+  id: string;
+  data_url: string;
 };

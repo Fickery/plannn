@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import {
   addNote,
   addSubNote,
+  deleteNote,
   duplicateNote,
   updateNote,
   updateSubNoteText,
@@ -84,6 +85,11 @@ export default function NotesIndex() {
     dispatch(duplicateNote(noteId));
   };
 
+  const handleDelete = (noteId: string) => {
+    dispatch(deleteNote(noteId));
+    console.log("delete note");
+  };
+
   const handleAddImg = (imageList: any) => {
     setImages(imageList);
   };
@@ -121,6 +127,7 @@ export default function NotesIndex() {
                 />
                 <NoteCont
                   notes={sessionNotes}
+                  handleDelete={handleDelete}
                   handleDuplicate={handleDuplicate}
                   handleTitleChange={handleTitleChange}
                   handleAddSubNote={handleAddSubNote}

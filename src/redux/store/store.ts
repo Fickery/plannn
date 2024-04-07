@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import notesSlice from "../reducers/notesSlice";
 import sessionSlice from "../reducers/sessionSlice";
+import imageSlice from "../reducers/imageSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 import { combineReducers } from "@reduxjs/toolkit";
@@ -14,6 +15,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   sessions: sessionSlice,
   notes: notesSlice,
+  images: imageSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
