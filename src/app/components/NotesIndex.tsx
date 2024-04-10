@@ -87,6 +87,7 @@ export default function NotesIndex() {
 
   const handleDelete = (noteId: string) => {
     dispatch(deleteNote(noteId));
+    window.location.reload();
     console.log("delete note");
   };
 

@@ -7,26 +7,31 @@ import DeleteIcon from "./DeleteIcon";
 import { SessionDropdownProps } from "@/utils/types";
 
 const SessionDropdown = ({
-  currentSessionId,
+  currSessionId,
+  setCurrSessionId,
   handleDeleteSession,
   handleSessionChange,
 }: SessionDropdownProps) => {
-  const [currSessionId, setCurrSessionId] = useState<string | null>(null);
-
   const sessions = useSelector((state: RootState) => state.sessions.sessions);
 
   const dispatch = useDispatch();
   const router = useRouter();
 
   useEffect(() => {
-    setCurrSessionId(currentSessionId);
-  }, [currentSessionId]);
+    setCurrSessionId(currSessionId);
+  }, [currSessionId]);
 
-  const handleChangeSession = (sessionId: string) => {
-    dispatch(setCurrentSession(sessionId));
-    handleSessionChange(sessionId);
-    router.push(`/notes/${sessionId}`);
-    console.log(`current session id: ${sessionId}`);
+  useEffect(() => {
+    if (sessions.length === 0) {
+      router.push("/");
+    }
+  });
+
+  const handleChangeSession = (selectedSessionId: string) => {
+    dispatch(setCurrentSession(selectedSessionId));
+    handleSessionChange(selectedSessionId);
+    router.push(`/notes/${selectedSessionId}`);
+    console.log("session changed" + selectedSessionId);
   };
 
   return (

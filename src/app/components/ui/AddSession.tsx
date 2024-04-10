@@ -1,14 +1,14 @@
 import { addSession, deleteSession } from "@/redux/reducers/sessionSlice";
 import { RootState } from "@/redux/store/store";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import SessionDropdown from "./SessionDropdown";
 
 export default function AddSession() {
   const [sessionName, setSessionName] = useState("");
-  const [currSessionId, setCurrSessionId] = useState("");
+  const [currSessionId, setCurrSessionId] = useState<string>("");
 
   const dispatch = useDispatch();
   const sessions = useSelector((state: RootState) => state.sessions.sessions);
@@ -27,8 +27,14 @@ export default function AddSession() {
       dispatch(
         addSession({ id: newSessionId, name: sessionName, noteIds: [] }),
       );
-      router.push(`/notes/${newSessionId}`);
       setSessionName("");
+      setCurrSessionId(newSessionId);
+      console.log("CurrSessionId:", newSessionId);
+
+      localStorage.setItem("sessions", JSON.stringify(sessions));
+      router.push(`/notes/${newSessionId}`);
+
+      // window.location.reload();
     } else {
       alert("Please enter a session name.");
     }
@@ -36,13 +42,13 @@ export default function AddSession() {
 
   const handleDeleteSession = () => {
     if (window.confirm(`Are you sure you want to delete this session?`))
-      dispatch(deleteSession(currentSessionId));
-    localStorage.setItem("sessions", JSON.stringify(sessions));
-    console.log(`successfully deleted note ${currentSessionId}`);
+      dispatch(deleteSession(currSessionId));
+    localStorage.removeItem("persist:root");
+    console.log(`successfully deleted note ${currSessionId}`);
   };
 
-  const handleSessionChange = (sessionId: string) => {
-    setCurrSessionId(sessionId);
+  const handleSessionChange = (selectedSessionId: string) => {
+    setCurrSessionId(selectedSessionId);
   };
 
   return (
@@ -63,11 +69,14 @@ export default function AddSession() {
           placeholder="add session..."
         />
       </div>
-      <SessionDropdown
-        currentSessionId={currentSessionId}
-        handleSessionChange={handleSessionChange}
-        handleDeleteSession={handleDeleteSession}
-      />
+      <Suspense fallback={<p>dkds</p>}>
+        <SessionDropdown
+          currSessionId={currSessionId}
+          setCurrSessionId={setCurrSessionId}
+          handleSessionChange={handleSessionChange}
+          handleDeleteSession={handleDeleteSession}
+        />
+      </Suspense>
     </div>
   );
 }

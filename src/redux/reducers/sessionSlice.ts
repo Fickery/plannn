@@ -25,9 +25,14 @@ const sessionSlice = createSlice({
       state.sessions.push(action.payload);
     },
     deleteSession(state, action: PayloadAction<string>) {
-      state.sessions = state.sessions.filter(
-        (session) => session.id !== action.payload,
-      );
+      if (state.sessions.length === 1) {
+        state.sessions = [];
+        state.currentSessionId = null;
+      } else {
+        state.sessions = state.sessions.filter(
+          (session) => session.id !== action.payload,
+        );
+      }
     },
     setCurrentSession(state, action: PayloadAction<string>) {
       state.currentSessionId = action.payload;

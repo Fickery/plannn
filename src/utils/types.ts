@@ -6,7 +6,8 @@ export interface DeleteIconProps {
 }
 
 export interface SessionDropdownProps {
-  currentSessionId: string;
+  currSessionId: string;
+  setCurrSessionId: (sessionId: string) => void;
   handleDeleteSession: () => void;
   handleSessionChange: (sessionId: string) => void;
 }
