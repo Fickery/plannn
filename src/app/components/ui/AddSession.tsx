@@ -1,7 +1,7 @@
 import { addSession, deleteSession } from "@/redux/reducers/sessionSlice";
 import { RootState } from "@/redux/store/store";
 import { useRouter } from "next/navigation";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import SessionDropdown from "./SessionDropdown";
@@ -41,9 +41,20 @@ export default function AddSession() {
   };
 
   const handleDeleteSession = () => {
-    if (window.confirm(`Are you sure you want to delete this session?`))
+    if (window.confirm(`Are you sure you want to delete this session?`)) {
+      const currentIndex = sessions.findIndex(
+        (session) => session.id === currSessionId,
+      );
       dispatch(deleteSession(currSessionId));
-    localStorage.removeItem("persist:root");
+      const nextSessionId =
+        currentIndex < sessions.length - 1
+          ? sessions[currentIndex + 1].id
+          : currentIndex > 0
+            ? sessions[currentIndex - 1].id
+            : "";
+      setCurrSessionId(nextSessionId);
+      router.push(`/notes/${nextSessionId}`);
+    }
     console.log(`successfully deleted note ${currSessionId}`);
   };
 
