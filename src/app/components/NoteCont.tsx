@@ -25,15 +25,15 @@ function NoteCont({
   };
   const adjustedOpacity = 0.35;
 
-  // const randPos = () => {
-  //   const randX = Math.random() * window.innerWidth - 150;
-  //   const randY = Math.random() * window.innerHeight - 100;
-  //   return { x: randX, y: randY };
-  // };
+  const randPos = () => {
+    const randX = Math.random() * window.innerWidth - 150;
+    const randY = Math.random() * window.innerHeight - 100;
+    return { x: randX, y: randY };
+  };
 
-  const handleDrag = (e, position: { x: number; y: number }) => {
+  const handleDrag = (e, data) => {
     const noteId = e.target.id;
-    const newPosition = { x: position.x, y: position.y };
+    const newPosition = randPos();
     setPositions((prevPositions) => ({
       ...prevPositions,
       [noteId]: newPosition,
@@ -66,7 +66,7 @@ function NoteCont({
         return (
           <Draggable
             key={note.id}
-            onStop={(e, data) => handleDrag(e, { x: data.x, y: data.y })}
+            onStop={(e, data) => handleDrag(e, data)}
             cancel=".no-drag"
           >
             <div

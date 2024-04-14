@@ -10,17 +10,17 @@ import { persistStore } from "redux-persist";
 let persistor = persistStore(store);
 
 const NotePage = () => {
-  const { noteId } = useParams();
-  const sessions = useSelector((state: RootState) => state.sessions.sessions);
-  const currentSessionId = useSelector(
-    (state: RootState) => state.sessions.currentSessionId,
-  );
+  // const { noteId } = useParams();
+  // const sessions = useSelector((state: RootState) => state.sessions.sessions);
+  // const currentSessionId = useSelector(
+  //   (state: RootState) => state.sessions.currentSessionId,
+  // );
 
-  const session = sessions.find((session) => session.id === noteId);
+  // const session = sessions.find((session) => session.id === noteId);
 
-  const sessionName = sessions.find(
-    (session) => session.id === currentSessionId,
-  )?.name;
+  // const sessionName = sessions.find(
+  //   (session) => session.id === currentSessionId,
+  // )?.name;
 
   return (
     <div>

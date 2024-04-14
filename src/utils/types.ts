@@ -63,6 +63,7 @@ export type NoteProps = {
 };
 
 export type SubNoteProps = {
+  noteId: string;
   id: string;
   icon: string;
   text: string;

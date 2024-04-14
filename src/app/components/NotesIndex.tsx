@@ -95,7 +95,7 @@ export default function NotesIndex() {
     setImages(imageList);
   };
 
-  useDragger("addBtn");
+  // useDragger("addBtn");
 
   return (
     <div className="main-container">
