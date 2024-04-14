@@ -95,23 +95,10 @@ export default function NotesIndex() {
     setImages(imageList);
   };
 
-  const seePositionOfNotes = () => {
-    notes.forEach((note) => {
-      const noteElement = document.getElementById(`note-${note.id}`);
-      if (noteElement) {
-        const rect = noteElement.getBoundingClientRect();
-        console.log(`Note: ${note.title} x: ${rect.x} y: ${rect.y}`);
-      }
-    });
-  };
-
   useDragger("addBtn");
 
   return (
     <div className="main-container">
-      <button className="bg-slate-200 p-3" onClick={seePositionOfNotes}>
-        see all note position
-      </button>
       {currentSessionId ? (
         <>
           <ImageUploading
