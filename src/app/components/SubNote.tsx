@@ -1,32 +1,42 @@
-import { useEffect, useState } from "react";
-import IconDropDown from "./ui/IconDropDown";
-import { useDispatch } from "react-redux";
 import { updateSubNote } from "@/redux/reducers/notesSlice";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import IconDropDown from "./ui/IconDropDown";
 
-function SubNote({ note, subNote, handleSubNoteUpdate }) {
+function SubNote({ note, subNote }) {
   const [text, setText] = useState(subNote.text);
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const dispatch = useDispatch();
 
-  const handleChangeText = (e, subNoteId) => {
-    const updatedText = e.target.value;
-    setText(updatedText);
-    dispatch(
-      updateSubNote({ id: note.id, subNoteId: subNoteId, text: updatedText }),
-    );
-    localStorage.setItem("savedText", updatedText);
-  };
-
   useEffect(() => {
-    const savedText = localStorage.getItem("savedText");
+    const savedText = localStorage.getItem(`savedText_${subNote.id}`);
     if (savedText) {
       setText(savedText);
     }
-  }, []);
+  }, [subNote.id]);
+
+  const handleChangeText = (e) => {
+    const updatedText = e.target.value;
+    setText(updatedText);
+    dispatch(
+      updateSubNote({
+        id: subNote.id,
+        icon: selectedImage,
+        text: updatedText,
+      }),
+    );
+    localStorage.setItem(`savedText_${subNote.id}`, updatedText);
+  };
 
   return (
     <div className="flex w-full items-center justify-center gap-1 bg-white p-3 shadow-boxshadow hover:shadow-boxshadow1">
       <div className="relative flex h-[50px] w-1/6 justify-center">
-        <IconDropDown />
+        <IconDropDown
+          subNote={subNote}
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+        />
       </div>
 
       <div className="w-5/6">
@@ -35,7 +45,7 @@ function SubNote({ note, subNote, handleSubNoteUpdate }) {
           spellCheck={false}
           value={text}
           placeholder="Click here to type.."
-          onChange={(e) => handleChangeText(e, subNote.id)}
+          onChange={handleChangeText}
         />
       </div>
     </div>

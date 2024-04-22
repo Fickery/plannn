@@ -17,21 +17,28 @@ import passport from "../../../../public/icons/passport.svg";
 import ship from "../../../../public/icons/ship.svg";
 import train from "../../../../public/icons/train.svg";
 
-function IconDropDown() {
+function IconDropDown({ subNote, selectedImage, setSelectedImage }) {
   const iconClass = "min-w-8 h-fit p-1 hover:opacity-70 cursor-pointer";
-
   const [isActive, setIsActive] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
   const menu = useRef(null);
 
   useEffect(() => {
     const savedImage = JSON.parse(localStorage.getItem("savedImage") || "{}");
-    setSelectedImage(savedImage);
-  }, []);
+    if (savedImage) {
+      setSelectedImage(savedImage);
+    }
+  }, [subNote.id]);
 
-  useEffect(() => {
+  const handleImageClick = (e) => {
+    setSelectedImage(e);
+    setIsActive(false);
     localStorage.setItem("savedImage", JSON.stringify(selectedImage));
-  }, [selectedImage]);
+  };
+
+  const handleIfNoIcon = () => {
+    setSelectedImage(null);
+    setIsActive(false);
+  };
 
   const toggleOpen = () => {
     setIsActive(!isActive);
@@ -41,16 +48,6 @@ function IconDropDown() {
     if (isActive && !menu.current?.contains(e.target)) {
       setIsActive(false);
     }
-  };
-
-  const handleImageClick = (image) => {
-    setSelectedImage(image);
-    setIsActive(false);
-  };
-
-  const handleIfNoIcon = () => {
-    setSelectedImage(null);
-    setIsActive(false);
   };
 
   useEffect(() => {
