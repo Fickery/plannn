@@ -13,11 +13,12 @@ import {
   REHYDRATE,
 } from "redux-persist";
 import { combineReducers } from "@reduxjs/toolkit";
+import autoMergeLevel2 from "redux-persist/es/stateReconciler/autoMergeLevel2";
 
 const persistConfig = {
   key: "root",
-  version: 1,
   storage,
+  stateReconciler: autoMergeLevel2,
 };
 
 const rootReducer = combineReducers({

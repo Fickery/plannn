@@ -13,6 +13,7 @@ import {
   deleteNote,
   duplicateNote,
   updateNote,
+  updateSubNote,
   updateSubNoteText,
 } from "../../redux/reducers/notesSlice";
 import ImageCont from "./ImageCont";
@@ -52,7 +53,7 @@ export default function NotesIndex() {
     subNoteId: string,
   ) => {
     const updatedSubNote = e.target.value;
-    dispatch(updateSubNoteText({ id: subNoteId, text: updatedSubNote }));
+    dispatch(updateSubNote({ id: subNoteId, text: updatedSubNote }));
   };
 
   const handleAddNote = () => {
@@ -72,13 +73,13 @@ export default function NotesIndex() {
   };
 
   const handleAddSubNote = (noteId: string) => {
-    dispatch(
-      addSubNote({
-        id: noteId,
-        icon: "",
-        text: "",
-      }),
-    );
+    const newSubNote = {
+      id: noteId,
+      icon: "",
+      text: "",
+    };
+    dispatch(addSubNote(newSubNote));
+    console.log(noteId);
   };
 
   const handleDuplicate = (noteId: string) => {

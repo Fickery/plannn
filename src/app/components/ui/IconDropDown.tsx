@@ -24,6 +24,15 @@ function IconDropDown() {
   const [selectedImage, setSelectedImage] = useState(null);
   const menu = useRef(null);
 
+  useEffect(() => {
+    const savedImage = JSON.parse(localStorage.getItem("savedImage") || "{}");
+    setSelectedImage(savedImage);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("savedImage", JSON.stringify(selectedImage));
+  }, [selectedImage]);
+
   const toggleOpen = () => {
     setIsActive(!isActive);
   };

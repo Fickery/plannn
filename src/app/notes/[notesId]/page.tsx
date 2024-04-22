@@ -6,6 +6,7 @@ import store from "@/redux/store/store"; // Importing your Redux store
 import NotesIndex from "@/app/components/NotesIndex";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
+import Loading from "@/app/loading";
 
 let persistor = persistStore(store);
 
@@ -24,16 +25,16 @@ const NotePage = () => {
 
   return (
     <div>
-      <NotesIndex />
+      <PersistGate loading={<Loading />} persistor={persistor}>
+        <NotesIndex />
+      </PersistGate>
     </div>
   );
 };
 
 const NotePageWithProvider = () => (
   <Provider store={store}>
-    <PersistGate persistor={persistor}>
-      <NotePage />
-    </PersistGate>
+    <NotePage />
   </Provider>
 );
 

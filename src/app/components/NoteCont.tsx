@@ -97,6 +97,8 @@ function NoteCont({
                 {note.subNotes &&
                   note.subNotes.map((subNote) => (
                     <SubNote
+                      note={note}
+                      subNote={subNote}
                       key={subNote.id}
                       handleSubNoteUpdate={handleSubNoteUpdate}
                     />

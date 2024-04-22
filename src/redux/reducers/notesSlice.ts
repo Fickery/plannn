@@ -79,15 +79,22 @@ const noteSlice = createSlice({
         noteToUpdate.subNotes.push(newSubNote);
       }
     },
-    updateSubNoteText: (
-      state,
-      action: PayloadAction<{ id: string; text: string }>,
-    ) => {
+    updateSubNote: (state, action: PayloadAction<SubNoteProps>) => {
       const { id, text } = action.payload;
-      const updatedSubNotes = state.notes.map((note) =>
-        note.id === id ? { ...note, text } : note,
-      );
-      state.notes = updatedSubNotes;
+      const noteToUpdate = state.notes.find((note) => {
+        note.subNotes?.some((subNote) => subNote.id === id);
+      });
+      if (noteToUpdate) {
+        const subNoteIndex = noteToUpdate.subNotes.findIndex(
+          (subNote) => subNote.id === id,
+        );
+        const updatedSubNotes = [...noteToUpdate.subNotes];
+        updatedSubNotes[subNoteIndex] = {
+          ...updatedSubNotes[subNoteIndex],
+          text,
+        };
+        noteToUpdate.subNotes = updatedSubNotes;
+      }
     },
   },
 });
@@ -98,7 +105,7 @@ export const {
   duplicateNote,
   updateNote,
   addSubNote,
-  updateSubNoteText,
+  updateSubNote,
 } = noteSlice.actions;
 
 export default noteSlice.reducer;
