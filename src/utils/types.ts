@@ -64,8 +64,12 @@ export type NoteProps = {
 
 export type SubNoteProps = {
   id: string;
-  icon: string | null;
   text: string;
+};
+
+export type iconProps = {
+  id: string;
+  icon: string | null;
 };
 
 export type NotesState = {

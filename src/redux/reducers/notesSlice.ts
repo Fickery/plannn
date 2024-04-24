@@ -1,4 +1,4 @@
-import { NotesState, NoteProps, SubNoteProps } from "@/utils/types";
+import { NotesState, NoteProps, SubNoteProps, iconProps } from "@/utils/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
@@ -70,7 +70,6 @@ const noteSlice = createSlice({
         const payload = action.payload;
         const newSubNote: SubNoteProps = {
           id: generateUniqueId(),
-          icon: payload.icon,
           text: payload.text,
         };
         if (!noteToUpdate.subNotes) {
@@ -79,7 +78,7 @@ const noteSlice = createSlice({
         noteToUpdate.subNotes.push(newSubNote);
       }
     },
-    updateSubNote: (state, action: PayloadAction<SubNoteProps>) => {
+    updateText: (state, action: PayloadAction<SubNoteProps>) => {
       const { id, text } = action.payload;
       const noteToUpdate = state.notes.find((note) => {
         note.subNotes?.some((subNote) => subNote.id === id);
@@ -96,6 +95,23 @@ const noteSlice = createSlice({
         noteToUpdate.subNotes = updatedSubNotes;
       }
     },
+    updateIcon: (state, action: PayloadAction<iconProps>) => {
+      const { id, icon } = action.payload;
+      const iconToUpdate = state.notes.find((note) => {
+        note.subNotes?.some((subNote) => subNote.id === id);
+      });
+      if (iconToUpdate) {
+        const subNoteIndex = iconToUpdate.subNotes.findIndex(
+          (subNote) => subNote.id === id,
+        );
+        const updatedSubNotes = [...iconToUpdate.subNotes];
+        updatedSubNotes[subNoteIndex] = {
+          ...updatedSubNotes[subNoteIndex],
+          icon,
+        };
+        iconToUpdate.subNotes = updatedSubNotes;
+      }
+    },
   },
 });
 
@@ -105,7 +121,8 @@ export const {
   duplicateNote,
   updateNote,
   addSubNote,
-  updateSubNote,
+  updateText,
+  updateIcon,
 } = noteSlice.actions;
 
 export default noteSlice.reducer;

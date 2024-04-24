@@ -16,8 +16,9 @@ import noIcon from "../../../../public/icons/noIcon.svg";
 import passport from "../../../../public/icons/passport.svg";
 import ship from "../../../../public/icons/ship.svg";
 import train from "../../../../public/icons/train.svg";
+import { updateIcon } from "@/redux/reducers/notesSlice";
 
-function IconDropDown({ subNote, selectedImage, setSelectedImage }) {
+function IconDropDown({ dispatch, subNote, selectedImage, setSelectedImage }) {
   const iconClass = "min-w-8 h-fit p-1 hover:opacity-70 cursor-pointer";
   const [isActive, setIsActive] = useState(false);
   const menu = useRef(null);
@@ -27,12 +28,19 @@ function IconDropDown({ subNote, selectedImage, setSelectedImage }) {
     if (savedImage) {
       setSelectedImage(savedImage);
     }
-  }, [subNote.id]);
+  }, [subNote.id, setSelectedImage]);
 
   const handleImageClick = (e) => {
-    setSelectedImage(e);
-    setIsActive(false);
-    localStorage.setItem("savedImage", JSON.stringify(selectedImage));
+    const newSelectedImage = e;
+    setSelectedImage(newSelectedImage);
+    dispatch(
+      updateIcon({
+        id: subNote.id,
+        icon: newSelectedImage, // Update with newSelectedImage
+      }),
+    );
+    console.log(subNote.id);
+    localStorage.setItem("savedImage", JSON.stringify(newSelectedImage)); // Update localStorage with newSelectedImage
   };
 
   const handleIfNoIcon = () => {
