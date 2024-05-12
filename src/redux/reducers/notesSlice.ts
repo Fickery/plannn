@@ -97,20 +97,33 @@ const noteSlice = createSlice({
     },
     updateIcon: (state, action: PayloadAction<iconProps>) => {
       const { id, icon } = action.payload;
-      const iconToUpdate = state.notes.find((note) => {
-        note.subNotes?.some((subNote) => subNote.id === id);
-      });
-      if (iconToUpdate) {
-        const subNoteIndex = iconToUpdate.subNotes.findIndex(
+      const noteIndex = state.notes.findIndex(
+        (note) => note.subNotes?.some((subNote) => subNote.id === id),
+      );
+
+      if (noteIndex !== -1) {
+        const updatedNote = { ...state.notes[noteIndex] };
+        const subNoteIndex = updatedNote.subNotes.findIndex(
           (subNote) => subNote.id === id,
         );
-        const updatedSubNotes = [...iconToUpdate.subNotes];
-        updatedSubNotes[subNoteIndex] = {
-          ...updatedSubNotes[subNoteIndex],
-          icon,
-        };
-        iconToUpdate.subNotes = updatedSubNotes;
+
+        if (subNoteIndex !== -1) {
+          const updatedSubNotes = [...updatedNote.subNotes];
+          updatedSubNotes[subNoteIndex] = {
+            ...updatedSubNotes[subNoteIndex],
+            icon,
+          };
+
+          updatedNote.subNotes = updatedSubNotes;
+          const updatedNotes = [...state.notes];
+          updatedNotes[noteIndex] = updatedNote;
+          return {
+            ...state,
+            notes: updatedNotes,
+          };
+        }
       }
+      return state;
     },
   },
 });

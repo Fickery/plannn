@@ -16,31 +16,31 @@ import noIcon from "../../../../public/icons/noIcon.svg";
 import passport from "../../../../public/icons/passport.svg";
 import ship from "../../../../public/icons/ship.svg";
 import train from "../../../../public/icons/train.svg";
-import { updateIcon } from "@/redux/reducers/notesSlice";
 
-function IconDropDown({ dispatch, subNote, selectedImage, setSelectedImage }) {
+function IconDropDown({
+  subNote,
+  selectedImage,
+  setSelectedImage,
+  handleIconChange,
+}) {
   const iconClass = "min-w-8 h-fit p-1 hover:opacity-70 cursor-pointer";
   const [isActive, setIsActive] = useState(false);
   const menu = useRef(null);
 
   useEffect(() => {
-    const savedImage = JSON.parse(localStorage.getItem("savedImage") || "{}");
-    if (savedImage) {
-      setSelectedImage(savedImage);
-    }
+    const savedImage = JSON.parse(
+      localStorage.getItem(`savedImage_${subNote.id}`) ||
+        JSON.stringify(addIcon),
+    );
+    setSelectedImage(savedImage);
   }, [subNote.id, setSelectedImage]);
 
-  const handleImageClick = (e) => {
-    const newSelectedImage = e;
-    setSelectedImage(newSelectedImage);
-    dispatch(
-      updateIcon({
-        id: subNote.id,
-        icon: newSelectedImage,
-      }),
+  const handleImageClick = (newSelectedImage) => {
+    handleIconChange(newSelectedImage);
+    localStorage.setItem(
+      `savedImage_${subNote.id}`,
+      JSON.stringify(newSelectedImage),
     );
-    console.log(subNote.id);
-    localStorage.setItem("savedImage", JSON.stringify(newSelectedImage)); // Update localStorage with newSelectedImage
   };
 
   const handleIfNoIcon = () => {
@@ -70,17 +70,17 @@ function IconDropDown({ dispatch, subNote, selectedImage, setSelectedImage }) {
     <div className="relative flex items-center">
       <div ref={menu} className="flex h-auto w-full rounded text-white">
         <button onClick={toggleOpen}>
-          <p className={`${selectedImage ? "shadow-none" : ""} ${iconClass}`}>
-            {selectedImage ? (
+          {selectedImage ? (
+            <p className={`${selectedImage ? "shadow-none" : ""} ${iconClass}`}>
               <Image src={selectedImage} alt="icon" className={iconClass} />
-            ) : (
-              <Image
-                src={addIcon}
-                alt="icon"
-                className={`{iconClass} ${isActive ? "opacity-35" : ""}`}
-              />
-            )}
-          </p>
+            </p>
+          ) : (
+            <Image
+              src={addIcon}
+              alt="icon"
+              className={`{iconClass} ${isActive ? "opacity-35" : ""}`}
+            />
+          )}
         </button>
       </div>
 

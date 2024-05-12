@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import IconDropDown from "./ui/IconDropDown";
 
-function SubNote({ note, subNote }) {
+function SubNote({ subNote }) {
   const [text, setText] = useState(subNote.text);
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -15,6 +15,10 @@ function SubNote({ note, subNote }) {
       setText(savedText);
     }
   }, [subNote.id]);
+
+  const handleIconChange = (newSelectedImage) => {
+    setSelectedImage(newSelectedImage);
+  };
 
   const handleChangeText = (e) => {
     const updatedText = e.target.value;
@@ -33,10 +37,10 @@ function SubNote({ note, subNote }) {
     <div className="flex w-full items-center justify-center gap-1 bg-white p-3 shadow-boxshadow hover:shadow-boxshadow1">
       <div className="relative flex h-[50px] w-1/6 justify-center">
         <IconDropDown
-          dispatch={dispatch}
           subNote={subNote}
           selectedImage={selectedImage}
           setSelectedImage={setSelectedImage}
+          handleIconChange={handleIconChange}
         />
       </div>
 
