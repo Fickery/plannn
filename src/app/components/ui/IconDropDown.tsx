@@ -36,7 +36,7 @@ function IconDropDown({ dispatch, subNote, selectedImage, setSelectedImage }) {
     dispatch(
       updateIcon({
         id: subNote.id,
-        icon: newSelectedImage, // Update with newSelectedImage
+        icon: newSelectedImage,
       }),
     );
     console.log(subNote.id);

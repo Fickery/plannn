@@ -25,6 +25,7 @@ function SubNote({ note, subNote }) {
         text: updatedText,
       }),
     );
+    console.log(subNote.id);
     localStorage.setItem(`savedText_${subNote.id}`, updatedText);
   };
 

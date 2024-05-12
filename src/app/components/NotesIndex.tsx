@@ -1,4 +1,3 @@
-import useDragger from "@/hooks/useDragger";
 import { addNoteToSession } from "@/redux/reducers/sessionSlice";
 import { RootState } from "@/redux/store/store";
 import { randomColorProps } from "@/utils/types";
@@ -13,8 +12,7 @@ import {
   deleteNote,
   duplicateNote,
   updateNote,
-  updateSubNote,
-  updateSubNoteText,
+  updateText
 } from "../../redux/reducers/notesSlice";
 import ImageCont from "./ImageCont";
 import NoteCont from "./NoteCont";
@@ -53,7 +51,7 @@ export default function NotesIndex() {
     subNoteId: string,
   ) => {
     const updatedSubNote = e.target.value;
-    dispatch(updateSubNote({ id: subNoteId, text: updatedSubNote }));
+    dispatch(updateText({ id: subNoteId, text: updatedSubNote }));
   };
 
   const handleAddNote = () => {
