@@ -12,7 +12,7 @@ import {
   deleteNote,
   duplicateNote,
   updateNote,
-  updateText
+  updateText,
 } from "../../redux/reducers/notesSlice";
 import ImageCont from "./ImageCont";
 import NoteCont from "./NoteCont";
