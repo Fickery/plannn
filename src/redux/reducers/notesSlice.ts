@@ -22,6 +22,8 @@ const noteSlice = createSlice({
         title: payload.title,
         color: payload.color,
         sessionId: payload.sessionId,
+        x: payload.x,
+        y: payload.y,
       };
       state.notes.push(newNote);
     },

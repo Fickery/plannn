@@ -56,6 +56,12 @@ export default function NotesIndex() {
   };
 
   const handleAddNote = () => {
+    const randPos = () => {
+      const randX = Math.random() * (window.innerWidth - 300);
+      const randY = Math.random() * (window.innerHeight - 225);
+      return { x: randX, y: randY };
+    };
+
     const newNote = {
       id: generateUniqueId(),
       name: notes.length + 1,
@@ -63,9 +69,9 @@ export default function NotesIndex() {
       color: randomColor(param),
       sessionId: currentSessionId,
       subNotes: [],
-      x: 0,
-      y: 0,
+      ...randPos(),
     };
+
     dispatch(addNote(newNote));
     console.log(`successfully added note ${newNote.name}`);
     dispatch(
