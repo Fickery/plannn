@@ -10,6 +10,7 @@ import {
   addNote,
   addSubNote,
   deleteNote,
+  deleteSubNote,
   duplicateNote,
   updateNote,
   updateText,
@@ -90,6 +91,11 @@ export default function NotesIndex() {
     console.log("delete note");
   };
 
+  const handleDeleteSubNote = (subNoteId: string) => {
+    dispatch(deleteSubNote(subNoteId));
+    console.log("delete subnote");
+  };
+
   const handleAddImg = (imageList: any) => {
     setImages(imageList);
   };
@@ -119,6 +125,7 @@ export default function NotesIndex() {
                   handleTitleChange={handleTitleChange}
                   handleAddSubNote={handleAddSubNote}
                   handleSubNoteUpdate={handleSubNoteUpdate}
+                  handleDeleteSubNote={handleDeleteSubNote}
                 />
                 <ImageCont
                   imageList={imageList}

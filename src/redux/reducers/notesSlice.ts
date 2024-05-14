@@ -60,6 +60,18 @@ const noteSlice = createSlice({
     deleteNote: (state, action: PayloadAction<string>) => {
       state.notes = state.notes.filter((note) => note.id !== action.payload);
     },
+
+    deleteSubNote: (state, action: PayloadAction<string>) => {
+      const subNoteId = action.payload;
+      state.notes.forEach((note) => {
+        if (note.subNotes) {
+          note.subNotes = note.subNotes.filter(
+            (subNote) => subNote.id !== subNoteId,
+          );
+        }
+      });
+    },
+
     updateNote: (
       state,
       action: PayloadAction<{ id: string; title: string }>,
@@ -145,6 +157,7 @@ export const {
   addSubNote,
   updateText,
   updateIcon,
+  deleteSubNote,
 } = noteSlice.actions;
 
 export default noteSlice.reducer;

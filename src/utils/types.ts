@@ -43,6 +43,7 @@ export interface NoteContProps {
     e: React.ChangeEvent<HTMLInputElement>,
     subNoteId: string,
   ) => void;
+  handleDeleteSubNote: (subNoteId: string) => void;
 }
 
 export type ImageDropdownArrowProps = {

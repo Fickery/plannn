@@ -11,6 +11,7 @@ function NoteCont({
   handleTitleChange,
   handleAddSubNote,
   handleSubNoteUpdate,
+  handleDeleteSubNote,
 }: NoteContProps) {
   const [positions, setPositions] = useState<{
     [key: string]: { x: number; y: number };
@@ -101,6 +102,7 @@ function NoteCont({
                       subNote={subNote}
                       key={subNote.id}
                       handleSubNoteUpdate={handleSubNoteUpdate}
+                      handleDeleteSubNote={handleDeleteSubNote}
                     />
                   ))}
               </div>
