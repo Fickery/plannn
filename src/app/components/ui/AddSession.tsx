@@ -33,8 +33,6 @@ export default function AddSession() {
 
       localStorage.setItem("sessions", JSON.stringify(sessions));
       router.push(`/notes/${newSessionId}`);
-
-      // window.location.reload();
     } else {
       alert("Please enter a session name.");
     }
