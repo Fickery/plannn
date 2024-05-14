@@ -1,6 +1,7 @@
 import { NoteContProps } from "@/utils/types";
-import { useEffect, useState } from "react";
 import Draggable from "react-draggable";
+import { useDispatch } from "react-redux";
+import { updateNotePosition } from "@/redux/reducers/notesSlice";
 import NoteDropdown from "./ui/NoteDropdown";
 import SubNote from "./SubNote";
 
@@ -13,9 +14,8 @@ function NoteCont({
   handleSubNoteUpdate,
   handleDeleteSubNote,
 }: NoteContProps) {
-  const [positions, setPositions] = useState<{
-    [key: string]: { x: number; y: number };
-  }>({});
+  const dispatch = useDispatch();
+
   const hexToRgba = (hex: string, opacity: number) => {
     hex = hex.replace(/^#/, "");
     const bigint = parseInt(hex, 16);
@@ -26,38 +26,9 @@ function NoteCont({
   };
   const adjustedOpacity = 0.35;
 
-  const randPos = () => {
-    const randX = Math.random() * window.innerWidth - 150;
-    const randY = Math.random() * window.innerHeight - 100;
-    return { x: randX, y: randY };
+  const handleDragStop = (e, data, noteId) => {
+    dispatch(updateNotePosition({ id: noteId, x: data.x, y: data.y }));
   };
-
-  const handleDrag = (e, data) => {
-    const noteId = e.target.id;
-    const newPosition = randPos();
-    setPositions((prevPositions) => ({
-      ...prevPositions,
-      [noteId]: newPosition,
-    }));
-    localStorage.setItem(
-      "notePositions",
-      JSON.stringify({
-        ...positions,
-        [noteId]: newPosition,
-      }),
-    );
-  };
-
-  useEffect(() => {
-    const savedPositions = JSON.parse(
-      localStorage.getItem("notePositions") || "{}",
-    );
-    setPositions(savedPositions);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("notePositions", JSON.stringify(positions));
-  }, [positions]);
 
   return (
     <div>
@@ -67,15 +38,14 @@ function NoteCont({
         return (
           <Draggable
             key={note.id}
-            onStop={(e, data) => handleDrag(e, data)}
+            position={{ x: note.x, y: note.y }}
+            onStop={(e, data) => handleDragStop(e, data, note.id)}
             cancel=".no-drag"
           >
             <div
               id={`note-${note.id}`}
               className="absolute flex w-[15%] cursor-pointer flex-col gap-5 rounded-sm shadow-boxshadow"
-              style={{
-                backgroundColor,
-              }}
+              style={{ backgroundColor }}
             >
               <div>
                 <div className="flex w-full justify-end">

@@ -61,6 +61,8 @@ export type NoteProps = {
   color: string;
   sessionId: string;
   subNotes?: SubNoteProps[];
+  x: number;
+  y: number;
 };
 
 export type SubNoteProps = {

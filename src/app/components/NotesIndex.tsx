@@ -63,6 +63,8 @@ export default function NotesIndex() {
       color: randomColor(param),
       sessionId: currentSessionId,
       subNotes: [],
+      x: 0,
+      y: 0,
     };
     dispatch(addNote(newNote));
     console.log(`successfully added note ${newNote.name}`);
@@ -87,7 +89,6 @@ export default function NotesIndex() {
 
   const handleDelete = (noteId: string) => {
     dispatch(deleteNote(noteId));
-    window.location.reload();
     console.log("delete note");
   };
 
@@ -99,8 +100,6 @@ export default function NotesIndex() {
   const handleAddImg = (imageList: any) => {
     setImages(imageList);
   };
-
-  // useDragger("addBtn");
 
   return (
     <div className="main-container">
