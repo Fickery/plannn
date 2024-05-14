@@ -46,5 +46,3 @@ export const deleteSubNote = (subNoteId) => {
     payload: subNoteId,
   };
 };
-
-// Add more actions as necessary, like deleteNote, addSubNote, etc.
