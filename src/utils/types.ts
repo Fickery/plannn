@@ -1,5 +1,4 @@
 import { UniqueIdentifier } from "@dnd-kit/core";
-import { NoteProps } from "@/redux/reducers/notesSlice";
 
 export interface DeleteIconProps {
   handleDeleteSession: () => void;
@@ -24,8 +23,9 @@ export type NoteProp = {
 };
 
 export type AddBtnProps = {
-  onImageUpload: (id: string) => void;
+  onImageUpload: () => void;
   handleAddNote: () => void;
+  // handleAddImg: () => void;
 };
 
 export type NoteDropdownProps = {
@@ -59,7 +59,7 @@ export type NoteProps = {
   name: number;
   title: string;
   color: string;
-  sessionId: string;
+  sessionId: string | null;
   subNotes?: SubNoteProps[];
   x: number;
   y: number;
@@ -82,6 +82,7 @@ export type NotesState = {
 //imageslice
 
 export type ImageProps = {
-  id: string;
+  sessionId: string;
+  // id: string;
   data_url: string;
 };

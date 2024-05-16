@@ -12,14 +12,14 @@ const imageSlice = createSlice({
     addImage: (state, action: PayloadAction<ImageProps>) => {
       const payload = action.payload;
       const newImage: ImageProps = {
-        id: payload.id,
+        sessionId: payload.sessionId,
         data_url: payload.data_url,
       };
       state.images.push(newImage);
     },
     deleteImage: (state, action: PayloadAction<string>) => {
       state.images = state.images.filter(
-        (image) => image.id !== action.payload,
+        (image) => image.sessionId !== action.payload,
       );
     },
   },

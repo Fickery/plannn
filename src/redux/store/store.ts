@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import notesSlice from "../reducers/notesSlice";
 import sessionSlice from "../reducers/sessionSlice";
 import imageSlice from "../reducers/imageSlice";
@@ -12,7 +12,6 @@ import {
   REGISTER,
   REHYDRATE,
 } from "redux-persist";
-import { combineReducers } from "@reduxjs/toolkit";
 import autoMergeLevel2 from "redux-persist/es/stateReconciler/autoMergeLevel2";
 
 const persistConfig = {
@@ -27,7 +26,10 @@ const rootReducer = combineReducers({
   images: imageSlice,
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// Define RootState type
+export type RootState = ReturnType<typeof rootReducer>;
+
+const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistedReducer,
@@ -40,4 +42,3 @@ const store = configureStore({
 });
 
 export default store;
-export type RootState = ReturnType<typeof store.getState>;

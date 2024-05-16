@@ -13,15 +13,15 @@ function ImageDropdownArrow({
     setIsActive(!isActive);
   };
 
-  const handleImageUpdate = () => {
-    onImageUpdate(index);
-    toggleDropdown();
-  };
+  // const handleImageUpdate = () => {
+  //   onImageUpdate(index);
+  //   toggleDropdown();
+  // };
 
-  const handleImageRemove = () => {
-    onImageRemove(index);
-    toggleDropdown();
-  };
+  // const handleImageRemove = () => {
+  //   onImageRemove(index);
+  //   toggleDropdown();
+  // };
 
   return (
     <div className="opacity-70 shadow-boxshadow">
@@ -31,13 +31,13 @@ function ImageDropdownArrow({
       >
         <button
           className="h-full w-full bg-inherit p-3 hover:bg-darkblue hover:text-white"
-          onClick={handleImageUpdate}
+          onClick={() => onImageUpdate(index)}
         >
           Change
         </button>
         <button
           className="h-full w-full bg-inherit p-3 font-semibold text-red-700 hover:bg-red-200"
-          onClick={handleImageRemove}
+          onClick={() => onImageRemove(index)}
         >
           Remove
         </button>
