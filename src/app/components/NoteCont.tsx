@@ -44,7 +44,7 @@ function NoteCont({
           >
             <div
               id={`note-${note.id}`}
-              className="absolute flex w-[15%] cursor-pointer flex-col gap-5 rounded-sm shadow-boxshadow"
+              className="absolute flex w-64 cursor-pointer flex-col gap-5 rounded-sm shadow-boxshadow"
               style={{ backgroundColor }}
             >
               <div>
