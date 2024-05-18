@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 @layer base {
   :root {
@@ -23,12 +23,10 @@
 }
 
 body {
-  /* background-color: rgb(227, 229, 240); */
   font-family: var(--fonts-primary);
   font-size: 14px;
   margin: 0;
   overflow-x: hidden;
-  /* background-color: rgb(239, 239, 246); */
 }
 
 main {

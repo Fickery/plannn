@@ -22,6 +22,7 @@ function Navbar() {
     const supabase = supabaseBrowser();
     queryClient.clear();
     await supabase.auth.signOut();
+    router.push("/auth");
   };
 
   const dropDownOption = [{ label: "Sign Out", action: handleSignOut }];

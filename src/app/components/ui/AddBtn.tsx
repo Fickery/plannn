@@ -1,19 +1,7 @@
 import useDragger from "@/hooks/useDragger";
 import { AddBtnProps } from "@/utils/types";
-import { v4 as uuidv4 } from "uuid";
 
-const generateUniqueId = () => {
-  return uuidv4();
-};
-
-const AddBtn = ({ onImageUpload, handleAddNote }: AddBtnProps) => {
-  const handleAddImg = () => {
-    const image = {
-      id: generateUniqueId(),
-    };
-    onImageUpload(image.id);
-  };
-
+const AddBtn = ({ handleAddNote }: AddBtnProps) => {
   useDragger("addBtn");
 
   return (
@@ -28,14 +16,6 @@ const AddBtn = ({ onImageUpload, handleAddNote }: AddBtnProps) => {
               +
             </button>
           </div>
-        </div>
-        <div className="flex h-[48px] w-full items-center justify-center bg-white text-blue-700 shadow-boxshadowfilter">
-          <button
-            className="mx-auto flex justify-center text-xs opacity-30 hover:opacity-100"
-            onClick={handleAddImg}
-          >
-            + img
-          </button>
         </div>
       </div>
     </div>

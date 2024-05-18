@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { updateNotePosition } from "@/redux/reducers/notesSlice";
 import NoteDropdown from "./ui/NoteDropdown";
 import SubNote from "./SubNote";
+import { useEffect, useState } from "react";
 
 function NoteCont({
   notes,
@@ -26,7 +27,7 @@ function NoteCont({
   };
   const adjustedOpacity = 0.35;
 
-  const handleDragStop = (e, data, noteId) => {
+  const handleDragStop = (e, data, noteId: string) => {
     dispatch(updateNotePosition({ id: noteId, x: data.x, y: data.y }));
   };
 
@@ -44,7 +45,7 @@ function NoteCont({
           >
             <div
               id={`note-${note.id}`}
-              className="absolute flex w-[15%] cursor-pointer flex-col gap-5 rounded-sm shadow-boxshadow"
+              className="flex w-64 cursor-pointer flex-col gap-5 rounded-sm"
               style={{ backgroundColor }}
             >
               <div>
@@ -79,10 +80,6 @@ function NoteCont({
               <div>
                 <button className="relative flex w-full justify-center bg-inherit text-xs text-gray-600 hover:text-darkblue">
                   <div className="p-5">
-                    <div
-                      style={{ opacity: adjustedOpacity }}
-                      className="relative z-0 w-full"
-                    ></div>
                     <span
                       className="w-full p-2 text-center"
                       onClick={() => handleAddSubNote(note.id)}

@@ -28,5 +28,6 @@ const config: Config = {
     },
   },
   plugins: [nextui()],
+  safelist: ["w-[15%]"],
 };
 export default config;

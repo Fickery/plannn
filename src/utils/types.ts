@@ -24,7 +24,6 @@ export type NoteProp = {
 };
 
 export type AddBtnProps = {
-  onImageUpload: (id: string) => void;
   handleAddNote: () => void;
 };
 
