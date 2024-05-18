@@ -1,11 +1,8 @@
-import {
-  addImageToSession,
-  addNoteToSession,
-} from "@/redux/reducers/sessionSlice";
+import { addNoteToSession } from "@/redux/reducers/sessionSlice";
 import { RootState } from "@/redux/store/store";
 import { randomColorProps } from "@/utils/types";
 import randomColor from "randomcolor";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ImageUploading from "react-images-uploading";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
@@ -27,35 +24,15 @@ const generateUniqueId = () => {
 };
 
 export default function NotesIndex() {
-  const [images, setImages] = useState([]);
-
   const notes = useSelector((state: RootState) => state.notes.notes);
   const currentSessionId = useSelector(
     (state: RootState) => state.sessions.currentSessionId,
   );
-  const sessions = useSelector((state: RootState) => state.sessions.sessions);
-  const imagesState = useSelector((state: RootState) => state.images.images);
-
   const sessionNotes = notes.filter(
     (note) => note.sessionId === currentSessionId,
   );
-  const sessionImages = imagesState.filter(
-    (image) => image.sessionId === currentSessionId,
-  );
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (currentSessionId) {
-      const currentSession = sessions.find(
-        (session) => session.id === currentSessionId,
-      );
-      console.log("Current Session Details:", currentSession);
-      console.log("Notes in Current Session:", sessionNotes);
-      console.log("Images in Current Session:", sessionImages);
-    }
-  }, [currentSessionId, sessions, sessionNotes, sessionImages]);
-
   const param: randomColorProps = {
     luminosity: "light",
   };
@@ -74,17 +51,6 @@ export default function NotesIndex() {
   ) => {
     const updatedSubNote = e.target.value;
     dispatch(updateText({ id: subNoteId, text: updatedSubNote }));
-  };
-
-  const handleAddImg = (imageList: any) => {
-    setImages(imageList);
-    if (currentSessionId) {
-      const newImageId = generateUniqueId();
-      dispatch(
-        addImageToSession({ sessionId: currentSessionId, imageId: newImageId }),
-      );
-    }
-    console.log(sessionImages);
   };
 
   const handleAddNote = () => {
@@ -113,8 +79,7 @@ export default function NotesIndex() {
 
   const handleAddSubNote = (noteId: string) => {
     const newSubNote = {
-      id: generateUniqueId(),
-      noteId: noteId,
+      id: noteId,
       icon: "",
       text: "",
     };
@@ -140,35 +105,18 @@ export default function NotesIndex() {
     <div className="main-container">
       {currentSessionId ? (
         <>
-          <ImageUploading
-            multiple
-            value={images}
-            onChange={(imageList) => handleAddImg(imageList)}
-            dataURLKey="data_url"
-          >
-            {({ imageList, onImageUpload, onImageUpdate, onImageRemove }) => (
-              <div>
-                <AddBtn
-                  onImageUpload={onImageUpload}
-                  handleAddNote={handleAddNote}
-                />
-                <NoteCont
-                  notes={sessionNotes}
-                  handleDelete={handleDelete}
-                  handleDuplicate={handleDuplicate}
-                  handleTitleChange={handleTitleChange}
-                  handleAddSubNote={handleAddSubNote}
-                  handleSubNoteUpdate={handleSubNoteUpdate}
-                  handleDeleteSubNote={handleDeleteSubNote}
-                />
-                <ImageCont
-                  imageList={imageList}
-                  onImageRemove={onImageRemove}
-                  onImageUpdate={onImageUpdate}
-                />
-              </div>
-            )}
-          </ImageUploading>
+          <div>
+            <AddBtn handleAddNote={handleAddNote} />
+            <NoteCont
+              notes={sessionNotes}
+              handleDelete={handleDelete}
+              handleDuplicate={handleDuplicate}
+              handleTitleChange={handleTitleChange}
+              handleAddSubNote={handleAddSubNote}
+              handleSubNoteUpdate={handleSubNoteUpdate}
+              handleDeleteSubNote={handleDeleteSubNote}
+            />
+          </div>
         </>
       ) : (
         <div className="flex h-full w-full items-center justify-center">

@@ -26,7 +26,7 @@ function NoteCont({
   };
   const adjustedOpacity = 0.35;
 
-  const handleDragStop = (e, data, noteId) => {
+  const handleDragStop = (e, data, noteId: string) => {
     dispatch(updateNotePosition({ id: noteId, x: data.x, y: data.y }));
   };
 
@@ -44,7 +44,7 @@ function NoteCont({
           >
             <div
               id={`note-${note.id}`}
-              className="absolute flex w-64 cursor-pointer flex-col gap-5 rounded-sm shadow-boxshadow"
+              className="absolute flex w-72 cursor-pointer flex-col gap-5 rounded-sm shadow-boxshadow"
               style={{ backgroundColor }}
             >
               <div>
