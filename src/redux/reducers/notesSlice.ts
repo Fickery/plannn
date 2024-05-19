@@ -55,7 +55,6 @@ const noteSlice = createSlice({
         console.log("Duplicated sub-notes:", duplicatedNote.subNotes);
       }
 
-      // Add the duplicated note to the state
       state.notes.push(duplicatedNote);
     },
 
@@ -159,6 +158,11 @@ const noteSlice = createSlice({
         note.y = y;
       }
     },
+    deleteNotesBySessionId: (state, action: PayloadAction<string>) => {
+      state.notes = state.notes.filter(
+        (note) => note.sessionId !== action.payload,
+      );
+    },
   },
 });
 
@@ -172,6 +176,7 @@ export const {
   updateIcon,
   deleteSubNote,
   updateNotePosition,
+  deleteNotesBySessionId,
 } = noteSlice.actions;
 
 export default noteSlice.reducer;

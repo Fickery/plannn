@@ -23,9 +23,7 @@ export type NoteProp = {
 };
 
 export type AddBtnProps = {
-  onImageUpload: () => void;
   handleAddNote: () => void;
-  // handleAddImg: () => void;
 };
 
 export type NoteDropdownProps = {
@@ -45,12 +43,6 @@ export interface NoteContProps {
   ) => void;
   handleDeleteSubNote: (subNoteId: string) => void;
 }
-
-export type ImageDropdownArrowProps = {
-  onImageUpdate: (index: number) => void;
-  onImageRemove: (index: number) => void;
-  index: number;
-};
 
 //noteslice
 
@@ -81,8 +73,8 @@ export type NotesState = {
 
 //imageslice
 
-export type ImageProps = {
-  sessionId: string;
-  // id: string;
-  data_url: string;
-};
+// export type ImageProps = {
+//   sessionId: string;
+//   // id: string;
+//   data_url: string;
+// };

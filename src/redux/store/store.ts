@@ -1,7 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import notesSlice from "../reducers/notesSlice";
 import sessionSlice from "../reducers/sessionSlice";
-import imageSlice from "../reducers/imageSlice";
 import storage from "redux-persist/lib/storage";
 import {
   FLUSH,
@@ -23,7 +22,6 @@ const persistConfig = {
 const rootReducer = combineReducers({
   sessions: sessionSlice,
   notes: notesSlice,
-  images: imageSlice,
 });
 
 // Define RootState type

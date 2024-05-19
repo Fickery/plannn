@@ -1,7 +1,12 @@
-import { addSession, deleteSession } from "@/redux/reducers/sessionSlice";
+import {
+  addSession,
+  deleteSession,
+  setCurrentSessionId,
+} from "@/redux/reducers/sessionSlice";
+import { deleteNotesBySessionId } from "@/redux/reducers/notesSlice"; // Import the notes action
 import { RootState } from "@/redux/store/store";
 import { useRouter } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import SessionDropdown from "./SessionDropdown";
@@ -12,14 +17,8 @@ export default function AddSession() {
 
   const dispatch = useDispatch();
   const sessions = useSelector((state: RootState) => state.sessions.sessions);
-  const currentSessionId = useSelector(
-    (state: RootState) => state.sessions.currentSessionId,
-  );
-
   const router = useRouter();
-  const UniqueId = () => {
-    return uuidv4();
-  };
+  const UniqueId = () => uuidv4();
 
   const handleAddSession = () => {
     if (sessionName.trim() !== "") {
@@ -29,9 +28,13 @@ export default function AddSession() {
       );
       setSessionName("");
       setCurrSessionId(newSessionId);
-      console.log("CurrSessionId:", newSessionId);
-
-      localStorage.setItem("sessions", JSON.stringify(sessions));
+      localStorage.setItem(
+        "sessions",
+        JSON.stringify([
+          ...sessions,
+          { id: newSessionId, name: sessionName, noteIds: [] },
+        ]),
+      );
       router.push(`/notes/${newSessionId}`);
     } else {
       alert("Please enter a session name.");
@@ -40,20 +43,20 @@ export default function AddSession() {
 
   const handleDeleteSession = () => {
     if (window.confirm(`Are you sure you want to delete this session?`)) {
-      const currentIndex = sessions.findIndex(
-        (session) => session.id === currSessionId,
+      dispatch(deleteNotesBySessionId(currSessionId)); // Delete related notes
+      dispatch(deleteSession(currSessionId)); // Delete the session
+      const updatedSessions = sessions.filter(
+        (session) => session.id !== currSessionId,
       );
-      dispatch(deleteSession(currSessionId));
-      const nextSessionId =
-        currentIndex < sessions.length - 1
-          ? sessions[currentIndex + 1].id
-          : currentIndex > 0
-            ? sessions[currentIndex - 1].id
-            : "";
+      localStorage.setItem("sessions", JSON.stringify(updatedSessions));
+
+      const nextSessionId = updatedSessions.length
+        ? updatedSessions[0].id
+        : null;
+      dispatch(setCurrentSessionId(nextSessionId)); // Update the current session
       setCurrSessionId(nextSessionId);
-      router.push(`/notes/${nextSessionId}`);
+      router.push(nextSessionId ? `/notes/${nextSessionId}` : "/");
     }
-    console.log(`successfully deleted note ${currSessionId}`);
   };
 
   const handleSessionChange = (selectedSessionId: string) => {
@@ -65,7 +68,7 @@ export default function AddSession() {
       <div className="flex h-full gap-2">
         <button
           className="text-md flex w-fit items-center border-0 border-r border-solid border-darkblue bg-darkblue px-[0.35rem] text-darkblue text-white hover:bg-midblue hover:text-darkblue"
-          onClick={() => handleAddSession()}
+          onClick={handleAddSession}
         >
           +
         </button>
@@ -78,7 +81,7 @@ export default function AddSession() {
           placeholder="add session..."
         />
       </div>
-      <Suspense fallback={<p>dkds</p>}>
+      <Suspense fallback={<p>Loading...</p>}>
         <SessionDropdown
           currSessionId={currSessionId}
           setCurrSessionId={setCurrSessionId}

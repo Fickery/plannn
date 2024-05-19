@@ -2,8 +2,6 @@ import { addNoteToSession } from "@/redux/reducers/sessionSlice";
 import { RootState } from "@/redux/store/store";
 import { randomColorProps } from "@/utils/types";
 import randomColor from "randomcolor";
-import { useState } from "react";
-import ImageUploading from "react-images-uploading";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -15,7 +13,6 @@ import {
   updateNote,
   updateText,
 } from "../../redux/reducers/notesSlice";
-import ImageCont from "./ImageCont";
 import NoteCont from "./NoteCont";
 import AddBtn from "./ui/AddBtn";
 
