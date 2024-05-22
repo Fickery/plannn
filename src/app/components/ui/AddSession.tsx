@@ -1,9 +1,9 @@
 import {
   addSession,
   deleteSession,
-  setCurrentSessionId,
+  setCurrentSession,
 } from "@/redux/reducers/sessionSlice";
-import { deleteNotesBySessionId } from "@/redux/reducers/notesSlice"; // Import the notes action
+import { deleteNotesBySessionId } from "@/redux/reducers/notesSlice";
 import { RootState } from "@/redux/store/store";
 import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
@@ -18,23 +18,23 @@ export default function AddSession() {
   const dispatch = useDispatch();
   const sessions = useSelector((state: RootState) => state.sessions.sessions);
   const router = useRouter();
-  const UniqueId = () => uuidv4();
 
   const handleAddSession = () => {
     if (sessionName.trim() !== "") {
-      const newSessionId = UniqueId();
-      dispatch(
-        addSession({ id: newSessionId, name: sessionName, noteIds: [] }),
-      );
+      const newSessionId = uuidv4();
+      const newSession = {
+        id: newSessionId,
+        name: sessionName,
+        noteIds: [],
+      };
+      dispatch(addSession(newSession));
       setSessionName("");
       setCurrSessionId(newSessionId);
       localStorage.setItem(
         "sessions",
-        JSON.stringify([
-          ...sessions,
-          { id: newSessionId, name: sessionName, noteIds: [] },
-        ]),
+        JSON.stringify([...sessions, newSession]),
       );
+      dispatch(setCurrentSession(newSessionId));
       router.push(`/notes/${newSessionId}`);
     } else {
       alert("Please enter a session name.");
@@ -43,8 +43,8 @@ export default function AddSession() {
 
   const handleDeleteSession = () => {
     if (window.confirm(`Are you sure you want to delete this session?`)) {
-      dispatch(deleteNotesBySessionId(currSessionId)); // Delete related notes
-      dispatch(deleteSession(currSessionId)); // Delete the session
+      dispatch(deleteNotesBySessionId(currSessionId));
+      dispatch(deleteSession(currSessionId));
       const updatedSessions = sessions.filter(
         (session) => session.id !== currSessionId,
       );
@@ -53,7 +53,7 @@ export default function AddSession() {
       const nextSessionId = updatedSessions.length
         ? updatedSessions[0].id
         : null;
-      dispatch(setCurrentSessionId(nextSessionId)); // Update the current session
+      dispatch(setCurrentSession(nextSessionId));
       setCurrSessionId(nextSessionId);
       router.push(nextSessionId ? `/notes/${nextSessionId}` : "/");
     }

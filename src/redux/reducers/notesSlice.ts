@@ -37,20 +37,17 @@ const noteSlice = createSlice({
         return state;
       }
 
-      // Duplicate main note
       const duplicatedNote: NoteProps = {
         ...noteToDuplicate,
-        id: generateUniqueId(), // Generate new ID for the duplicated note
-        subNotes: [], // Initialize an empty array for sub-notes of the duplicated note
+        id: generateUniqueId(),
+        subNotes: [],
       };
 
-      // Duplicate sub-notes (if any)
       if (noteToDuplicate.subNotes) {
         console.log("Sub-notes to duplicate:", noteToDuplicate.subNotes);
-        // Create copies of sub-notes and add them to the duplicated note
         duplicatedNote.subNotes = noteToDuplicate.subNotes.map((subNote) => ({
           ...subNote,
-          id: generateUniqueId(), // Generate new ID for each duplicated sub-note
+          id: generateUniqueId(),
         }));
         console.log("Duplicated sub-notes:", duplicatedNote.subNotes);
       }
@@ -103,7 +100,7 @@ const noteSlice = createSlice({
     updateText: (state, action: PayloadAction<SubNoteProps>) => {
       const { id, text } = action.payload;
       const noteToUpdate = state.notes.find((note) => {
-        note.subNotes?.some((subNote) => subNote.id === id);
+        return note.subNotes?.some((subNote) => subNote.id === id);
       });
       if (noteToUpdate) {
         const subNoteIndex = noteToUpdate.subNotes.findIndex(
