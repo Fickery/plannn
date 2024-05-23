@@ -33,9 +33,6 @@ export default function page() {
     const supabase = supabaseBrowser();
     supabase.auth.signInWithOAuth({
       provider: "google",
-      // options: {
-      //   redirectTo: "/hi",
-      // },
     });
   }
 
