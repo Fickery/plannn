@@ -3,57 +3,60 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as Form from "@radix-ui/react-form";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import supabaseBrowser from "../../../lib/supabase/browser";
+
+// https://www.youtube.com/watch?v=oNmWyqBlgx4&t=70s
 
 const registerSchema = z.object({
-  username: z.string().min(3, "Username is required").max(9),
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .email("This is not a valid email"),
   password: z.string().min(8, "Password is required"),
-  comfirmPassword: z.string().min(8, "Please comfirm your password"),
+  confirmPassword: z.string().min(8, "Please confirm your password"),
 });
 
-export default function page() {
+const Page = () => {
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const router = useRouter();
-  const form = useForm<z.infer<typeof registerSchema>>({
+  const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
-      comfirmPassword: "",
+      confirmPassword: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof registerSchema>) => {
-    try {
-      const response = await fetch("/api/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: values.username,
-          password: values.password,
-          confirmPassword: values.comfirmPassword,
-        }),
-      });
+  const signUp = async (formData) => {
+    const supabase = supabaseBrowser();
+    const { error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+      options: {
+        emailRedirectTo: window.location.origin,
+      },
+    });
 
-      if (response.ok) {
-        router.push("/auth");
-      } else {
-        throw new Error("Failed to register");
-      }
-    } catch (error) {
-      console.error(error);
+    if (error) {
+      setError(error.message);
+    } else {
+      setSuccess("Successfully registered!");
+      router.push("/login");
     }
   };
 
-  const handleSignUp = () => {
-    console.log("registering user");
+  const onSubmit = async (values) => {
+    if (values.password !== values.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    await signUp(values);
   };
-
-  function handleGoToLogin() {
-    router.push("/auth");
-  }
 
   return (
     <div className="testBG">
@@ -72,27 +75,30 @@ export default function page() {
                 <p className="cursor-default text-left text-[0.8rem] font-light uppercase text-darkblue">
                   Sign Up
                 </p>
+                {error && <p className="text-red-500">{error}</p>}
+                {success && <p className="text-green-500">{success}</p>}
                 <div>
                   <div className="flex flex-col gap-5">
                     <div className="flex flex-col">
                       <Form.Root>
                         <div className="flex flex-col gap-5 pb-5">
                           <Form.Field
-                            name="username"
+                            name="email"
                             className="flex flex-col gap-2"
                           >
-                            <Form.Label className="text-md text-md cursor-default text-xs">
-                              Username
+                            <Form.Label className="text-md cursor-default text-xs">
+                              Email
                             </Form.Label>
                             <Form.Message match="valueMissing">
-                              Please enter your Username
+                              Please enter your email
                             </Form.Message>
                             <Form.Message match="typeMismatch">
-                              Please provide a valid username
+                              Please provide a valid email
                             </Form.Message>
                             <input
-                              type="text"
+                              type="email"
                               className="border-b-[0.05px] border-b-black bg-transparent text-sm font-thin focus:outline-none"
+                              {...form.register("email")}
                             />
                           </Form.Field>
 
@@ -100,7 +106,7 @@ export default function page() {
                             name="password"
                             className="flex flex-col gap-2"
                           >
-                            <Form.Label className="text-md text-md cursor-default text-xs">
+                            <Form.Label className="text-md cursor-default text-xs">
                               Password
                             </Form.Label>
                             <Form.Message match="valueMissing">
@@ -112,6 +118,7 @@ export default function page() {
                             <input
                               type="password"
                               className="border-b-[0.05px] border-b-black bg-transparent text-sm font-thin focus:outline-none"
+                              {...form.register("password")}
                             />
                           </Form.Field>
 
@@ -119,8 +126,8 @@ export default function page() {
                             name="confirmPassword"
                             className="flex flex-col gap-2"
                           >
-                            <Form.Label className="text-md text-md cursor-default text-xs">
-                              Confirm password
+                            <Form.Label className="text-md cursor-default text-xs">
+                              Confirm Password
                             </Form.Label>
                             <Form.Message match="valueMissing">
                               Please confirm your password
@@ -131,14 +138,15 @@ export default function page() {
                             <input
                               type="password"
                               className="border-b-[0.05px] border-b-black bg-transparent text-sm font-thin focus:outline-none"
+                              {...form.register("confirmPassword")}
                             />
                           </Form.Field>
                         </div>
                       </Form.Root>
                     </div>
                     <button
-                      className="hover:bg-mainbuttons bg-darkblue p-3 text-xs text-white outline outline-1 hover:text-lightblue"
-                      onClick={() => handleSignUp()}
+                      type="submit"
+                      className="bg-darkblue p-3 text-xs text-white outline outline-1 hover:bg-mainbuttons hover:text-lightblue"
                     >
                       Sign Up
                     </button>
@@ -146,7 +154,7 @@ export default function page() {
                       <p>Already have an account? </p>
                       <span
                         className="cursor-pointer text-darkblue underline"
-                        onClick={() => handleGoToLogin()}
+                        onClick={() => router.push("/login")}
                       >
                         Login
                       </span>
@@ -160,33 +168,6 @@ export default function page() {
       </form>
     </div>
   );
-}
+};
 
-{
-  /* 
-                        <label className="text-md text-md cursor-default text-xs">
-                          username
-                        </label>
-                        <input
-                          className="border-b-[0.05px] border-b-black bg-transparent text-sm font-thin focus:outline-none"
-                          type="username"
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <label className="text-md cursor-default text-xs font-thin">
-                          password
-                        </label>
-                        <input
-                          className="border-b-[0.05px] border-b-black bg-transparent text-sm font-thin focus:outline-none"
-                          type="password"
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <label className="text-md cursor-default text-xs font-thin">
-                          confirm password
-                        </label>
-                        <input
-                          className="border-b-[0.05px] border-b-black bg-transparent text-sm font-thin focus:outline-none"
-                          type="password"
-                        /> */
-}
+export default Page;

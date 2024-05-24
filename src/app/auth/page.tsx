@@ -73,7 +73,7 @@ export default function page() {
                     />
                   </div>
                   <button
-                    className="hover:bg-mainbuttons mt-3 bg-darkblue p-3 text-xs text-white outline outline-1 hover:text-lightblue"
+                    className="mt-3 bg-darkblue p-3 text-xs text-white outline outline-1 hover:bg-mainbuttons hover:text-lightblue"
                     onClick={() => handleLoginWithOauth}
                   >
                     Login
