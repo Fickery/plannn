@@ -36,8 +36,8 @@ function SubNote({ subNote, noteId, handleDeleteSubNote }) {
   };
 
   return (
-    <div className="flex h-auto w-full items-center justify-center gap-1 rounded-md bg-white p-3 shadow-boxshadow hover:shadow-boxshadow1">
-      <div className="flex h-[50px] rounded-md bg-slate-100">
+    <div className="flex h-auto w-full items-center justify-around gap-1 rounded-md bg-white p-3 shadow-boxshadow hover:shadow-boxshadow1 sm:h-[2rem] md:h-[3rem] lg:h-[4rem]">
+      <div className="flex h-auto rounded-md bg-slate-100">
         <IconDropDown
           subNote={subNote}
           selectedImage={selectedImage}
@@ -45,25 +45,26 @@ function SubNote({ subNote, noteId, handleDeleteSubNote }) {
           handleIconChange={handleIconChange}
         />
       </div>
-
-      <div className="flex flex-col items-end justify-end text-right">
+      <div className="flex flex-row md:items-center md:justify-center">
+        <div className="flex flex-col items-end justify-end text-right">
+          <Textarea
+            classNames={{
+              base: "max-w-xs mt-2",
+              input: "resize-y min-h-[18px] text-xs md:text-[0.7rem]",
+            }}
+            spellCheck={false}
+            disableAnimation
+            disableAutosize
+            value={text}
+            placeholder="Click here to type.."
+            onChange={handleChangeText}
+          />
+        </div>
         <div className="relative">
           <SubMenuDropdownArrow
             handleDeleteSubNote={() => handleDeleteSubNote(subNote.id)}
           />
         </div>
-        <Textarea
-          classNames={{
-            base: "max-w-xs mt-2",
-            input: "resize-y min-h-[10px] text-xs",
-          }}
-          spellCheck={false}
-          disableAnimation
-          disableAutosize
-          value={text}
-          placeholder="Click here to type.."
-          onChange={handleChangeText}
-        />
       </div>
     </div>
   );

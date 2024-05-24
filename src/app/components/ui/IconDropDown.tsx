@@ -23,7 +23,7 @@ function IconDropDown({
   setSelectedImage,
   handleIconChange,
 }) {
-  const iconClass = "min-w-8 h-fit p-1 hover:opacity-70 cursor-pointer";
+  const iconClass = "h-fit p-1 md:p-[0.255rem] hover:opacity-70 cursor-pointer";
   const [isActive, setIsActive] = useState(false);
   const menu = useRef(null);
 
