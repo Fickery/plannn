@@ -51,11 +51,11 @@ export default function NotesIndex() {
   };
 
   const handleAddNote = () => {
-    const randPos = () => {
-      const randX = Math.random() * (window.innerWidth - 300);
-      const randY = Math.random() * (window.innerHeight - 225);
-      return { x: randX, y: randY };
-    };
+    const screenWidth = window.screen.width;
+    const screenHeight = window.screen.height;
+
+    const centerX = screenWidth / 2 - 150;
+    const centerY = screenHeight / 2 - 112.5;
 
     const newNote = {
       id: generateUniqueId(),
@@ -64,7 +64,8 @@ export default function NotesIndex() {
       color: randomColor(param),
       sessionId: currentSessionId,
       subNotes: [],
-      ...randPos(),
+      x: centerX,
+      y: centerY,
     };
 
     dispatch(addNote(newNote));

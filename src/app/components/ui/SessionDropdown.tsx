@@ -1,10 +1,10 @@
 import { Session, setCurrentSession } from "@/redux/reducers/sessionSlice";
 import { RootState } from "@/redux/store/store";
+import { SessionDropdownProps } from "@/utils/types";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "./DeleteIcon";
-import { SessionDropdownProps } from "@/utils/types";
 
 const SessionDropdown = ({
   currSessionId,
