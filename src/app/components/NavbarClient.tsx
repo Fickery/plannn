@@ -1,13 +1,13 @@
 "use client";
+import useClickOutside from "@/hooks/useClickOutside";
 import store from "@/redux/store/store";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import supabaseBrowser from "../../../lib/supabase/browser";
 import AddSession from "./ui/AddSession";
-import useClickOutside from "@/hooks/useClickOutside";
 
 const NavbarClient = ({ user }: { user: any }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,18 +18,22 @@ const NavbarClient = ({ user }: { user: any }) => {
     const supabase = supabaseBrowser();
     queryClient.clear();
     await supabase.auth.signOut();
-    window.location.reload();
+    router.refresh();
   };
 
   const handleLoginRedirect = () => {
-    router.push("/login");
+    if (typeof window !== "undefined") {
+      router.push("/login");
+    }
   };
 
   const dropDownOption = [{ label: "Sign Out", action: handleSignOut }];
 
-  if (!user) {
-    router.push("/login");
-  }
+  useEffect(() => {
+    if (!user && typeof window !== "undefined") {
+      router.push("/login");
+    }
+  }, [user]);
 
   const dropdownRef = useClickOutside(() => setIsOpen(false));
 

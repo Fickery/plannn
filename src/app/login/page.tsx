@@ -77,7 +77,6 @@ export default function Page() {
             width="350"
             height="350"
             alt="Plannn Logo"
-            priority
           />
           <div className="flex flex-col gap-3 pl-[5.5rem] pt-10">
             <p className="cursor-default text-left text-[0.8rem] font-light uppercase text-darkblue">
