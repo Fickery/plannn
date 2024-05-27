@@ -1,13 +1,13 @@
 "use client";
-import useClickOutside from "@/hooks/useClickOutside";
 import store from "@/redux/store/store";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Provider } from "react-redux";
 import supabaseBrowser from "../../../lib/supabase/browser";
 import AddSession from "./ui/AddSession";
+import useClickOutside from "@/hooks/useClickOutside";
 
 const NavbarClient = ({ user }: { user: any }) => {
   const [isOpen, setIsOpen] = useState(false);

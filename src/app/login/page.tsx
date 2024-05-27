@@ -1,43 +1,71 @@
 "use client";
-import React, { useState } from "react";
-import Image from "next/image";
-import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import supabaseBrowser from "../../../lib/supabase/browser";
-import { useRouter } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import Image from "next/image";
+import { redirect } from "next/navigation";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(6, {
-    message: "Password must be at least 6 characters long",
-  }),
+  password: z.string(),
 });
 
-export default function page() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+type FormData = z.infer<typeof formSchema>;
+
+export default function Page() {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+  });
 
   const supabase = createClientComponentClient();
-  const router = useRouter();
 
   function handleGoToSignUp() {
-    router.push("/signup");
+    redirect("/signup");
   }
 
-  function handleLoginWithOauth() {
-    const supabase = supabaseBrowser();
-    supabase.auth.signInWithOAuth({
-      provider: "google",
-    });
-  }
+  const handleSignIn = async (data: FormData) => {
+    try {
+      const { email, password } = data;
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) {
+        setError("password", {
+          type: "manual",
+          message: "Incorrect email or password",
+        });
+        throw error;
+      }
+      window.location.reload();
+    } catch (error) {
+      console.error("Password sign-in error:", error);
+    }
+  };
 
-  const handleSignIn = async () => {
-    await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    window.location.reload();
+  const handleGoogleClick = async () => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: "http://localhost:3000/auth/callback",
+        },
+      });
+      if (data.url) {
+        redirect(data.url);
+      }
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+    }
   };
 
   return (
@@ -56,7 +84,10 @@ export default function page() {
               Login
             </p>
             <div>
-              <div className="flex flex-col gap-5 pb-10">
+              <form
+                onSubmit={handleSubmit(handleSignIn)}
+                className="flex flex-col gap-5 pb-10"
+              >
                 <div className="flex flex-col">
                   <label className="text-md text-md cursor-default text-xs">
                     Email
@@ -64,26 +95,32 @@ export default function page() {
                   <input
                     className="border-b-[0.05px] border-b-black bg-transparent text-sm font-thin focus:outline-none"
                     type="email"
-                    name="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    {...register("email")}
                   />
+                  {errors.email && (
+                    <span className="text-xs text-red-500">
+                      {errors.email.message}
+                    </span>
+                  )}
                 </div>
                 <div className="flex flex-col">
                   <label className="text-md cursor-default text-xs font-thin">
-                    password
+                    Password
                   </label>
                   <input
                     className="border-b-[0.05px] border-b-black bg-transparent text-sm font-thin focus:outline-none"
                     type="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...register("password")}
                   />
+                  {errors.password && (
+                    <span className="text-xs text-red-500">
+                      {errors.password.message}
+                    </span>
+                  )}
                 </div>
                 <button
+                  type="submit"
                   className="mt-3 bg-darkblue p-3 text-xs text-white outline outline-1 hover:bg-mainbuttons hover:text-lightblue"
-                  onClick={handleSignIn}
                 >
                   Login
                 </button>
@@ -91,15 +128,14 @@ export default function page() {
                   <p>Don't have an account? </p>
                   <span
                     className="cursor-pointer text-darkblue underline"
-                    onClick={() => handleGoToSignUp()}
+                    onClick={handleGoToSignUp}
                   >
                     Sign up
                   </span>
                 </div>
-                <button
-                  className="flex items-center justify-center gap-2 bg-none p-3 text-xs text-black outline outline-1 hover:bg-midblue"
-                  onClick={() => handleLoginWithOauth()}
-                >
+              </form>
+              <form action={handleGoogleClick}>
+                <button className="flex w-full items-center justify-center gap-2 bg-none p-3 text-xs text-black outline outline-1 hover:bg-midblue">
                   <Image
                     src="/Google_icon.png"
                     width="15"
@@ -108,7 +144,7 @@ export default function page() {
                   />
                   Login with Google
                 </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
