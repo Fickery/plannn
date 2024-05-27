@@ -3,9 +3,6 @@ import localFont from "next/font/local";
 import Navbar from "./components/ui/Navbar";
 import "./globals.css";
 import QueryProvider from "./query-provider";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 const ppNeue = localFont({
   src: [
@@ -37,13 +34,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   return (
     <html lang="en">
       <body className={ppNeue.className}>

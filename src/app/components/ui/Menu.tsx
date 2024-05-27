@@ -1,16 +1,22 @@
+import useClickOutside from "@/hooks/useClickOutside";
+
 interface MenuProps {
   onMenuClick: () => void;
   showXIcon: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
-function Menu({ onMenuClick, showXIcon }: MenuProps) {
+function Menu({ onMenuClick, showXIcon, setIsOpen }: MenuProps) {
   const handleMenuClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     onMenuClick();
   };
 
+  const dropdownRef = useClickOutside(() => setIsOpen(false));
+
   return (
     <div
+      ref={dropdownRef}
       className={`menu-icon ${showXIcon ? "opened" : ""}`}
       onClick={handleMenuClick}
     >

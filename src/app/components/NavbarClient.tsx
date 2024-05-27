@@ -1,4 +1,5 @@
 "use client";
+import useClickOutside from "@/hooks/useClickOutside";
 import store from "@/redux/store/store";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
@@ -30,6 +31,8 @@ const NavbarClient = ({ user }: { user: any }) => {
     router.push("/login");
   }
 
+  const dropdownRef = useClickOutside(() => setIsOpen(false));
+
   return (
     <Provider store={store}>
       {user ? (
@@ -59,7 +62,10 @@ const NavbarClient = ({ user }: { user: any }) => {
                     {user?.email || "..."}
                   </p>
                   {isOpen && (
-                    <div className="absolute right-2 top-full z-10 flex w-24 items-center justify-center border border-gray-300 bg-white p-2 text-[0.7rem]">
+                    <div
+                      ref={dropdownRef}
+                      className="absolute right-2 top-full z-10 flex w-24 items-center justify-center rounded-lg border border-gray-300 bg-white p-2 text-[0.7rem]"
+                    >
                       {dropDownOption.map((option, index) => (
                         <div
                           key={index}

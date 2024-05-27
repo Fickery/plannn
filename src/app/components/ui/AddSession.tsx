@@ -64,10 +64,10 @@ export default function AddSession() {
   };
 
   return (
-    <div className="flex items-center gap-2 outline outline-1">
+    <div className="flex items-center gap-2 rounded outline outline-1">
       <div className="flex h-full gap-2">
         <button
-          className="text-md flex w-fit items-center border-0 border-r border-solid border-darkblue bg-darkblue px-[0.35rem] text-darkblue text-white hover:bg-midblue hover:text-darkblue"
+          className="text-md flex w-fit items-center rounded-l-none border-0 border-r border-solid border-darkblue bg-darkblue px-[0.35rem] text-darkblue text-white hover:bg-midblue hover:text-darkblue"
           onClick={handleAddSession}
         >
           +

@@ -3,10 +3,10 @@ import { useState } from "react";
 import Menu from "./Menu";
 
 function NoteDropdown({ onDelete, onDuplicate }: NoteDropdownProps) {
-  const [isActive, setIsActive] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const toggleDropdown = () => {
-    setIsActive(!isActive);
+    setIsOpen(!isOpen);
   };
 
   // const handleDuplicate = () => {
@@ -24,11 +24,15 @@ function NoteDropdown({ onDelete, onDuplicate }: NoteDropdownProps) {
   return (
     <div className="z-50 w-fit ">
       <div className="flex h-full w-full justify-end" onClick={toggleDropdown}>
-        <Menu onMenuClick={toggleDropdown} showXIcon={isActive} />
+        <Menu
+          onMenuClick={toggleDropdown}
+          showXIcon={isOpen}
+          setIsOpen={setIsOpen}
+        />
       </div>
       <div
-        className="absolute top-10 w-fit overflow-auto border border-gray-300 bg-white shadow-lg"
-        style={{ display: isActive ? "block" : "none" }}
+        className="absolute top-10 w-fit overflow-auto rounded-lg border border-gray-300 bg-white shadow-lg"
+        style={{ display: isOpen ? "block" : "none" }}
       >
         {/* <div
           onClick={handleDuplicate}

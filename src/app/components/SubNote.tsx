@@ -36,7 +36,7 @@ function SubNote({ subNote, noteId, handleDeleteSubNote }) {
   };
 
   return (
-    <div className="flex h-auto w-full items-center justify-around gap-1 rounded-md bg-white p-3 shadow-boxshadow hover:shadow-boxshadow1 sm:h-[2rem] md:h-[3rem] lg:h-[4rem]">
+    <div className="sm:h-[2rem] flex h-auto w-full items-center justify-around gap-1 rounded-md bg-white p-3 shadow-boxshadow hover:shadow-boxshadow1 md:h-[3rem] lg:h-[4rem]">
       <div className="flex h-auto rounded-md bg-slate-100">
         <IconDropDown
           subNote={subNote}

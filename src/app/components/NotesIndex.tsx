@@ -54,8 +54,8 @@ export default function NotesIndex() {
     const screenWidth = window.screen.width;
     const screenHeight = window.screen.height;
 
-    const centerX = screenWidth / 2 - 150;
-    const centerY = screenHeight / 2 - 112.5;
+    const centerX = screenWidth / 2 - 1050;
+    const centerY = screenHeight / 2 - 312.5;
 
     const newNote = {
       id: generateUniqueId(),
