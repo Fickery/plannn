@@ -7,6 +7,8 @@
     --border-radius-500: 8px;
     --fonts-primary: Karla, sans-serif;
 
+    --mainbuttons: 225 100% 65%;
+
     --darkblue: 238 99% 63%;
     --midblue: 238 100% 89%;
     --lightblue: 253 69% 97%;
@@ -17,21 +19,26 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  outline: none;
 }
 
 body {
-  /* background-color: rgb(227, 229, 240); */
   font-family: var(--fonts-primary);
   font-size: 14px;
   margin: 0;
   overflow-x: hidden;
-  /* background-color: rgb(239, 239, 246); */
 }
 
 main {
   display: grid;
   place-items: center;
   width: 100vw;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .main-container {
@@ -45,7 +52,7 @@ main {
   gap: 2px;
   flex-direction: column;
   justify-content: center;
-  width: 100px;
+  width: 50px;
   flex-shrink: 0;
 }
 
@@ -54,7 +61,7 @@ main {
   position: relative;
   display: flex;
   width: 100%;
-  height: 100px;
+  height: 60px;
   justify-content: center;
   align-items: center;
   background: white;
@@ -63,7 +70,7 @@ main {
 
 .addImg {
   user-select: none;
-  padding: 1.5rem;
+  padding: 1rem;
   background: white;
   color: rgb(204, 204, 204);
   filter: drop-shadow(0px 4px 2px #e2e2f1);
@@ -180,4 +187,49 @@ main {
 .open .right-bar:after {
   transform-origin: center center;
   transform: rotate(-70deg);
+}
+
+.placeholder {
+  color: blue;
+  opacity: 0.5;
+}
+
+[data-placeholder]:empty:before {
+  content: attr(data-placeholder);
+  color: #888;
+  font-style: italic;
+}
+
+/* dropdown */
+.dropdown-arrow {
+  height: 0;
+  width: 0;
+  border-left: 6.5px solid transparent;
+  border-right: 6.5px solid transparent;
+  border-top: 6.5px solid #4e26e0;
+}
+
+.dropdown-arrow-down {
+  transform: rotate(-180deg);
+}
+
+.onClick {
+  cursor: pointer;
+}
+
+.testBG {
+  background-image: url("../../public/testBG.png");
+}
+
+.delete-icon:hover {
+  fill: red !important;
+}
+
+select {
+  /* Add your existing styles here */
+  color: blue; /* Set the color of the text */
+}
+
+select option[disabled] {
+  color: #999; /* Set the color of the disabled option */
 }

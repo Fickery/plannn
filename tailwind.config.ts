@@ -1,3 +1,4 @@
+import { nextui } from "@nextui-org/react";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -7,6 +8,11 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      md: { min: "1px", max: "1023px" },
+      lg: { min: "1024px", max: "1279px" },
+      "2xl": { min: "1536px" },
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -19,12 +25,13 @@ const config: Config = {
         boxshadowfilter: "0px 4px 2px #e2e2f1",
       },
       colors: {
+        mainbuttons: "hsl(var(--mainbuttons))",
         darkblue: "hsl(var(--darkblue))",
         midblue: "hsl(var(--midblue))",
         lightblue: "hsl(var(--lightblue))",
       },
     },
   },
-  plugins: [],
+  plugins: [nextui()],
 };
 export default config;

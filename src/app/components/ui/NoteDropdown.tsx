@@ -1,10 +1,6 @@
-import React, { useState } from "react";
+import { NoteDropdownProps } from "@/utils/types";
+import { useState } from "react";
 import Menu from "./Menu";
-
-type NoteDropdownProps = {
-  onDelete: () => void;
-  onDuplicate: () => void;
-};
 
 function NoteDropdown({ onDelete, onDuplicate }: NoteDropdownProps) {
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -13,35 +9,33 @@ function NoteDropdown({ onDelete, onDuplicate }: NoteDropdownProps) {
     setIsActive(!isActive);
   };
 
-  const handleDuplicate = () => {
-    console.log("duplicate");
-    onDuplicate();
-    toggleDropdown();
-  };
+  // const handleDuplicate = () => {
+  //   console.log("duplicate");
+  //   onDuplicate();
+  //   toggleDropdown();
+  // };
 
   const handleDelete = () => {
+    confirm("Are you sure you want to delete this note?");
     onDelete();
     toggleDropdown();
   };
 
   return (
-    <div className="w-fit">
-      <div
-        className="relative z-50 flex h-full w-full justify-end"
-        onClick={toggleDropdown}
-      >
+    <div className="z-50 w-fit ">
+      <div className="flex h-full w-full justify-end" onClick={toggleDropdown}>
         <Menu onMenuClick={toggleDropdown} showXIcon={isActive} />
       </div>
       <div
-        className="absolute top-10 z-[999] w-fit overflow-auto border border-gray-300 bg-white shadow-lg"
+        className="absolute top-10 w-fit overflow-auto border border-gray-300 bg-white shadow-lg"
         style={{ display: isActive ? "block" : "none" }}
       >
-        <div
+        {/* <div
           onClick={handleDuplicate}
-          className="cursor-pointer p-2 text-midblue opacity-100 hover:bg-darkblue hover:text-white"
+          className="cursor-pointer p-2 text-midblue hover:bg-darkblue hover:text-white"
         >
           Duplicate
-        </div>
+        </div> */}
         <div
           className="cursor-pointer p-2 font-semibold text-red-700 hover:bg-red-200"
           onClick={handleDelete}
