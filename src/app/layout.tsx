@@ -1,11 +1,10 @@
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { cookies } from "next/headers";
 import Navbar from "./components/ui/Navbar";
 import "./globals.css";
 import QueryProvider from "./query-provider";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 const ppNeue = localFont({
   src: [

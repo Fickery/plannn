@@ -17,8 +17,8 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 // });
 
 export default function page() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("test1@test.com");
+  const [password, setPassword] = useState("password123");
 
   const supabase = createClientComponentClient();
   const router = useRouter();
